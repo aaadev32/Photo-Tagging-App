@@ -6,6 +6,8 @@ import { getAnalytics } from "firebase/analytics";
 
 import { getFirestore } from "firebase/firestore";
 
+import { collection, addDoc } from "firebase/firestore";
+
 
 // TODO: Add SDKs for Firebase products that you want to use
 
@@ -44,15 +46,18 @@ const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
 //Firestore Database Function
-async function test() {
-    try {   
-        const docRef = await addDoc(collection(db, "users"), {
-            first: "Ada",
-            last: "Lovelace",
-            born: 1815
+
+async function generateDB() {
+    try {
+        const docRef = await addDoc(collection(db, `political figures`), {
+            photo0: 'biden',
+            photo1: 'obama',
+            photo2: 'sanders',
         });
         console.log("Document written with ID: ", docRef.id);
     } catch (e) {
         console.error("Error adding document: ", e);
     }
 }
+generateDB();
+
