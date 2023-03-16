@@ -46,7 +46,8 @@ const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
 //Firestore Database Functions
-
+//these functions were used once to upload to the DB a single time, leaving them commented for context purposes
+/*
 async function easySelection() {
     try {
         const docRef = await addDoc(collection(db, `easy difficulty`), {
@@ -92,4 +93,4 @@ async function hardSelection() {
 easySelection();
 mediumSelection();
 hardSelection();
-
+*/

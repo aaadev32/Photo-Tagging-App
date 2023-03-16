@@ -1,13 +1,13 @@
 import './App.css';
 import * as fireBaseFunctions from "./firebaseConfig.js";
-import collage from "./media/image233.png"
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Home from './components/Home.js'
 
+//the components themselves are treated as pages in themselves so there is no pages directory
 function App() {
+
   return (
-    <div className="App">
-      <img src={collage}></img>
-      <div></div>
-    </div>
+    <Home />
   );
 }
 
