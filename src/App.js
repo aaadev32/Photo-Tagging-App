@@ -1,10 +1,11 @@
 import './App.css';
 import * as fireBaseFunctions from "./firebaseConfig.js";
+import collage from "./media/image233.png"
 
 function App() {
   return (
     <div className="App">
-      TEST13
+      <img src={collage}></img>
       <div></div>
     </div>
   );

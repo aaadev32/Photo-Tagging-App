@@ -45,19 +45,51 @@ const analytics = getAnalytics(app);
 
 const db = getFirestore(app);
 
-//Firestore Database Function
+//Firestore Database Functions
 
-async function generateDB() {
+async function easySelection() {
     try {
-        const docRef = await addDoc(collection(db, `political figures`), {
-            photo0: 'biden',
-            photo1: 'obama',
-            photo2: 'sanders',
+        const docRef = await addDoc(collection(db, `easy difficulty`), {
+            character1: 'Rool',
+            character2: 'Master Chief',
+            character3: 'Doctor Robotnik'
         });
         console.log("Document written with ID: ", docRef.id);
     } catch (e) {
         console.error("Error adding document: ", e);
     }
 }
-generateDB();
+
+async function mediumSelection() {
+    try {
+        const docRef = await addDoc(collection(db, `medium difficulty`), {
+            character1: 'Gordon Freeman',
+            character2: 'Rayman',
+            character3: 'Tails',
+            character4: 'Laura Croft'
+        });
+        console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+        console.error("Error adding document: ", e);
+    }
+}
+
+async function hardSelection() {
+    try {
+        const docRef = await addDoc(collection(db, `hard difficulty`), {
+            character1: 'Amaterasu',
+            character2: 'Duke Nukem',
+            character3: 'Sly Cooper',
+            character4: 'Commander Shepard',
+            character5: 'Captain falcon',
+            character6: 'Cloud'
+        });
+        console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+        console.error("Error adding document: ", e);
+    }
+}
+easySelection();
+mediumSelection();
+hardSelection();
 
