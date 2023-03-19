@@ -1,0 +1,35 @@
+ html,
+ body,
+ #root {
+     height: 100%;
+ }
+
+ /* begin home component styling */
+
+ #home-container {
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     height: 100%;
+ }
+
+ #home-container>* {
+     display: flex;
+     justify-content: center;
+     margin: auto 0;
+ }
+
+ #greeting {
+    position: relative;
+     top: 0px;
+     margin: 0;
+ }
+
+ #leaderboards-container>* {
+     border: 2px solid black;
+     width: 200px;
+     height: auto;
+     margin: 10px auto;
+ }
+
+ /*end Home component styling */

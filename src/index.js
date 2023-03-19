@@ -6,33 +6,36 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './components/Home.js'
 import Objectives from './components/Objectives.js'
 import Leaderboards from './components/Leaderboards.js'
-import photoTagging from './components/photoTagging.js'
+import PhotoTagging from './components/PhotoTagging.js'
 
 
 const router = createBrowserRouter([
+
   {
     path: "/",
+    element: <App />
+  },
+  {
+    path: "Home/:HomeId",
     element: <Home />,
-    children: [
-      {
-        path: "Leaderboards/",
-        element: <Leaderboards />,
-      },
-      {
-        path: "Objectives/",
-        element: <Objectives />,
-      },
-      {
-        path: "photoTagging/",
-        element: <photoTagging />,
-      }
-    ]
+  },
+  {
+    path: "Leaderboards/:LeaderboardId",
+    element: <Leaderboards />,
+  },
+  {
+    path: "Objectives/:ObjectivesId",
+    element: <Objectives />,
+  },
+  {
+    path: "PhotoTagging/:PhotoTaggingId",
+    element: <PhotoTagging />,
   }
-])
+]);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router}></RouterProvider>
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
+

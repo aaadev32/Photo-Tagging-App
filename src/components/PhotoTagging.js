@@ -1,10 +1,10 @@
 import collage from "../media/image233.png"
 
-const photoTagging = () => {
+const PhotoTagging = () => {
 
     return (
         <img src={collage}></img>
     );
 }
 
-export default photoTagging;
+export default PhotoTagging;
