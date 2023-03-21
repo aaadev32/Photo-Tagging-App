@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Home from './components/Home.js'
-import Objectives from './components/Objectives.js'
 import Leaderboards from './components/Leaderboards.js'
+import Objectives from './components/Objectives.js'
+import EndGame from './components/EndGame.js'
 import PhotoTagging from './components/PhotoTagging.js'
 
 
@@ -16,11 +16,7 @@ const router = createBrowserRouter([
     element: <App />
   },
   {
-    path: "Home/:HomeId",
-    element: <Home />,
-  },
-  {
-    path: "Leaderboards/:LeaderboardId",
+    path: "Leaderboards/:LeaderboardsId",
     element: <Leaderboards />,
   },
   {
@@ -30,7 +26,11 @@ const router = createBrowserRouter([
   {
     path: "PhotoTagging/:PhotoTaggingId",
     element: <PhotoTagging />,
-  }
+  },
+  {
+    path: "EndGame/:EndGame",
+    element: <EndGame />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

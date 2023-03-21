@@ -4,7 +4,7 @@
      height: 100%;
  }
 
- /* begin home component styling */
+ /* begin Leaderboards component styling */
 
  #home-container {
      display: flex;
@@ -20,7 +20,7 @@
  }
 
  #greeting {
-    position: relative;
+     position: relative;
      top: 0px;
      margin: 0;
  }
@@ -32,4 +32,19 @@
      margin: 10px auto;
  }
 
- /*end Home component styling */
+ /*end Leaderboards component styling */
+
+ /* begin Objectives component styling */
+ #easy-mode {
+     display: none;
+ }
+
+ #medium-mode {
+     display: none
+ }
+
+ #hard-mode {
+     display: none;
+ }
+
+ /* end Objectives component styling */
