@@ -1,14 +1,12 @@
-import {useState } from "react";
 import { Link } from "react-router-dom";
 import { difficultyContext } from "../stateContexts"
 
 const Leaderboards = () => {
-    const [difficulty, setDifficulty] = useState(null);
 
     //turns the display of the clicked difficulty in the Objectives Component  to flex and others to none
     const setObjectives = (difficulty) => {
         //set the value of the global state difficultySelection to that of the one selected
-        difficultyContext.Provider = 'test1234';
+        difficultyContext.Provider = difficulty;
         console.log(difficultyContext)
     }
 
@@ -26,7 +24,7 @@ const Leaderboards = () => {
                         <li>score</li>
                     </ol>
                     <Link to={'Objectives/1'}>
-                        <button onClick={setObjectives("easy")}>Play Easy</button>
+                        <button onClick={() => setObjectives("easy")}>Play Easy</button>
                     </Link>
                 </div>
                 <div id="leaderboard-medium">
@@ -37,7 +35,7 @@ const Leaderboards = () => {
                         <li>score</li>
                     </ol>
                     <Link to={'Objectives/1'}>
-                        <button onClick={setObjectives("medium")}>Play Medium</button>
+                        <button onClick={() => setObjectives("medium")}>Play Medium</button>
                     </Link>
 
                 </div>
@@ -50,7 +48,7 @@ const Leaderboards = () => {
                     </ol>
 
                     <Link to={'Objectives/1'}>
-                        <button onClick={setObjectives("hard")}>Play Hard</button>
+                        <button onClick={() => setObjectives("hard")}>Play Hard</button>
                     </Link>
 
                 </div>

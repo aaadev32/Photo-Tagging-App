@@ -7,6 +7,7 @@ import Leaderboards from './components/Leaderboards.js'
 import Objectives from './components/Objectives.js'
 import EndGame from './components/EndGame.js'
 import PhotoTagging from './components/PhotoTagging.js'
+import { difficultyContext } from './stateContexts';
 
 
 const router = createBrowserRouter([
@@ -35,7 +36,9 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <difficultyContext.Provider value={difficultyContext.Provider}>
+      <RouterProvider router={router} />
+    </difficultyContext.Provider>
   </React.StrictMode>
 );
 
