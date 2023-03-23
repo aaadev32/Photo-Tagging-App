@@ -1,20 +1,22 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { difficultyContext } from "../stateContexts";
+import { Link } from "react-router-dom"
 const Objectives = () => {
-    const difficulty = useContext(difficultyContext)
     //create a function that will read the difficultyContext and turn display styling to flex from none depending on which mode is selected in the context
     console.log(difficultyContext.Provider)
-    console.log(difficulty)
     return (
         <div>
-            <div id="easy-mode" style={{display: difficultyContext.Provider == 'easy' ? 'flex' : 'none'}}>
+            <div id="easy-mode" style={{ display: difficultyContext.Provider.value === 'easy' ? 'flex' : 'none' }}>
                 Easy Mode Objectives
+                <Link to={"/PhotoTagging/1"}><button>Play Now</button></Link>
             </div>
-            <div id="medium-mode" style={{display: difficultyContext.Provider == 'medium' ? 'flex' : 'none'}}>
+            <div id="medium-mode" style={{ display: difficultyContext.Provider.value === 'medium' ? 'flex' : 'none' }}>
                 Medium Mode Objectives
+                <Link to={"/PhotoTagging/1"}><button>Play Now</button></Link>
             </div>
-            <div id="hard-mode" style={{display: difficultyContext.Provider == 'hard' ? 'flex' : 'none'}}>
+            <div id="hard-mode" style={{ display: difficultyContext.Provider.value === 'hard' ? 'flex' : 'none' }}>
                 Hard Mode Objectives
+                <Link to={"/PhotoTagging/1"}> <button>Play Now</button> </Link>
             </div>
             <button onClick={() => difficultyContext.Provider = '1234'}></button>
         </div >
