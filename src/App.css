@@ -35,14 +35,14 @@
 
  /*end Leaderboards component styling */
 
- /* begin Objectives component styling */
+ /*begin Objectives component styling */
  #easy-mode {}
 
  #medium-mode {}
 
  #hard-mode {}
 
- /* end Objectives component styling */
+ /*end Objectives component styling */
 
  /*begin PhotoTagging component styling */
  #photo-tagging-container {
@@ -53,7 +53,7 @@
  }
 
  #photo-tagging-image-container {
-    margin: auto;
+     margin: auto;
  }
 
  #coordinate-tracker {
@@ -64,10 +64,11 @@
  }
 
  #coordinates-tool {
-     height: 50px;
-     width: 50px;
+     height: 100px;
+     width: 100px;
      border: 3px solid black;
-     position: absolute;
+     resize: both;
+     overflow: scroll;
  }
 
 

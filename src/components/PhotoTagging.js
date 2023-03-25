@@ -11,14 +11,25 @@ const PhotoTagging = () => {
     //element so you can use it to log a characters position within the photo and upload it to the database
     const CoordinatesTool = (e) => {
         console.log(e)
-        //position variables for the selection box start in bottom left corner and go clockwise
-        let corner1 = null;
-        let corner2 = null;
-        let corner3 = null;
-        let corner4 = null;
+
+        function dragTool(e) {
+            //position variables for the selection box start in bottom left corner and go clockwise
+            //the corners may be calculated by finding a single corners x/y and adding the width to the x to find the next corner and adding height to the y to find the next
+            let selectionBox = document.getElementById('coordinates-tool');
+            let position1 = 0;
+            let position2 = 0;
+            let position3 = e.clientX;
+            let position4 = e.clientY;
+
+            position1 = position3 - e.clientX;
+            position2 = position4 - e.clientY;
+
+            selectionBox.style.top = (selectionBox.offsetTop - position2) + "px";
+            selectionBox.style.left = (selectionBox.offsetLeft - position4) + "px";
+        }
 
         return (
-            <div id="coordinates-tool" onMouseDown={(e) => CoordinatesTool(e)}></div >
+            <div id="coordinates-tool" onMouseDown={(e) => dragTool(e)}></div >
         );
     }
     //create a nested component and display that logs x, y coordinates on mouse click AND mouse over this will be used just for creating element coordinates for your characters
