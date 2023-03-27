@@ -27,18 +27,14 @@ const PhotoTagging = () => {
         function dragMouse(e) {
             //position variables for the selection box start in bottom left corner and go clockwise
             //the corners may be calculated by finding a single corners x/y and adding the width to the x to find the next corner and adding height to the y to find the next
-            if (document.onmousemove) {
-                let selectionBox = document.getElementById('coordinates-tool');
+            let selectionBox = document.getElementById('coordinates-tool');
 
-                position1 = position3 - e.clientX;
-                position2 = position4 - e.clientY;
-                selectionBox.style.top = (selectionBox.offsetTop - position2) + "px";
-                selectionBox.style.left = (selectionBox.offsetLeft - position4) + "px";
+            position1 = position3 - e.clientX;
+            position2 = position4 - e.clientY;
+            selectionBox.style.top = (selectionBox.offsetTop - position2) + "px";
+            selectionBox.style.left = (selectionBox.offsetLeft - position4) + "px";
 
-                let newY = selectionBox.style.top;
-                let newX = selectionBox.style.left;
-                console.log('trest')
-            }
+            console.log('312')
         }
 
         return (
