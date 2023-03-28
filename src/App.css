@@ -64,18 +64,27 @@
 
  #coordinate-tracker {
      position: absolute;
-     top: 0px;
+     bottom: 0px;
      left: 0px;
      height: 50px;
  }
 
  #coordinates-tool {
-     height: 100px;
-     width: 100px;
-     border: 3px solid black;
+     display: flex;
+     justify-content: center;
+     position: absolute;
+     width: 50px;
+     height: 50px;
+     border: 2px solid cyan;
      resize: both;
      overflow: auto;
  }
 
+ #coordinates-tool-drag {
+     margin: auto;
+     border: 2px solid cyan;
+     padding: 5%;
+     color: cyan;
+ }
 
  /*end PhotoTagging component styling */
