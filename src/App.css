@@ -72,7 +72,6 @@
  #coordinates-tool {
      display: flex;
      justify-content: center;
-     position: absolute;
      width: 50px;
      height: 50px;
      border: 2px solid cyan;
@@ -80,10 +79,10 @@
      overflow: auto;
  }
 
- #coordinates-tool-drag {
+ #coordinates-tool-drag-area {
      margin: auto;
      border: 2px solid cyan;
-     padding: 5%;
+     padding: 15%;
      color: cyan;
  }
 

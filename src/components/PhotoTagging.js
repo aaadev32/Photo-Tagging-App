@@ -24,7 +24,7 @@ const PhotoTagging = () => {
         }
         //console.log(xPosition, yPosition);
         return (
-            <p id="coordinate-tracker">x-axis:{xAxis}, y-axis:{yAxis}</p>
+            <p id="coordinate-tracker">clicked area coordinates: x-axis:{xAxis}, y-axis:{yAxis}</p>
         );
     }
     return (
