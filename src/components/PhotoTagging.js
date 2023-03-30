@@ -18,7 +18,7 @@ const PhotoTagging = () => {
         if (e.target) {
 
             //the below calculations take the global x and y positioning of the click event and subtract the the elements top and left positioning from within the document to get
-            //the x and y positioning of the click relative to the element itself
+            //the x and y positioning of the click relative to the edge of photo element itself
             setxAxis(e.clientX - e.target.offsetLeft);
             setyAxis(e.clientY - e.target.offsetTop);
         }
