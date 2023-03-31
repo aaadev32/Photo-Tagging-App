@@ -53,12 +53,11 @@ const CoordinatesTool = (e) => {
 
         //the offsets of the image is used to help get the tool positioning because of the css positioning settings required to make the tool draggable also set the offsetParent as the document body
         //rather than the tools parentElement which is the photo tagging image so you must use the offsets of the photo and subtract them from the offsets of the box tool to get the coordinates of it relative to the photo
-        //below returns the coordinates of the four corners of the coordinates tool
+        //below returns the coordinates of the four corners of the coordinates tool element
         upperLeftCorner = [selectionBox.offsetLeft - image.offsetLeft, selectionBox.offsetTop - image.offsetTop];
-        //TODO update the below to be like the above
-        upperRightCorner = upperLeftCorner + selectionBox.offsetWidth;
-        lowerLeftCorner = selectionBox.offsetTop - image.offsetTop + selectionBox.offsetHeight;
-        lowerRightCorner = lowerLeftCorner + selectionBox.offsetWidth;
+        upperRightCorner = [selectionBox.offsetLeft - image.offsetLeft + selectionBox.offsetWidth, selectionBox.offsetTop - image.offsetTop];
+        lowerLeftCorner = [selectionBox.offsetLeft - image.offsetLeft, selectionBox.offsetTop - image.offsetTop + selectionBox.offsetHeight];
+        lowerRightCorner = [selectionBox.offsetLeft - image.offsetLeft + selectionBox.offsetWidth, selectionBox.offsetTop - image.offsetTop + selectionBox.offsetHeight];
         console.log(upperLeftCorner, upperRightCorner, lowerLeftCorner, lowerRightCorner)
     }
 
