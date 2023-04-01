@@ -94,3 +94,18 @@ easySelection();
 mediumSelection();
 hardSelection();
 */
+
+async function coordinateToolTest() {
+    try {
+        const docRef = await addDoc(collection(db, `tool test `), {
+            character: 'Falco',
+            upperLeftCoordinates: '',
+            upperRightCoordinates: '',
+            lowerLeftCoordinates: '',
+            lowerRightCoordinates: ''
+        });
+        console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+        console.error("Error adding document: ", e);
+    }
+}

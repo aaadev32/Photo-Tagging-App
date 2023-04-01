@@ -21,7 +21,6 @@ const CoordinatesTool = (e) => {
         e.preventDefault();
         console.log(document.getElementById("coordinates-tool"))
         console.log(document.getElementById("photo-tagging-image"))
-        console.log(e.clientX - e.target.offsetLeft)
         //absolute positioning is crucial to enable dragging.
         selectionBox.style.position = "absolute";
 
