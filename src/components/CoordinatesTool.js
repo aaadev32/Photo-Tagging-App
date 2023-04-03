@@ -1,5 +1,5 @@
 
-//this function will be used to create a draggable and resizeable box, it should log its positioning of each cornerwithin the photo
+//this function will be used to create a draggable and resizeable box, it should log its positioning of each corner within the photo
 //element so you can use it to log a characters position within the photo and upload it to the database
 const CoordinatesTool = (e) => {
     //the below 4 variables are the coordinates of each corner of the coordinate tool when its stops being dragged

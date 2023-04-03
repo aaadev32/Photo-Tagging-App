@@ -6,7 +6,7 @@ import { getAnalytics } from "firebase/analytics";
 
 import { getFirestore } from "firebase/firestore";
 
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -94,15 +94,13 @@ easySelection();
 mediumSelection();
 hardSelection();
 */
-
-async function coordinateToolTest() {
+async function uploadCharacterCoordinates() {
     try {
-        const docRef = await addDoc(collection(db, `tool test `), {
-            character: 'Falco',
-            upperLeftCoordinates: '',
-            upperRightCoordinates: '',
-            lowerLeftCoordinates: '',
-            lowerRightCoordinates: ''
+        const docRef = await setDoc(doc(db, "characters", "falco"), {
+            upperLeftCoordinates: [1140, 356],
+            upperRightCoordinates: [1194, 356],
+            lowerLeftCoordinates: [1140, 449],
+            lowerRightCoordinates: [1194, 449]
         });
         console.log("Document written with ID: ", docRef.id);
     } catch (e) {

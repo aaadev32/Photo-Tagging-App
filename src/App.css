@@ -61,6 +61,13 @@
      overflow: scroll;
  }
 
+ #character-dropdown-menu {
+     top: 0px;
+     left: 0px;
+     height: 80px;
+     width: 200px;
+     border: 2px solid black;
+ }
 
  #coordinate-tracker {
      position: absolute;

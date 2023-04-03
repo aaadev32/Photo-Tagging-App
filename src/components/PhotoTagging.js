@@ -1,10 +1,15 @@
 import { useState } from "react";
 import collage from "../media/image233.png"
 import CoordinatesTool from "./CoordinatesTool";
+import { difficultyContext } from "../stateContexts";
 
 const PhotoTagging = () => {
     const [xAxis, setxAxis] = useState(0)
     const [yAxis, setyAxis] = useState(0)
+    const [dropdownX, setDropdownX] = useState(0);
+    const [dropdownY, setDropdownY] = useState(0)
+    let dropdownSelection = "";
+
     let falco = {
         upperLeftCoordinates: [1140, 356],
         upperRightCoordinates: [1194, 356],
@@ -12,18 +17,16 @@ const PhotoTagging = () => {
         lowerRightCoordinates: [1194, 449]
     }
 
-
-
-
-    //before building for production this should be changed to a regular function and the x,y dom and console logging removed
     const PhotoClick = (e) => {
-        //appears when then user clicks anywhere within the photo
-        const CharacterDropdownMenu = () => {
+        //appears when then user clicks anywhere within the photo with a dropdown menu of characters for the selected difficulty to choose from
+        const CharacterDropdownMenu = (e) => {
+
             return (
                 <div>character dropdown menu</div>
             )
         }
         //checks for the character selected in dropdown menu in the area the user originally clicked
+        //THIS FUNCTION IS MOCKED
         function characterCheck(e) {
             //checks if the click event is greater than the character left most x coordinates but less than its greatest x coordinate value
             if ((e.clientX - e.target.offsetLeft > falco.upperLeftCoordinates[0]) && (e.clientX - e.target.offsetLeft < falco.upperRightCoordinates[0]) && (e.clientY - e.target.offsetTop > falco.upperLeftCoordinates[1]) && (e.clientY - e.target.offsetTop < falco.lowerLeftCoordinates[1])) {
