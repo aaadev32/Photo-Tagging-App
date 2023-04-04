@@ -94,9 +94,11 @@ easySelection();
 mediumSelection();
 hardSelection();
 */
+
 async function uploadCharacterCoordinates() {
+    // do this for every character
     try {
-        const docRef = await setDoc(doc(db, "characters", "falco"), {
+        const docRef = await setDoc(doc(db, "characters", "rool"), {
             upperLeftCoordinates: [1140, 356],
             upperRightCoordinates: [1194, 356],
             lowerLeftCoordinates: [1140, 449],

@@ -92,6 +92,21 @@
      border: 2px solid cyan;
      padding: 15%;
      color: cyan;
+     z-index: 1;
+ }
+
+ #upload-coordinates-button {
+     position: fixed;
+     align-self: flex-end;
+     opacity: .8;
+ }
+
+ #upload-character-name{
+    position: fixed;
+    align-self: flex-start;
+    width: 10px;
+    overflow: auto;
+    opacity: .8;
  }
 
  /*end PhotoTagging component styling */

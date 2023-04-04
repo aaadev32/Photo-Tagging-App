@@ -28,7 +28,7 @@ const PhotoTagging = () => {
         //checks for the character selected in dropdown menu in the area the user originally clicked
         //THIS FUNCTION IS MOCKED
         function characterCheck(e) {
-            //checks if the click event is greater than the character left most x coordinates but less than its greatest x coordinate value
+            //after all character positions are uploaded change this to check the database for the position of the character that the user selects in the dropdown menu 
             if ((e.clientX - e.target.offsetLeft > falco.upperLeftCoordinates[0]) && (e.clientX - e.target.offsetLeft < falco.upperRightCoordinates[0]) && (e.clientY - e.target.offsetTop > falco.upperLeftCoordinates[1]) && (e.clientY - e.target.offsetTop < falco.lowerLeftCoordinates[1])) {
                 return true;
             } else {

@@ -1,8 +1,24 @@
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBZGpH3WNTDN86x81xf-TSr963OXj5L8wo",
+    authDomain: "photo-tagging-75ac8.firebaseapp.com",
+    projectId: "photo-tagging-75ac8",
+    storageBucket: "photo-tagging-75ac8.appspot.com",
+    messagingSenderId: "388620435076",
+    appId: "1:388620435076:web:f249ace3431538eb190cd1",
+    measurementId: "G-BB0JZ3WB3Z"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 //this function will be used to create a draggable and resizeable box, it should log its positioning of each corner within the photo
-//element so you can use it to log a characters position within the photo and upload it to the database
+//element so you can upload it to the database
 const CoordinatesTool = (e) => {
-    //the below 4 variables are the coordinates of each corner of the coordinate tool when its stops being dragged
+    //the below 4 variables are the coordinates of each corner of the coordinate tool when its stops being dragged, these values are used when logging a characters position
     let upperLeftCorner = 0;
     let upperRightCorner = 0;
     let lowerRightCorner = 0;
@@ -28,7 +44,7 @@ const CoordinatesTool = (e) => {
         position3 = e.clientX;
         position4 = e.clientY;
         document.onmouseup = stopDrag;
-        // call a function whenever the cursor moves:
+        // call dragElement function whenever the cursor moves:
         document.onmousemove = dragElement;
         console.log(e)
     }
@@ -59,12 +75,22 @@ const CoordinatesTool = (e) => {
         lowerRightCorner = [selectionBox.offsetLeft - image.offsetLeft + selectionBox.offsetWidth, selectionBox.offsetTop - image.offsetTop + selectionBox.offsetHeight];
         console.log(upperLeftCorner, upperRightCorner, lowerLeftCorner, lowerRightCorner)
     }
-
-
+    async function uploadCharacterCoordinates() {
+        console.log(upperLeftCorner)
+        let character = document.getElementById("upload-character-name").value;
+        const docRef = await setDoc(doc(db, "test", `${character}`), {
+            upperLeftCoordinates: upperLeftCorner,
+            upperRightCoordinates: upperRightCorner,
+            lowerLeftCoordinates: lowerLeftCorner,
+            lowerRightCoordinates: lowerRightCorner
+        });
+    }
 
     return (
         <div id="coordinates-tool">
             <div id="coordinates-tool-drag-area" onMouseDown={(e) => clickElement(e)}></div>
+            <button id="upload-coordinates-button" onClick={uploadCharacterCoordinates}>upload</button>
+            <input id="upload-character-name"></input>
         </div >
     );
 }
