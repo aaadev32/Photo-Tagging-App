@@ -46,8 +46,6 @@ const PhotoTagging = () => {
             console.log(characterCheck(e));
         }
 
-
-        //console.log(xPosition, yPosition);
         return (
             <p id="coordinate-tracker">clicked area coordinates: x-axis:{xAxis}, y-axis:{yAxis}</p>
         );

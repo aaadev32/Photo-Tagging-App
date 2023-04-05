@@ -1,3 +1,5 @@
+//this component is a tool for developing the app and is not intended tofully cooperate with react by using states and other react library tools, this component will not be interacted with by the user ever.
+
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
@@ -14,24 +16,23 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
+//the below 4 variables are the coordinates of each corner of the coordinate tool when its stops being dragged, these values are used when logging a characters position
+let upperLeftCorner = 0;
+let upperRightCorner = 0;
+let lowerRightCorner = 0;
+let lowerLeftCorner = 0
+//the below 4 variables are used to set the new position of the coordinate tool when being dragged
+let position1 = 0;
+let position2 = 0;
+let position3 = 0;
+let position4 = 0;
 //this function will be used to create a draggable and resizeable box, it should log its positioning of each corner within the photo
 //element so you can upload it to the database
 const CoordinatesTool = (e) => {
-    //the below 4 variables are the coordinates of each corner of the coordinate tool when its stops being dragged, these values are used when logging a characters position
-    let upperLeftCorner = 0;
-    let upperRightCorner = 0;
-    let lowerRightCorner = 0;
-    let lowerLeftCorner = 0
-    //the below 4 variables are used to set the new position of the coordinate tool when being dragged
-    let position1 = 0;
-    let position2 = 0;
-    let position3 = 0;
-    let position4 = 0;
+
     let selectionBox = document.getElementById("coordinates-tool");
     let image = document.getElementById("photo-tagging-image");
 
-    console.log('click')
     function clickElement(e) {
 
         e.preventDefault();
@@ -50,7 +51,6 @@ const CoordinatesTool = (e) => {
     }
 
     function dragElement(e) {
-
         position1 = position3 - e.clientX;
         position2 = position4 - e.clientY;
         selectionBox.style.top = (selectionBox.offsetTop - position2) + "px";
@@ -58,8 +58,6 @@ const CoordinatesTool = (e) => {
     }
 
     function stopDrag(e) {
-
-
         //must be set fixed to acquire accurate coordinates of elements position relative to the image,
         //if done in absolute you will get coordinates relative to the document page instead
         selectionBox.style.position = "fixed";
@@ -75,22 +73,27 @@ const CoordinatesTool = (e) => {
         lowerRightCorner = [selectionBox.offsetLeft - image.offsetLeft + selectionBox.offsetWidth, selectionBox.offsetTop - image.offsetTop + selectionBox.offsetHeight];
         console.log(upperLeftCorner, upperRightCorner, lowerLeftCorner, lowerRightCorner)
     }
+//the below function uploads character maps to firestore database, must enable uploads via the rules tab in firestore website console to enable uploads.
+//if you resize the coordinates tool be sure to click the draggable box area to update the new coordinates area before uploading
     async function uploadCharacterCoordinates() {
         console.log(upperLeftCorner)
         let character = document.getElementById("upload-character-name").value;
-        const docRef = await setDoc(doc(db, "test", `${character}`), {
+        let collection = document.getElementById("upload-collection-name").value;
+        const docRef = await setDoc(doc(db, `${collection}`, `${character}`), {
             upperLeftCoordinates: upperLeftCorner,
             upperRightCoordinates: upperRightCorner,
             lowerLeftCoordinates: lowerLeftCorner,
             lowerRightCoordinates: lowerRightCorner
         });
+
     }
 
     return (
         <div id="coordinates-tool">
             <div id="coordinates-tool-drag-area" onMouseDown={(e) => clickElement(e)}></div>
-            <button id="upload-coordinates-button" onClick={uploadCharacterCoordinates}>upload</button>
-            <input id="upload-character-name"></input>
+            <button id="upload-coordinates-button" onClick={() => uploadCharacterCoordinates()}>upload character</button>
+            <input placeholder="collection name" id="upload-collection-name"></input>
+            <input placeholder="character name" id="upload-character-name"></input>
         </div >
     );
 }
