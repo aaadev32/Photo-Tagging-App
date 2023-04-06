@@ -1,4 +1,5 @@
 //this component is a tool for developing the app and is not intended tofully cooperate with react by using states and other react library tools, this component will not be interacted with by the user ever.
+//if you are having trouble getting this to drag you may need to mock a state in the parent component and set it during a click event to get it to render the drag and resize
 
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
@@ -26,9 +27,10 @@ let position1 = 0;
 let position2 = 0;
 let position3 = 0;
 let position4 = 0;
-//this function will be used to create a draggable and resizeable box, it should log its positioning of each corner within the photo
-//element so you can upload it to the database
+
+
 const CoordinatesTool = (e) => {
+    /* uncomment this line and line 101 if trying to enable tool
 
     let selectionBox = document.getElementById("coordinates-tool");
     let image = document.getElementById("photo-tagging-image");
@@ -73,8 +75,8 @@ const CoordinatesTool = (e) => {
         lowerRightCorner = [selectionBox.offsetLeft - image.offsetLeft + selectionBox.offsetWidth, selectionBox.offsetTop - image.offsetTop + selectionBox.offsetHeight];
         console.log(upperLeftCorner, upperRightCorner, lowerLeftCorner, lowerRightCorner)
     }
-//the below function uploads character maps to firestore database, must enable uploads via the rules tab in firestore website console to enable uploads.
-//if you resize the coordinates tool be sure to click the draggable box area to update the new coordinates area before uploading
+    //the below function uploads character maps to firestore database, must enable uploads via the rules tab in firestore website console to enable uploads.
+    //if you resize the coordinates tool be sure to click the draggable box area to update the new coordinates area before uploading
     async function uploadCharacterCoordinates() {
         console.log(upperLeftCorner)
         let character = document.getElementById("upload-character-name").value;
@@ -96,6 +98,9 @@ const CoordinatesTool = (e) => {
             <input placeholder="character name" id="upload-character-name"></input>
         </div >
     );
+    */
 }
+
+
 
 export default CoordinatesTool
