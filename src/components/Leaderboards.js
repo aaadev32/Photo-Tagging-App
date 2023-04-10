@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
-import { difficultyContext } from "../stateContexts"
+import { DifficultyContext } from "../stateContexts"
 
 const Leaderboards = () => {
 
     //turns the display of the clicked difficulty in the Objectives Component  to flex and others to none
     const setObjectives = (difficulty) => {
         //set the value of the global state difficultySelection to that of the one selected
-        difficultyContext.Provider.value = difficulty;
-        console.log(difficultyContext)
+        DifficultyContext.Provider.value = difficulty;
+        console.log(DifficultyContext)
     }
 
     return (

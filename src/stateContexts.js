@@ -1,5 +1,6 @@
 import { createContext } from "react";
 
-const difficultyContext = createContext(null);
+const DifficultyContext = createContext(null);
+const DropdownRenderContext = createContext(true);
 
-export { difficultyContext};
+export { DifficultyContext, DropdownRenderContext };
