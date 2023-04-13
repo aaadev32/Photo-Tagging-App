@@ -1,15 +1,33 @@
 import { useState, useContext } from "react";
+//coordinates tool is a dev tool not used in production but left for documentation purposes
 import CoordinatesTool from "./CoordinatesTool";
 import { DifficultyContext } from "../stateContexts";
+import { collection, doc, getDoc, setDoc, getFirestore } from "firebase/firestore";
+import { firebaseConfig, app, db } from "../firebaseConfig";
+import { async } from "@firebase/util";
 
 const PhotoTagging = () => {
-    //used to help render the character dropdowns and coordinates tool which is not featured in production build. 
+
     const [photoXAxis, setPhotoXAxis] = useState(0);
     const [photoYAxis, setPhotoYAxis] = useState(0);
     const [dropdownCoordinates, setDropdownCoordinates] = useState([0, 0]);
     const [renderDropdown, setRenderDropdown] = useState(false);
+    //this will be assigned as what the user selects in the character dropdown
+    let userCharacterSelection = "";
 
-    //displays coordinates clicked within the photo 
+    //used to retrieve the users character selection from firestore db
+    async function getSelectedCharacterDoc() {
+        const docRef = doc(db, `characters ${DifficultyContext}`, `${userCharacterSelection}`);
+        const docSnap = await getDoc(docRef)
+        if (docSnap.exists()) {
+            console.log("Document data:", docSnap.data());
+        } else {
+            // docSnap.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    }
+
+    //dev tool that displays coordinates clicked within the photo 
     const ClickCoordinates = (e) => {
         return (
             <p id="coordinate-tracker">clicked area coordinates: x-axis:{photoXAxis}, y-axis:{photoYAxis}</p>
@@ -31,7 +49,7 @@ const PhotoTagging = () => {
 
         return (
 
-            //TODO make the option list populate based off of the selected difficulty
+            //TODO make the option list populate based off of the selected difficulty from firestore database
             <div id="character-dropdown" style={dropdownStyling}>
                 <label htmlFor="character-list"></label>
                 <select id="character-list">

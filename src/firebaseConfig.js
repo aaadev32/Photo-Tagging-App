@@ -44,56 +44,7 @@ const analytics = getAnalytics(app);
 
 const db = getFirestore(app);
 
-//Firestore Database Functions
-//these functions were used once to upload to the DB a single time, leaving them commented for context purposes
-/*
-async function easySelection() {
-    try {
-        const docRef = await addDoc(collection(db, `easy difficulty`), {
-            character1: 'Rool',
-            character2: 'Master Chief',
-            character3: 'Doctor Robotnik'
-        });
-        console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-        console.error("Error adding document: ", e);
-    }
-}
-
-async function mediumSelection() {
-    try {
-        const docRef = await addDoc(collection(db, `medium difficulty`), {
-            character1: 'Gordon Freeman',
-            character2: 'Rayman',
-            character3: 'Tails',
-            character4: 'Laura Croft'
-        });
-        console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-        console.error("Error adding document: ", e);
-    }
-}
-
-async function hardSelection() {
-    try {
-        const docRef = await addDoc(collection(db, `hard difficulty`), {
-            character1: 'Amaterasu',
-            character2: 'Duke Nukem',
-            character3: 'Sly Cooper',
-            character4: 'Commander Shepard',
-            character5: 'Captain falcon',
-            character6: 'Cloud'
-        });
-        console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-        console.error("Error adding document: ", e);
-    }
-}
-easySelection();
-mediumSelection();
-hardSelection();
-*/
-
+//an example of how characters maps were created
 async function uploadCharacterCoordinates() {
     // do this for every character
     try {
@@ -108,3 +59,5 @@ async function uploadCharacterCoordinates() {
         console.error("Error adding document: ", e);
     }
 }
+
+export { firebaseConfig, app, db }
