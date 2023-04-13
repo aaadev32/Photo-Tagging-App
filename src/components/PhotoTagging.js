@@ -4,7 +4,9 @@ import CoordinatesTool from "./CoordinatesTool";
 import { DifficultyContext } from "../stateContexts";
 import { collection, doc, getDoc, setDoc, getFirestore } from "firebase/firestore";
 import { firebaseConfig, app, db } from "../firebaseConfig";
-import { async } from "@firebase/util";
+
+//TODO retrieve the character collection from firestore db
+//TODO make character dropdown selections populate base on character collection
 
 const PhotoTagging = () => {
 
@@ -16,16 +18,21 @@ const PhotoTagging = () => {
     let userCharacterSelection = "";
 
     //used to retrieve the users character selection from firestore db
-    async function getSelectedCharacterDoc() {
+    async function getCharacterListDoc() {
         const docRef = doc(db, `characters ${DifficultyContext}`, `${userCharacterSelection}`);
         const docSnap = await getDoc(docRef)
         if (docSnap.exists()) {
             console.log("Document data:", docSnap.data());
+            return docSnap.data();
         } else {
             // docSnap.data() will be undefined in this case
             console.log("No such document!");
+            return null;
         }
     }
+    //fetches character document from firestore db based on users selected difficulty
+    let characterList = getCharacterListDoc();
+    console.log(characterList)
 
     //dev tool that displays coordinates clicked within the photo 
     const ClickCoordinates = (e) => {
