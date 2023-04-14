@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 //coordinates tool is a dev tool not used in production but left for documentation purposes
 import CoordinatesTool from "./CoordinatesTool";
 import { DifficultyContext } from "../stateContexts";
-import { collection, doc, getDoc, setDoc, getFirestore } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { firebaseConfig, app, db } from "../firebaseConfig";
 
 //TODO retrieve the character collection from firestore db
@@ -14,12 +14,18 @@ const PhotoTagging = () => {
     const [photoYAxis, setPhotoYAxis] = useState(0);
     const [dropdownCoordinates, setDropdownCoordinates] = useState([0, 0]);
     const [renderDropdown, setRenderDropdown] = useState(false);
+    let difficulty = useContext(DifficultyContext)
     //this will be assigned as what the user selects in the character dropdown
     let userCharacterSelection = "";
 
-    //used to retrieve the users character selection from firestore db
-    async function getCharacterListDoc() {
-        const docRef = doc(db, `characters ${DifficultyContext}`, `${userCharacterSelection}`);
+    let characterList = null;
+
+    //used to retrieve a specific character from firestore db
+    async function getCharacterDoc() {
+        console.log(DifficultyContext)
+        console.log(difficulty.value)
+
+        const docRef = doc(db, `characters ${difficulty.value}`, `${userCharacterSelection}`);
         const docSnap = await getDoc(docRef)
         if (docSnap.exists()) {
             console.log("Document data:", docSnap.data());
@@ -30,10 +36,16 @@ const PhotoTagging = () => {
             return null;
         }
     }
-    //fetches character document from firestore db based on users selected difficulty
-    let characterList = getCharacterListDoc();
-    console.log(characterList)
-
+    //fetchs entire character document from firestore db based on users selected difficulty
+    async function getCharacterCollection() {
+        console.log(DifficultyContext)
+        console.log(difficulty.value)
+        characterList = await getDocs(collection(db, `characters ${difficulty.value}`));
+        characterList.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+        });
+    }
     //dev tool that displays coordinates clicked within the photo 
     const ClickCoordinates = (e) => {
         return (
@@ -59,6 +71,7 @@ const PhotoTagging = () => {
             //TODO make the option list populate based off of the selected difficulty from firestore database
             <div id="character-dropdown" style={dropdownStyling}>
                 <label htmlFor="character-list"></label>
+                <button onClick={getCharacterCollection}>asdf</button>
                 <select id="character-list">
                     <option value={""}>Choose A Character</option>
                     <option value={""}>char1</option>

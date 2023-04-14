@@ -1,5 +1,6 @@
 import { createContext } from "react";
 
-const DifficultyContext = createContext(null);
+const difficulty = localStorage.getItem("difficulty");
+const DifficultyContext = createContext(difficulty);
 
 export { DifficultyContext };
