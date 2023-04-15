@@ -4,8 +4,9 @@ import CoordinatesTool from "./CoordinatesTool";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { firebaseConfig, app, db } from "../firebaseConfig";
 
-//TODO retrieve the character collection from firestore db
 //TODO make character dropdown selections populate base on character collection
+//will become an object with the selected difficulties list of characters
+let characterList = null;
 
 const PhotoTagging = () => {
 
@@ -16,11 +17,10 @@ const PhotoTagging = () => {
     let difficulty = localStorage.getItem("difficulty");
     //this will be assigned as what the user selects in the character dropdown
     let userCharacterSelection = "";
-    let characterList = null;
+
 
     //used to retrieve a specific character from firestore db
     async function getCharacterDoc() {
-        console.log(difficulty)
 
         const docRef = doc(db, `characters ${difficulty}`, `${userCharacterSelection}`);
         const docSnap = await getDoc(docRef)
@@ -33,6 +33,7 @@ const PhotoTagging = () => {
             return null;
         }
     }
+
     //fetchs entire character document from firestore db based on users selected difficulty
     async function getCharacterCollection() {
         console.log(difficulty)
@@ -42,6 +43,7 @@ const PhotoTagging = () => {
             console.log(doc.id, " => ", doc.data());
         });
     }
+
     //dev tool that displays coordinates clicked within the photo 
     const ClickCoordinates = (e) => {
         return (
@@ -52,7 +54,7 @@ const PhotoTagging = () => {
     //appears when then user clicks anywhere within the photo with a dropdown menu of characters for the selected difficulty to choose from
     const CharacterDropdownMenu = () => {
         console.log("dropdown", dropdownCoordinates)
-
+        let arr = [1, 2, 3, 4, 5, 6]
         let dropdownStyling = {
             display: "none",
             position: "absolute",
@@ -60,20 +62,17 @@ const PhotoTagging = () => {
             top: `${dropdownCoordinates[1]}px`,
         }
         renderDropdown == true ? dropdownStyling.display = "block" : dropdownStyling.display = "none";
-        //dropdownStyling.display == "block" ? dropdownStyling.display = "none" : dropdownStyling.display = "block";
 
         return (
 
             //TODO make the option list populate based off of the selected difficulty from firestore database
             <div id="character-dropdown" style={dropdownStyling}>
                 <label htmlFor="character-list"></label>
-                <button onClick={getCharacterCollection}>asdf</button>
-                <select id="character-list">
+                <select id="character-list" name="character-list">
                     <option value={""}>Choose A Character</option>
-                    <option value={""}>char1</option>
-                    <option value={""}>char2</option>
-                    <option value={""}>char3</option>
-                    <option value={""}>char4</option>
+                    {
+                        arr.map(element => <option value={arr.value}>{element}</option>)
+                    }
                 </select>
             </div >
         )
@@ -81,25 +80,34 @@ const PhotoTagging = () => {
 
     //used to render PhotoTagging child components as well as log the user click
     const PhotoClick = (e) => {
+        console.log(characterList)
 
         if (e.target) {
             //used to set help dropdownCoordinates state
             let clickPosition = [0, 0]
             //used to set help renderDropdown state
             let renderBoolCheck = null;
+
             //the below calculations take the global x and y positioning of the click event and subtract the the elements top and left offset positioning from within the document to get
             //the x and y positioning of the click relative to the edge of photo element itself
             setPhotoXAxis(e.clientX - e.target.offsetLeft);
             setPhotoYAxis(e.clientY - e.target.offsetTop);
+
             //character drop down element popup logic and styling, appears on click and disappears on consecutive click and so on, appears where user clicked within PhotoTagging component
             renderDropdown == false ? renderBoolCheck = true : renderBoolCheck = false;
             setRenderDropdown(renderBoolCheck);
+
             //added 5 to clientX so the user can click the same area to unrender the character dropdown
             clickPosition = [e.clientX + 5, e.clientY]
             setDropdownCoordinates([...clickPosition])
         }
 
     }
+    //keeps firestore db from being queried after initial render
+    if (characterList == null) {
+        getCharacterCollection();
+    }
+
     return (
         <div id="photo-tagging-container">
             <CharacterDropdownMenu />
