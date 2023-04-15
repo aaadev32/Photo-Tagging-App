@@ -1,7 +1,6 @@
 import { useState, useContext } from "react";
 //coordinates tool is a dev tool not used in production but left for documentation purposes
 import CoordinatesTool from "./CoordinatesTool";
-import { DifficultyContext } from "../stateContexts";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { firebaseConfig, app, db } from "../firebaseConfig";
 
@@ -14,18 +13,16 @@ const PhotoTagging = () => {
     const [photoYAxis, setPhotoYAxis] = useState(0);
     const [dropdownCoordinates, setDropdownCoordinates] = useState([0, 0]);
     const [renderDropdown, setRenderDropdown] = useState(false);
-    let difficulty = useContext(DifficultyContext)
+    let difficulty = localStorage.getItem("difficulty");
     //this will be assigned as what the user selects in the character dropdown
     let userCharacterSelection = "";
-
     let characterList = null;
 
     //used to retrieve a specific character from firestore db
     async function getCharacterDoc() {
-        console.log(DifficultyContext)
-        console.log(difficulty.value)
+        console.log(difficulty)
 
-        const docRef = doc(db, `characters ${difficulty.value}`, `${userCharacterSelection}`);
+        const docRef = doc(db, `characters ${difficulty}`, `${userCharacterSelection}`);
         const docSnap = await getDoc(docRef)
         if (docSnap.exists()) {
             console.log("Document data:", docSnap.data());
@@ -38,9 +35,8 @@ const PhotoTagging = () => {
     }
     //fetchs entire character document from firestore db based on users selected difficulty
     async function getCharacterCollection() {
-        console.log(DifficultyContext)
-        console.log(difficulty.value)
-        characterList = await getDocs(collection(db, `characters ${difficulty.value}`));
+        console.log(difficulty)
+        characterList = await getDocs(collection(db, `characters ${difficulty}`));
         characterList.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
             console.log(doc.id, " => ", doc.data());
