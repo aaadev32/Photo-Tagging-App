@@ -5,8 +5,8 @@ import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { firebaseConfig, app, db } from "../firebaseConfig";
 
 //TODO make character dropdown selections populate base on character collection
-//will become an object with the selected difficulties list of characters
-let characterList = null;
+//used to store fetched firestore collection, rewrite this after it is working correctly to use react state hook
+let characterList = {};
 
 const PhotoTagging = () => {
 
@@ -14,12 +14,16 @@ const PhotoTagging = () => {
     const [photoYAxis, setPhotoYAxis] = useState(0);
     const [dropdownCoordinates, setDropdownCoordinates] = useState([0, 0]);
     const [renderDropdown, setRenderDropdown] = useState(false);
+
     let difficulty = localStorage.getItem("difficulty");
     //this will be assigned as what the user selects in the character dropdown
     let userCharacterSelection = "";
+    //temporarily used to transfer object data to character list, declared in the larger component scope for logging purposes
+    let fetchedCollection = null
 
 
     //used to retrieve a specific character from firestore db
+    /*
     async function getCharacterDoc() {
 
         const docRef = doc(db, `characters ${difficulty}`, `${userCharacterSelection}`);
@@ -33,14 +37,16 @@ const PhotoTagging = () => {
             return null;
         }
     }
+    */
 
     //fetchs entire character document from firestore db based on users selected difficulty
     async function getCharacterCollection() {
         console.log(difficulty)
-        characterList = await getDocs(collection(db, `characters ${difficulty}`));
-        characterList.forEach((doc) => {
+        fetchedCollection = await getDocs(collection(db, `characters ${difficulty}`));
+        fetchedCollection.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
             console.log(doc.id, " => ", doc.data());
+            characterList[doc.id] = doc.data();
         });
     }
 
@@ -54,7 +60,8 @@ const PhotoTagging = () => {
     //appears when then user clicks anywhere within the photo with a dropdown menu of characters for the selected difficulty to choose from
     const CharacterDropdownMenu = () => {
         console.log("dropdown", dropdownCoordinates)
-        let arr = [1, 2, 3, 4, 5, 6]
+        let characterKeys = Object.keys(characterList);
+        console.log(characterKeys)
         let dropdownStyling = {
             display: "none",
             position: "absolute",
@@ -71,7 +78,7 @@ const PhotoTagging = () => {
                 <select id="character-list" name="character-list">
                     <option value={""}>Choose A Character</option>
                     {
-                        arr.map(element => <option value={arr.value}>{element}</option>)
+                        characterKeys.map(element => <option value={element}>{element}</option>)
                     }
                 </select>
             </div >
@@ -81,7 +88,6 @@ const PhotoTagging = () => {
     //used to render PhotoTagging child components as well as log the user click
     const PhotoClick = (e) => {
         console.log(characterList)
-
         if (e.target) {
             //used to set help dropdownCoordinates state
             let clickPosition = [0, 0]
@@ -103,8 +109,9 @@ const PhotoTagging = () => {
         }
 
     }
+
     //keeps firestore db from being queried after initial render
-    if (characterList == null) {
+    if (fetchedCollection == null) {
         getCharacterCollection();
     }
 
