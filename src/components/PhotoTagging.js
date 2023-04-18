@@ -4,9 +4,9 @@ import CoordinatesTool from "./CoordinatesTool";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { firebaseConfig, app, db } from "../firebaseConfig";
 
-//TODO make character dropdown selections populate base on character collection
-//used to store fetched firestore collection, rewrite this after it is working correctly to use react state hook
-let characterList = {};
+//TODO fix character list concatenating after backing to character selection to select a new difficulty
+//TODO try querying the db for character list in the Leaderboards component and saving it to localStorage
+
 
 const PhotoTagging = () => {
 
@@ -15,14 +15,11 @@ const PhotoTagging = () => {
     const [dropdownCoordinates, setDropdownCoordinates] = useState([0, 0]);
     const [renderDropdown, setRenderDropdown] = useState(false);
 
-    let difficulty = localStorage.getItem("difficulty");
-    //this will be assigned as what the user selects in the character dropdown
-    let userCharacterSelection = "";
-    //temporarily used to transfer object data to character list, declared in the larger component scope for logging purposes
-    let fetchedCollection = null
-
-
-    //used to retrieve a specific character from firestore db
+    let difficulty = sessionStorage.getItem("difficulty");
+    let temp = sessionStorage.getItem("character list")
+    let characterList = JSON.parse(temp);
+    console.log(characterList)
+    //used to retrieve a specific character from firestore db, might not be used, delete when finished
     /*
     async function getCharacterDoc() {
 
@@ -39,17 +36,6 @@ const PhotoTagging = () => {
     }
     */
 
-    //fetchs entire character document from firestore db based on users selected difficulty
-    async function getCharacterCollection() {
-        console.log(difficulty)
-        fetchedCollection = await getDocs(collection(db, `characters ${difficulty}`));
-        fetchedCollection.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
-            characterList[doc.id] = doc.data();
-        });
-    }
-
     //dev tool that displays coordinates clicked within the photo 
     const ClickCoordinates = (e) => {
         return (
@@ -60,6 +46,7 @@ const PhotoTagging = () => {
     //appears when then user clicks anywhere within the photo with a dropdown menu of characters for the selected difficulty to choose from
     const CharacterDropdownMenu = () => {
         console.log("dropdown", dropdownCoordinates)
+        console.log(characterList)
         let characterKeys = Object.keys(characterList);
         console.log(characterKeys)
         let dropdownStyling = {
@@ -108,11 +95,6 @@ const PhotoTagging = () => {
             setDropdownCoordinates([...clickPosition])
         }
 
-    }
-
-    //keeps firestore db from being queried after initial render
-    if (fetchedCollection == null) {
-        getCharacterCollection();
     }
 
     return (

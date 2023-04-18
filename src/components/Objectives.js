@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom"
+
 const Objectives = () => {
-    let difficulty = localStorage.getItem("difficulty");
+    let difficulty = sessionStorage.getItem("difficulty");
+    //fetchs entire character document from firestore db based on users selected difficulty
+
     return (
         <div>
             <div id="easy-mode" style={{ display: difficulty === 'easy' ? 'flex' : 'none' }}>

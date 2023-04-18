@@ -1,10 +1,30 @@
 import { Link } from "react-router-dom";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebaseConfig";
+
 
 const Leaderboards = () => {
-
     //turns the display of the clicked difficulty in the Objectives Component  to flex and others to none
     const setObjectives = (difficulty) => {
-        localStorage.setItem("difficulty", `${difficulty}`);
+        sessionStorage.setItem("difficulty", `${difficulty}`);
+        getCharacterCollection();
+
+    }
+
+    async function getCharacterCollection() {
+        let fetchedCollection = null;
+        let tempCollection = {};
+        let jsonCollection = null;
+        fetchedCollection = await getDocs(collection(db, `characters ${sessionStorage.getItem("difficulty")}`));
+        fetchedCollection.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+            tempCollection[doc.id] = doc.data();
+        });
+
+        jsonCollection = JSON.stringify(tempCollection);
+        console.log(jsonCollection)
+        sessionStorage.setItem("character list", `${jsonCollection}`);
     }
 
     return (
