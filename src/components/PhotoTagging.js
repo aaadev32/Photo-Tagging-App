@@ -1,11 +1,10 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 //coordinates tool is a dev tool not used in production but left for documentation purposes
 import CoordinatesTool from "./CoordinatesTool";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { firebaseConfig, app, db } from "../firebaseConfig";
 
-//TODO fix character list concatenating after backing to character selection to select a new difficulty
-//TODO try querying the db for character list in the Leaderboards component and saving it to localStorage
+//TODO write a function that is used to check the user selected area after selecting a dropdown option for the character they chose, it should prompt if they were correct or not and update the selection options accordingly
 
 
 const PhotoTagging = () => {
@@ -15,9 +14,8 @@ const PhotoTagging = () => {
     const [dropdownCoordinates, setDropdownCoordinates] = useState([0, 0]);
     const [renderDropdown, setRenderDropdown] = useState(false);
 
-    let difficulty = sessionStorage.getItem("difficulty");
-    let temp = sessionStorage.getItem("character list")
-    let characterList = JSON.parse(temp);
+    let jsonCharacterList = sessionStorage.getItem("character list")
+    let characterList = JSON.parse(jsonCharacterList);
     console.log(characterList)
     //used to retrieve a specific character from firestore db, might not be used, delete when finished
     /*
@@ -43,6 +41,7 @@ const PhotoTagging = () => {
         )
     }
 
+
     //appears when then user clicks anywhere within the photo with a dropdown menu of characters for the selected difficulty to choose from
     const CharacterDropdownMenu = () => {
         console.log("dropdown", dropdownCoordinates)
@@ -65,15 +64,28 @@ const PhotoTagging = () => {
                 <select id="character-list" name="character-list">
                     <option value={""}>Choose A Character</option>
                     {
-                        characterKeys.map(element => <option value={element}>{element}</option>)
+                        characterKeys.map(element => <option value={element} onClick={() => { checkSelection(element) }}>{element}</option>)
                     }
                 </select>
             </div >
         )
     }
 
+    //checks that the character selected in the CharacterDropdownMenu component is within the selected area, updates the selction menu accordingly.
+    const checkSelection = (choice) => {
+        console.log(choice);
+        let chosenCharacter = characterList[`${choice}`]
+        //TODO check that the selected character is within the user selected area, display a prompt saying if their choice is right or wrong, remove the option from the drop down if it is correct
+        //checks if the click event is greater than the character left most x coordinates but less than its greatest x coordinate value
+        if ((e.clientX - e.target.offsetLeft > chosenCharacter.upperLeftCoordinates[0]) && (e.clientX - e.target.offsetLeft < chosenCharacter.upperRightCoordinates[0]) && (e.clientY - e.target.offsetTop > chosenCharacter.upperLeftCoordinates[1]) && (e.clientY - e.target.offsetTop < chosenCharacter.lowerLeftCoordinates[1])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     //used to render PhotoTagging child components as well as log the user click
-    const PhotoClick = (e) => {
+    const photoClick = (e) => {
         console.log(characterList)
         if (e.target) {
             //used to set help dropdownCoordinates state
@@ -100,7 +112,7 @@ const PhotoTagging = () => {
     return (
         <div id="photo-tagging-container">
             <CharacterDropdownMenu />
-            <div id="photo-tagging-image" onClick={(e) => { PhotoClick(e); }}>
+            <div id="photo-tagging-image" onClick={(e) => { photoClick(e); }}>
                 <CoordinatesTool />
             </div>
             <div id="cursor-coordinates-container">
