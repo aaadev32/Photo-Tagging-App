@@ -4,7 +4,7 @@ import CoordinatesTool from "./CoordinatesTool";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { firebaseConfig, app, db } from "../firebaseConfig";
 
-//TODO write a function that is used to check the user selected area after selecting a dropdown option for the character they chose, it should prompt if they were correct or not and update the selection options accordingly
+//TODO update the selection options after the user selects correctly 
 
 
 const PhotoTagging = () => {
@@ -44,13 +44,11 @@ const PhotoTagging = () => {
 
     //appears when then user clicks anywhere within the photo with a dropdown menu of characters for the selected difficulty to choose from
     const CharacterDropdownMenu = () => {
-        console.log("dropdown", dropdownCoordinates)
-        console.log(characterList)
+        console.log("dropdown", dropdownCoordinates);
+        console.log(characterList);
         let characterKeys = Object.keys(characterList);
-        console.log(characterKeys)
+        console.log(characterKeys);
         let dropdownStyling = {
-            display: "none",
-            position: "absolute",
             left: `${dropdownCoordinates[0]}px`,
             top: `${dropdownCoordinates[1]}px`,
         }
@@ -64,23 +62,40 @@ const PhotoTagging = () => {
                 <select id="character-list" name="character-list">
                     <option value={""}>Choose A Character</option>
                     {
-                        characterKeys.map(element => <option value={element} onClick={() => { checkSelection(element) }}>{element}</option>)
+                        characterKeys.map((element, index) => <option id={`dropdown ${index}`} value={element} onClick={() => { checkSelection(element, index) }}>{element}</option>)
                     }
                 </select>
             </div >
         )
     }
 
+    const SelectionPrompt = () => {
+        return (
+            <div id="selection-prompt"> selection prompt test <button>ok</button></div>
+        )
+    }
+
     //checks that the character selected in the CharacterDropdownMenu component is within the selected area, updates the selction menu accordingly.
-    const checkSelection = (choice) => {
+    const checkSelection = (choice, index) => {
         console.log(choice);
         let chosenCharacter = characterList[`${choice}`]
+        //bool for checking if chosen character was correct
+        let characterSelect = null;
+        let prompt = document.getElementById("selection-prompt");
         //TODO check that the selected character is within the user selected area, display a prompt saying if their choice is right or wrong, remove the option from the drop down if it is correct
         //checks if the click event is greater than the character left most x coordinates but less than its greatest x coordinate value
-        if ((e.clientX - e.target.offsetLeft > chosenCharacter.upperLeftCoordinates[0]) && (e.clientX - e.target.offsetLeft < chosenCharacter.upperRightCoordinates[0]) && (e.clientY - e.target.offsetTop > chosenCharacter.upperLeftCoordinates[1]) && (e.clientY - e.target.offsetTop < chosenCharacter.lowerLeftCoordinates[1])) {
-            return true;
+        if ((photoXAxis > chosenCharacter.upperLeftCoordinates[0]) && (photoXAxis < chosenCharacter.upperRightCoordinates[0]) && (photoYAxis > chosenCharacter.upperLeftCoordinates[1]) && (photoYAxis < chosenCharacter.lowerLeftCoordinates[1])) {
+            console.log("true")
+            characterSelect = true;
         } else {
-            return false;
+            console.log("false")
+            characterSelect = false;
+        }
+
+        prompt.style.display = "block";
+        //TODO update options in character dropdown
+        if (characterSelect) {
+            removeChild(`dropdown ${index}`)
         }
     }
 
@@ -91,7 +106,7 @@ const PhotoTagging = () => {
             //used to set help dropdownCoordinates state
             let clickPosition = [0, 0]
             //used to set help renderDropdown state
-            let renderBoolCheck = null;
+            let renderBool = null;
 
             //the below calculations take the global x and y positioning of the click event and subtract the the elements top and left offset positioning from within the document to get
             //the x and y positioning of the click relative to the edge of photo element itself
@@ -99,8 +114,8 @@ const PhotoTagging = () => {
             setPhotoYAxis(e.clientY - e.target.offsetTop);
 
             //character drop down element popup logic and styling, appears on click and disappears on consecutive click and so on, appears where user clicked within PhotoTagging component
-            renderDropdown == false ? renderBoolCheck = true : renderBoolCheck = false;
-            setRenderDropdown(renderBoolCheck);
+            renderDropdown ? renderBool = false : renderBool = true;
+            setRenderDropdown(renderBool);
 
             //added 5 to clientX so the user can click the same area to unrender the character dropdown
             clickPosition = [e.clientX + 5, e.clientY]
@@ -111,6 +126,7 @@ const PhotoTagging = () => {
 
     return (
         <div id="photo-tagging-container">
+            <SelectionPrompt />
             <CharacterDropdownMenu />
             <div id="photo-tagging-image" onClick={(e) => { photoClick(e); }}>
                 <CoordinatesTool />
