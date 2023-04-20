@@ -4,7 +4,7 @@ import CoordinatesTool from "./CoordinatesTool";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { firebaseConfig, app, db } from "../firebaseConfig";
 
-//TODO update the selection options after the user selects correctly 
+//TODO make a selection prompt mock stating whether the user made a correct selection or not and show the elapsed time
 
 
 const PhotoTagging = () => {
@@ -16,7 +16,8 @@ const PhotoTagging = () => {
     const [dropdownCoordinates, setDropdownCoordinates] = useState([0, 0]);
     const [renderDropdown, setRenderDropdown] = useState(false);
     const [characterList, setCharacterList] = useState(JSON.parse(jsonCharacterList))
-
+    const [timer, setTimer] = useState(0);
+    
     let characterKeys = Object.keys(characterList);
     console.log(characterList)
     //used to retrieve a specific character from firestore db, might not be used, delete when finished
@@ -57,7 +58,6 @@ const PhotoTagging = () => {
 
         return (
 
-            //TODO make the option list populate based off of the selected difficulty from firestore database
             <div id="character-dropdown" style={dropdownStyling}>
                 <label htmlFor="character-list"></label>
                 <select id="character-list" name="character-list">
@@ -70,9 +70,19 @@ const PhotoTagging = () => {
         )
     }
 
-    const SelectionPrompt = () => {
+    //should display the time elapsed and change colors based on user true/false selection
+    const InfoPrompt = () => {
+
+        function incrementTimer() {
+            let inc = timer;
+            setTimer(++inc);
+            console.log(timer)
+        }
+
+        //setTimeout(incrementTimer, 1000)
+
         return (
-            <div id="selection-prompt"> selection prompt test <button>ok</button></div>
+            <div id="info-prompt"> time: {timer}</div>
         )
     }
 
@@ -83,8 +93,6 @@ const PhotoTagging = () => {
         let chosenCharacter = characterList[`${choice}`]
         //bool for checking if chosen character was correct
         let characterSelect = null;
-        let prompt = document.getElementById("selection-prompt");
-        //TODO check that the selected character is within the user selected area, display a prompt saying if their choice is right or wrong, remove the option from the drop down if it is correct
         //checks if the click event is greater than the character left most x coordinates but less than its greatest x coordinate value
         if ((photoXAxis > chosenCharacter.upperLeftCoordinates[0]) && (photoXAxis < chosenCharacter.upperRightCoordinates[0]) && (photoYAxis > chosenCharacter.upperLeftCoordinates[1]) && (photoYAxis < chosenCharacter.lowerLeftCoordinates[1])) {
             console.log("true")
@@ -94,8 +102,6 @@ const PhotoTagging = () => {
             characterSelect = false;
         }
 
-        prompt.style.display = "block";
-        //TODO update options in character dropdown
         //updates character list on a true selection to remove that character option from future dropdown lists
         if (characterSelect) {
             console.log(characterKeys[index])
@@ -135,7 +141,7 @@ const PhotoTagging = () => {
 
     return (
         <div id="photo-tagging-container">
-            <SelectionPrompt />
+            <InfoPrompt />
             <CharacterDropdownMenu />
             <div id="photo-tagging-image" onClick={(e) => { photoClick(e); }}>
                 <CoordinatesTool />
