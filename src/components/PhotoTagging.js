@@ -62,7 +62,7 @@ const PhotoTagging = () => {
                 <select id="character-list" name="character-list">
                     <option value={""}>Choose A Character</option>
                     {
-                        characterKeys.map((element, index) => <option id={`dropdown ${index}`} value={element} onClick={() => { checkSelection(element, index) }}>{element}</option>)
+                        characterKeys.map((element, index) => <option id={`dropdown-${index}`} value={element} onClick={() => { checkSelection(element, index) }}>{element}</option>)
                     }
                 </select>
             </div >
@@ -78,6 +78,7 @@ const PhotoTagging = () => {
     //checks that the character selected in the CharacterDropdownMenu component is within the selected area, updates the selction menu accordingly.
     const checkSelection = (choice, index) => {
         console.log(choice);
+        console.log(index)
         let chosenCharacter = characterList[`${choice}`]
         //bool for checking if chosen character was correct
         let characterSelect = null;
@@ -95,7 +96,10 @@ const PhotoTagging = () => {
         prompt.style.display = "block";
         //TODO update options in character dropdown
         if (characterSelect) {
-            removeChild(`dropdown ${index}`)
+            let selctionNode = document.getElementById("character-list");
+            let removeNode = document.getElementById(`dropdown-${index}`)
+            console.log("character select true")
+            selctionNode.removeChild(removeNode);
         }
     }
 
