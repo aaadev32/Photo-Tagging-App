@@ -9,13 +9,15 @@ import { firebaseConfig, app, db } from "../firebaseConfig";
 
 const PhotoTagging = () => {
 
+    let jsonCharacterList = sessionStorage.getItem("character list")
+
     const [photoXAxis, setPhotoXAxis] = useState(0);
     const [photoYAxis, setPhotoYAxis] = useState(0);
     const [dropdownCoordinates, setDropdownCoordinates] = useState([0, 0]);
     const [renderDropdown, setRenderDropdown] = useState(false);
+    const [characterList, setCharacterList] = useState(JSON.parse(jsonCharacterList))
 
-    let jsonCharacterList = sessionStorage.getItem("character list")
-    let characterList = JSON.parse(jsonCharacterList);
+    let characterKeys = Object.keys(characterList);
     console.log(characterList)
     //used to retrieve a specific character from firestore db, might not be used, delete when finished
     /*
@@ -46,7 +48,6 @@ const PhotoTagging = () => {
     const CharacterDropdownMenu = () => {
         console.log("dropdown", dropdownCoordinates);
         console.log(characterList);
-        let characterKeys = Object.keys(characterList);
         console.log(characterKeys);
         let dropdownStyling = {
             left: `${dropdownCoordinates[0]}px`,
@@ -78,7 +79,7 @@ const PhotoTagging = () => {
     //checks that the character selected in the CharacterDropdownMenu component is within the selected area, updates the selction menu accordingly.
     const checkSelection = (choice, index) => {
         console.log(choice);
-        console.log(index)
+        console.log(index);
         let chosenCharacter = characterList[`${choice}`]
         //bool for checking if chosen character was correct
         let characterSelect = null;
@@ -95,11 +96,15 @@ const PhotoTagging = () => {
 
         prompt.style.display = "block";
         //TODO update options in character dropdown
+        //updates character list on a true selection to remove that character option from future dropdown lists
         if (characterSelect) {
-            let selctionNode = document.getElementById("character-list");
-            let removeNode = document.getElementById(`dropdown-${index}`)
-            console.log("character select true")
-            selctionNode.removeChild(removeNode);
+            console.log(characterKeys[index])
+            let deleteKey = characterKeys[index]
+            let characterListCopy = characterList;
+            delete characterListCopy[deleteKey];
+            setCharacterList(characterListCopy);
+            console.log(characterList)
+            console.log("character select true");
         }
     }
 
