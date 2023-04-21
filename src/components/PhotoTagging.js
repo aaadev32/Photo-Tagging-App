@@ -1,11 +1,13 @@
 import { useState } from "react";
 //coordinates tool is a dev tool not used in production but left for documentation purposes
 import CoordinatesTool from "./CoordinatesTool";
+import InfoPrompt from "./InfoPrompt";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { firebaseConfig, app, db } from "../firebaseConfig";
 
 //TODO make a selection prompt mock stating whether the user made a correct selection or not and show the elapsed time
-
+//perhaps make the element from the dropdown be deleted only after the user collapses the selection
+let inc = 0;
 
 const PhotoTagging = () => {
 
@@ -17,7 +19,7 @@ const PhotoTagging = () => {
     const [renderDropdown, setRenderDropdown] = useState(false);
     const [characterList, setCharacterList] = useState(JSON.parse(jsonCharacterList))
     const [timer, setTimer] = useState(0);
-    
+
     let characterKeys = Object.keys(characterList);
     console.log(characterList)
     //used to retrieve a specific character from firestore db, might not be used, delete when finished
@@ -63,28 +65,14 @@ const PhotoTagging = () => {
                 <select id="character-list" name="character-list">
                     <option value={""}>Choose A Character</option>
                     {
-                        characterKeys.map((element, index) => <option id={`dropdown-${index}`} value={element} onClick={() => { checkSelection(element, index) }}>{element}</option>)
+                        characterKeys.map((element, index) => <option id={`dropdown-${index}`} key={`dropdown ${index}`} value={element} onClick={() => { checkSelection(element, index) }}>{element}</option>)
                     }
                 </select>
             </div >
         )
     }
 
-    //should display the time elapsed and change colors based on user true/false selection
-    const InfoPrompt = () => {
 
-        function incrementTimer() {
-            let inc = timer;
-            setTimer(++inc);
-            console.log(timer)
-        }
-
-        //setTimeout(incrementTimer, 1000)
-
-        return (
-            <div id="info-prompt"> time: {timer}</div>
-        )
-    }
 
     //checks that the character selected in the CharacterDropdownMenu component is within the selected area, updates the selction menu accordingly.
     const checkSelection = (choice, index) => {
