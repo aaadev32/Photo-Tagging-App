@@ -9,7 +9,7 @@ const InfoPrompt = () => {
         console.log(timer)
     }
     //TODO causes the CharacterDropdown to rerender every second, fix at a later time 4/21/23
-    setTimeout(incrementTimer, 1000)
+    //setTimeout(incrementTimer, 1000)
 
     return (
         <div id="info-prompt"> time: {timer}</div>

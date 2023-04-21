@@ -5,10 +5,6 @@ import InfoPrompt from "./InfoPrompt";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { firebaseConfig, app, db } from "../firebaseConfig";
 
-//TODO make a selection prompt mock stating whether the user made a correct selection or not and show the elapsed time
-//perhaps make the element from the dropdown be deleted only after the user collapses the selection
-let inc = 0;
-
 const PhotoTagging = () => {
 
     let jsonCharacterList = sessionStorage.getItem("character list")
@@ -18,7 +14,6 @@ const PhotoTagging = () => {
     const [dropdownCoordinates, setDropdownCoordinates] = useState([0, 0]);
     const [renderDropdown, setRenderDropdown] = useState(false);
     const [characterList, setCharacterList] = useState(JSON.parse(jsonCharacterList))
-    const [timer, setTimer] = useState(0);
 
     let characterKeys = Object.keys(characterList);
     console.log(characterList)
@@ -92,13 +87,19 @@ const PhotoTagging = () => {
 
         //updates character list on a true selection to remove that character option from future dropdown lists
         if (characterSelect) {
-            console.log(characterKeys[index])
-            let deleteKey = characterKeys[index]
+            console.log(characterKeys[index]);
+            let deleteKey = characterKeys[index];
             let characterListCopy = characterList;
+
             delete characterListCopy[deleteKey];
             setCharacterList(characterListCopy);
+            setRenderDropdown(false);
+
+
             console.log(characterList)
             console.log("character select true");
+        } else {
+            setRenderDropdown(false);
         }
     }
 
