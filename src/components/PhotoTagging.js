@@ -5,6 +5,9 @@ import InfoPrompt from "./InfoPrompt";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { firebaseConfig, app, db } from "../firebaseConfig";
 
+
+//TODO add a marker to the location of a character after a truthy selection is made from character dropdown, create an indicator for a falsy selection.
+
 const PhotoTagging = () => {
 
     let jsonCharacterList = sessionStorage.getItem("character list")
@@ -12,7 +15,9 @@ const PhotoTagging = () => {
     const [photoXAxis, setPhotoXAxis] = useState(0);
     const [photoYAxis, setPhotoYAxis] = useState(0);
     const [dropdownCoordinates, setDropdownCoordinates] = useState([0, 0]);
+    const [markerCoordinates, setMarkerCoordinates] = useState([0, 0])
     const [renderDropdown, setRenderDropdown] = useState(false);
+    const [renderMarker, setRenderMarker] = useState(false);
     const [characterList, setCharacterList] = useState(JSON.parse(jsonCharacterList))
 
     let characterKeys = Object.keys(characterList);
@@ -67,6 +72,18 @@ const PhotoTagging = () => {
         )
     }
 
+    const CharacterMarker = () => {
+        let markerStyling = {
+            //5 is subtracted from the x axis because the dropdownCoordinates state is used to get these values, the dropdown menu has 5px added to the x axis for ui clarity but more accuracy is required here
+            left: `${markerCoordinates[0] - 5}px`,
+            top: `${markerCoordinates[1]}px`
+        }
+        renderMarker ? markerStyling.display = "block" : markerStyling.display = "none";
+
+        return (
+            <div id="character-marker" style={markerStyling}>marker test</div>
+        )
+    }
 
 
     //checks that the character selected in the CharacterDropdownMenu component is within the selected area, updates the selction menu accordingly.
@@ -78,8 +95,12 @@ const PhotoTagging = () => {
         let characterSelect = null;
         //checks if the click event is greater than the character left most x coordinates but less than its greatest x coordinate value
         if ((photoXAxis > chosenCharacter.upperLeftCoordinates[0]) && (photoXAxis < chosenCharacter.upperRightCoordinates[0]) && (photoYAxis > chosenCharacter.upperLeftCoordinates[1]) && (photoYAxis < chosenCharacter.lowerLeftCoordinates[1])) {
-            console.log("true")
+            console.log("true");
             characterSelect = true;
+            let newMarkerCoordinates = dropdownCoordinates;
+
+            setMarkerCoordinates([...dropdownCoordinates]);
+            setRenderMarker(true);
         } else {
             console.log("false")
             characterSelect = false;
@@ -96,7 +117,7 @@ const PhotoTagging = () => {
             setRenderDropdown(false);
 
 
-            console.log(characterList)
+            console.log(characterList);
             console.log("character select true");
         } else {
             setRenderDropdown(false);
@@ -132,6 +153,7 @@ const PhotoTagging = () => {
         <div id="photo-tagging-container">
             <InfoPrompt />
             <CharacterDropdownMenu />
+            <CharacterMarker />
             <div id="photo-tagging-image" onClick={(e) => { photoClick(e); }}>
                 <CoordinatesTool />
             </div>
