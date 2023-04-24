@@ -80,6 +80,11 @@
      border: 2px solid salmon;
  }
 
+ #false-selection-popup {
+     display: none;
+     position: absolute;
+ }
+
  #coordinate-tracker {
      position: absolute;
      bottom: 0px;

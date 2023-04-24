@@ -85,6 +85,17 @@ const PhotoTagging = () => {
         )
     }
 
+    const FalseSelectionPopup = () => {
+
+        let popupStyling = {
+            left: `${markerCoordinates[0] - 5}px`,
+            top: `${markerCoordinates[1]}px`
+        }
+
+        return (
+            <div id="false-selection-popup" style={popupStyling}>Try Again!!!</div>
+        )
+    }
 
     //checks that the character selected in the CharacterDropdownMenu component is within the selected area, updates the selction menu accordingly.
     const checkSelection = (choice, index) => {
@@ -104,6 +115,7 @@ const PhotoTagging = () => {
         } else {
             console.log("false")
             characterSelect = false;
+
         }
 
         //updates character list on a true selection to remove that character option from future dropdown lists
@@ -121,6 +133,15 @@ const PhotoTagging = () => {
             console.log("character select true");
         } else {
             setRenderDropdown(false);
+            //TODO clean this up, maybe move it elsewhere then call it
+            function popup() {
+                let popupElement = document.getElementById("false-selection-popup");
+
+                popupElement.styling.display = "block";
+                setTimeout(() => {
+                    popupElement.styling.display = "none";
+                }, 3000);
+            }
         }
     }
 
