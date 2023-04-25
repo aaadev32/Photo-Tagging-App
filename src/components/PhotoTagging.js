@@ -15,10 +15,12 @@ const PhotoTagging = () => {
     const [photoXAxis, setPhotoXAxis] = useState(0);
     const [photoYAxis, setPhotoYAxis] = useState(0);
     const [dropdownCoordinates, setDropdownCoordinates] = useState([0, 0]);
-    const [markerCoordinates, setMarkerCoordinates] = useState([0, 0])
+    const [markerCoordinates, setMarkerCoordinates] = useState([0, 0]);
+    const [falseSelectionCoordinates, setFalseSelectionCoordinates] = useState([0, 0]);
     const [renderDropdown, setRenderDropdown] = useState(false);
     const [renderMarker, setRenderMarker] = useState(false);
-    const [characterList, setCharacterList] = useState(JSON.parse(jsonCharacterList))
+    const [renderFalseMarker, setRenderFalseMarker] = useState(false);
+    const [characterList, setCharacterList] = useState(JSON.parse(jsonCharacterList));
 
     let characterKeys = Object.keys(characterList);
     console.log(characterList)
@@ -88,60 +90,62 @@ const PhotoTagging = () => {
     const FalseSelectionPopup = () => {
 
         let popupStyling = {
-            left: `${markerCoordinates[0] - 5}px`,
-            top: `${markerCoordinates[1]}px`
+            left: `${falseSelectionCoordinates[0]}px`,
+            top: `${falseSelectionCoordinates[1]}px`
         }
 
+        renderFalseMarker ? popupStyling.display = "block" : popupStyling.display = "none";
         return (
             <div id="false-selection-popup" style={popupStyling}>Try Again!!!</div>
         )
     }
 
-    //checks that the character selected in the CharacterDropdownMenu component is within the selected area, updates the selction menu accordingly.
+    //checks that the character selected in the CharacterDropdownMenu component is within the selected area, updates the selection menu accordingly.
     const checkSelection = (choice, index) => {
         console.log(choice);
         console.log(index);
         let chosenCharacter = characterList[`${choice}`]
+        let popupElement = document.getElementById("false-selection-popup");
         //bool for checking if chosen character was correct
         let characterSelect = null;
-        //checks if the click event is greater than the character left most x coordinates but less than its greatest x coordinate value
-        if ((photoXAxis > chosenCharacter.upperLeftCoordinates[0]) && (photoXAxis < chosenCharacter.upperRightCoordinates[0]) && (photoYAxis > chosenCharacter.upperLeftCoordinates[1]) && (photoYAxis < chosenCharacter.lowerLeftCoordinates[1])) {
-            console.log("true");
-            characterSelect = true;
-            let newMarkerCoordinates = dropdownCoordinates;
 
-            setMarkerCoordinates([...dropdownCoordinates]);
-            setRenderMarker(true);
-        } else {
-            console.log("false")
-            characterSelect = false;
-
+        //enables display for FalseSelectionPopup component prompting the user that the selection was false
+        function popupDisplay() {
+            console.log('im popping')
+            popupElement.style.display = "none";
+            setRenderFalseMarker(false);
         }
 
-        //updates character list on a true selection to remove that character option from future dropdown lists
-        if (characterSelect) {
+        //checks if the click event is greater than the character left/bottom most x/y coordinates but less than its right/top most x/y coordinate values
+        if ((photoXAxis > chosenCharacter.upperLeftCoordinates[0]) && (photoXAxis < chosenCharacter.upperRightCoordinates[0]) && (photoYAxis > chosenCharacter.upperLeftCoordinates[1]) && (photoYAxis < chosenCharacter.lowerLeftCoordinates[1])) {
+            console.log("true");
             console.log(characterKeys[index]);
             let deleteKey = characterKeys[index];
             let characterListCopy = characterList;
+            characterSelect = true;
 
+            //updates dropdown character list to not include correctly chosen character
             delete characterListCopy[deleteKey];
             setCharacterList(characterListCopy);
             setRenderDropdown(false);
 
+            setMarkerCoordinates([...dropdownCoordinates]);
+            setRenderMarker(true);
 
             console.log(characterList);
             console.log("character select true");
         } else {
+            console.log("false");
+            characterSelect = false;
+            popupElement.style.display = "block";
+            console.log(popupElement)
+            setFalseSelectionCoordinates([...dropdownCoordinates])
+            setRenderFalseMarker(true);
+            //turns off false selection popup after a time
+            setTimeout(() => {
+                popupDisplay();
+            }, 3000);
             setRenderDropdown(false);
-            //TODO clean this up, maybe move it elsewhere then call it
-            function popup() {
-                let popupElement = document.getElementById("false-selection-popup");
-
-                popupElement.styling.display = "block";
-                setTimeout(() => {
-                    popupElement.styling.display = "none";
-                }, 3000);
-            }
         }
     }
 
@@ -175,6 +179,7 @@ const PhotoTagging = () => {
             <InfoPrompt />
             <CharacterDropdownMenu />
             <CharacterMarker />
+            <FalseSelectionPopup />
             <div id="photo-tagging-image" onClick={(e) => { photoClick(e); }}>
                 <CoordinatesTool />
             </div>

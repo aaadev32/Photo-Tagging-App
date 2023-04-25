@@ -83,6 +83,7 @@
  #false-selection-popup {
      display: none;
      position: absolute;
+     background-color: red;
  }
 
  #coordinate-tracker {
