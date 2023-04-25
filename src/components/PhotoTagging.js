@@ -1,12 +1,11 @@
-import { useState } from "react";
+import { useState, createElement } from "react";
 //coordinates tool is a dev tool not used in production but left for documentation purposes
 import CoordinatesTool from "./CoordinatesTool";
 import InfoPrompt from "./InfoPrompt";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { firebaseConfig, app, db } from "../firebaseConfig";
 
-
-//TODO add a marker to the location of a character after a truthy selection is made from character dropdown, create an indicator for a falsy selection.
+// TODO make CharacterMarker component dynamically create child elements for each correctly selected character and place them over that character
 
 const PhotoTagging = () => {
 
@@ -21,6 +20,7 @@ const PhotoTagging = () => {
     const [renderMarker, setRenderMarker] = useState(false);
     const [renderFalseMarker, setRenderFalseMarker] = useState(false);
     const [characterList, setCharacterList] = useState(JSON.parse(jsonCharacterList));
+    const [characterMarkerNodes, setCharacterMarkerNodes] = useState([]);
 
     let characterKeys = Object.keys(characterList);
     console.log(characterList)
@@ -75,15 +75,36 @@ const PhotoTagging = () => {
     }
 
     const CharacterMarker = () => {
+        let nodeListCopy = characterMarkerNodes;
+        let newNode = null;
+        //TODO create a function for creating dynamically assigned and styled elements to populate the photo with any number of required markers
+        function newChild() {
+            return createElement(
+                "div",
+                { className: "character-marker" },
+                "Character Marker"
+            )
+        }
+
         let markerStyling = {
             //5 is subtracted from the x axis because the dropdownCoordinates state is used to get these values, the dropdown menu has 5px added to the x axis for ui clarity but more accuracy is required here
             left: `${markerCoordinates[0] - 5}px`,
             top: `${markerCoordinates[1]}px`
         }
+        //get rid of below line at some point, the character markers should always be display but should be turn off when hovered over to prevent user frustration
         renderMarker ? markerStyling.display = "block" : markerStyling.display = "none";
+        renderMarker ? newNode = newChild() : newNode = null;
+
+        //TOOD push to node list copy then set characterMarkerNodes state with it
+
+        if (newNode != null) {
+
+        }
 
         return (
-            <div id="character-marker" style={markerStyling}>marker test</div>
+            <div id="character-marker" style={markerStyling}>
+
+            </div>
         )
     }
 
@@ -96,7 +117,7 @@ const PhotoTagging = () => {
 
         renderFalseMarker ? popupStyling.display = "block" : popupStyling.display = "none";
         return (
-            <div id="false-selection-popup" style={popupStyling}>Try Again!!!</div>
+            <div id="false-selection-popup" style={popupStyling}>Nope!!!</div>
         )
     }
 
@@ -111,7 +132,6 @@ const PhotoTagging = () => {
 
         //enables display for FalseSelectionPopup component prompting the user that the selection was false
         function popupDisplay() {
-            console.log('im popping')
             popupElement.style.display = "none";
             setRenderFalseMarker(false);
         }
@@ -119,7 +139,6 @@ const PhotoTagging = () => {
         //checks if the click event is greater than the character left/bottom most x/y coordinates but less than its right/top most x/y coordinate values
         if ((photoXAxis > chosenCharacter.upperLeftCoordinates[0]) && (photoXAxis < chosenCharacter.upperRightCoordinates[0]) && (photoYAxis > chosenCharacter.upperLeftCoordinates[1]) && (photoYAxis < chosenCharacter.lowerLeftCoordinates[1])) {
             console.log("true");
-            console.log(characterKeys[index]);
             let deleteKey = characterKeys[index];
             let characterListCopy = characterList;
             characterSelect = true;
@@ -131,20 +150,16 @@ const PhotoTagging = () => {
 
             setMarkerCoordinates([...dropdownCoordinates]);
             setRenderMarker(true);
-
-            console.log(characterList);
-            console.log("character select true");
         } else {
             console.log("false");
             characterSelect = false;
             popupElement.style.display = "block";
-            console.log(popupElement)
             setFalseSelectionCoordinates([...dropdownCoordinates])
             setRenderFalseMarker(true);
             //turns off false selection popup after a time
             setTimeout(() => {
                 popupDisplay();
-            }, 3000);
+            }, 1500);
             setRenderDropdown(false);
         }
     }
