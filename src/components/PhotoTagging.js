@@ -17,7 +17,7 @@ const PhotoTagging = () => {
     const [markerCoordinates, setMarkerCoordinates] = useState([0, 0]);
     const [falseSelectionCoordinates, setFalseSelectionCoordinates] = useState([0, 0]);
     const [renderDropdown, setRenderDropdown] = useState(false);
-    const [renderMarker, setRenderMarker] = useState(false);
+    const [createCharacterMarker, setCreateCharacterMarker] = useState(false);
     const [renderFalseMarker, setRenderFalseMarker] = useState(false);
     const [characterList, setCharacterList] = useState(JSON.parse(jsonCharacterList));
     const [characterMarkerNodes, setCharacterMarkerNodes] = useState([]);
@@ -76,34 +76,44 @@ const PhotoTagging = () => {
 
     const CharacterMarker = () => {
         let nodeListCopy = characterMarkerNodes;
-        let newNode = null;
-        //TODO create a function for creating dynamically assigned and styled elements to populate the photo with any number of required markers
-        function newChild() {
-            return createElement(
-                "div",
-                { className: "character-marker" },
-                "Character Marker"
-            )
-        }
-
         let markerStyling = {
             //5 is subtracted from the x axis because the dropdownCoordinates state is used to get these values, the dropdown menu has 5px added to the x axis for ui clarity but more accuracy is required here
+            display: "block",
+            position: "absolute",
             left: `${markerCoordinates[0] - 5}px`,
             top: `${markerCoordinates[1]}px`
         }
-        //get rid of below line at some point, the character markers should always be display but should be turn off when hovered over to prevent user frustration
-        renderMarker ? markerStyling.display = "block" : markerStyling.display = "none";
-        renderMarker ? newNode = newChild() : newNode = null;
+        let newNode = newChild();
 
-        //TOOD push to node list copy then set characterMarkerNodes state with it
 
-        if (newNode != null) {
 
+        //TODO push to node list copy then set characterMarkerNodes state with it
+        if (createCharacterMarker) {
+            nodeListCopy.push(newNode);
+
+            setCharacterMarkerNodes([...nodeListCopy])
         }
 
-        return (
-            <div id="character-marker" style={markerStyling}>
+        const populateMarkerNodes = () => {
+            return (
+                characterMarkerNodes.map((element) => element)
+            )
+        }
 
+        function newChild() {
+            return createElement(
+                "div",
+                { className: "character-marker", style: { display: "block", position: "absolute", left: `${markerCoordinates[0] - 5}px`, top: `${markerCoordinates[1]}px`, color: "pink" } },
+                "Character Marker",
+            )
+        }
+
+        setCreateCharacterMarker(false);
+
+        console.log(characterMarkerNodes)
+        return (
+            <div id="character-marker">
+                {populateMarkerNodes()}
             </div>
         )
     }
@@ -149,7 +159,7 @@ const PhotoTagging = () => {
             setRenderDropdown(false);
 
             setMarkerCoordinates([...dropdownCoordinates]);
-            setRenderMarker(true);
+            setCreateCharacterMarker(true);
         } else {
             console.log("false");
             characterSelect = false;
@@ -193,8 +203,8 @@ const PhotoTagging = () => {
         <div id="photo-tagging-container">
             <InfoPrompt />
             <CharacterDropdownMenu />
-            <CharacterMarker />
             <FalseSelectionPopup />
+            <CharacterMarker />
             <div id="photo-tagging-image" onClick={(e) => { photoClick(e); }}>
                 <CoordinatesTool />
             </div>
