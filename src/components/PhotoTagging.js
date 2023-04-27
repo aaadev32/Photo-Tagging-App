@@ -1,7 +1,7 @@
-import { useState, createElement, useEffect } from "react";
+import { useState, createElement, useEffect, createContext, useRef, useContext } from "react";
 //coordinates tool is a dev tool not used in production but left for documentation purposes
 import CoordinatesTool from "./CoordinatesTool";
-import InfoPrompt from "./InfoPrompt";
+import { InfoPrompt, exportTimer } from "./InfoPrompt";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { firebaseConfig, app, db } from "../firebaseConfig";
 
@@ -21,7 +21,7 @@ const PhotoTagging = () => {
     const [renderFalseMarker, setRenderFalseMarker] = useState(false);
     const [characterList, setCharacterList] = useState(JSON.parse(jsonCharacterList));
     const [characterMarkerNodes, setCharacterMarkerNodes] = useState([]);
-
+    const timer = useContext(exportTimer);
     let characterKeys = Object.keys(characterList);
     console.log(characterList)
     //used to retrieve a specific character from firestore db, might not be used, delete when finished
@@ -105,7 +105,7 @@ const PhotoTagging = () => {
         function newChild() {
             return createElement(
                 "div",
-                { className: "character-marker", key: `${index++}`, style: { display: "block", position: "absolute", left: `${markerCoordinates[0] - 5}px`, top: `${markerCoordinates[1]}px`, color: "pink" } },
+                { className: "character-marker", key: `${nodeListCopy.length + 1}`, style: { display: "block", position: "absolute", left: `${markerCoordinates[0] - 5}px`, top: `${markerCoordinates[1]}px`, color: "pink" } },
                 "Character Marker"
             )
         }
@@ -160,6 +160,11 @@ const PhotoTagging = () => {
 
             setMarkerCoordinates([...dropdownCoordinates]);
             setCreateCharacterMarker(true);
+
+            //checks if list is empty bringing up the EndGame component page
+            if (characterList.length == 0) {
+                console.log("change page")
+            }
         } else {
             console.log("false");
             characterSelect = false;
