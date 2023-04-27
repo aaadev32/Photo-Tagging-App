@@ -1,4 +1,4 @@
-import { useState, createElement } from "react";
+import { useState, createElement, useEffect } from "react";
 //coordinates tool is a dev tool not used in production but left for documentation purposes
 import CoordinatesTool from "./CoordinatesTool";
 import InfoPrompt from "./InfoPrompt";
@@ -75,7 +75,8 @@ const PhotoTagging = () => {
     }
 
     const CharacterMarker = () => {
-        let nodeListCopy = characterMarkerNodes;
+        let nodeListCopy = [...characterMarkerNodes];
+        let index = 0;
         let markerStyling = {
             //5 is subtracted from the x axis because the dropdownCoordinates state is used to get these values, the dropdown menu has 5px added to the x axis for ui clarity but more accuracy is required here
             display: "block",
@@ -90,8 +91,9 @@ const PhotoTagging = () => {
         //TODO push to node list copy then set characterMarkerNodes state with it
         if (createCharacterMarker) {
             nodeListCopy.push(newNode);
-
             setCharacterMarkerNodes([...nodeListCopy])
+            console.log(characterMarkerNodes)
+            setCreateCharacterMarker(false);
         }
 
         const populateMarkerNodes = () => {
@@ -103,12 +105,10 @@ const PhotoTagging = () => {
         function newChild() {
             return createElement(
                 "div",
-                { className: "character-marker", style: { display: "block", position: "absolute", left: `${markerCoordinates[0] - 5}px`, top: `${markerCoordinates[1]}px`, color: "pink" } },
-                "Character Marker",
+                { className: "character-marker", key: `${index++}`, style: { display: "block", position: "absolute", left: `${markerCoordinates[0] - 5}px`, top: `${markerCoordinates[1]}px`, color: "pink" } },
+                "Character Marker"
             )
         }
-
-        setCreateCharacterMarker(false);
 
         console.log(characterMarkerNodes)
         return (
