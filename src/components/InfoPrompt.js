@@ -7,7 +7,7 @@ const InfoPrompt = () => {
     function incrementTimer() {
         let inc = timer;
         setTimer(++inc);
-        exportTimer = createContext(timer)
+        exportTimer = createContext(timer);
     }
 
 

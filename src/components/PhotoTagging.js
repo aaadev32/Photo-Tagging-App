@@ -6,8 +6,6 @@ import { InfoPrompt, exportTimer } from "./InfoPrompt";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { firebaseConfig, app, db } from "../firebaseConfig";
 
-let userFinalTime = null;
-
 const PhotoTagging = () => {
 
     let jsonCharacterList = sessionStorage.getItem("character list")
@@ -22,11 +20,10 @@ const PhotoTagging = () => {
     const [renderFalseMarker, setRenderFalseMarker] = useState(false);
     const [characterList, setCharacterList] = useState(JSON.parse(jsonCharacterList));
     const [characterMarkerNodes, setCharacterMarkerNodes] = useState([]);
-    const [finalTime, setFinalTime] = useState(0);
     const timer = useContext(exportTimer);
     const navigate = useNavigate();
     let characterKeys = Object.keys(characterList);
-    console.log(characterList)
+
     //used to retrieve a specific character from firestore db, might not be used, delete when finished
     /*
     async function getCharacterDoc() {
@@ -157,14 +154,10 @@ const PhotoTagging = () => {
 
             setMarkerCoordinates([...dropdownCoordinates]);
             setCreateCharacterMarker(true);
-
             //checks if list is empty bringing up the EndGame component page
             if (endGameCheck.length === 0) {
-                console.log("change page")
-                setFinalTime(timer);
-                userFinalTime = createContext(timer);
+                localStorage.setItem("user time", `${timer}`)
                 navigate("/EndGame/1");
-                //TODO send timer results to EndGame component for leaderboards db upload
             }
         } else {
             console.log("false");
@@ -221,4 +214,4 @@ const PhotoTagging = () => {
     );
 }
 
-export { PhotoTagging, userFinalTime };
+export { PhotoTagging };

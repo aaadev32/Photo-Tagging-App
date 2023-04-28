@@ -1,8 +1,7 @@
-import { useContext, useState } from "react";
-import { userFinalTime } from "./PhotoTagging";
+import { useState } from "react";
 
 const EndGame = () => {
-    let userScore = useContext(userFinalTime);
+    const [userScore, setUserScore] = useState(localStorage.getItem("user time"));
     let difficulty = sessionStorage.getItem("difficulty");
     //TODO set up function to post user submitted results to leadboards collection in firestore
     function submitTime(time) {
