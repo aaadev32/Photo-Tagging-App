@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Leaderboards from './components/Leaderboards.js'
-import Objectives from './components/Objectives.js'
-import EndGame from './components/EndGame.js'
-import PhotoTagging from './components/PhotoTagging.js'
+import React, { useContext } from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Leaderboards from "./components/Leaderboards.js";
+import Objectives from "./components/Objectives.js";
+import EndGame from "./components/EndGame.js";
+import { PhotoTagging } from "./components/PhotoTagging.js";
 
 const router = createBrowserRouter([
 
@@ -32,7 +32,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>

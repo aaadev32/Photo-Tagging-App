@@ -127,6 +127,11 @@
      overflow: auto;
  }
 
-
-
  /*end PhotoTagging component styling */
+
+ /* start EndGame component styling */
+#end-game-container {
+    display: flex;
+    flex-direction: column;
+}
+ /* end EndGame component styling */

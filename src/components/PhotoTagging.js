@@ -1,11 +1,12 @@
 import { useState, createElement, useEffect, createContext, useRef, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 //coordinates tool is a dev tool not used in production but left for documentation purposes
 import CoordinatesTool from "./CoordinatesTool";
 import { InfoPrompt, exportTimer } from "./InfoPrompt";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { firebaseConfig, app, db } from "../firebaseConfig";
 
-// TODO make CharacterMarker component dynamically create child elements for each correctly selected character and place them over that character
+let userFinalTime = null;
 
 const PhotoTagging = () => {
 
@@ -21,7 +22,9 @@ const PhotoTagging = () => {
     const [renderFalseMarker, setRenderFalseMarker] = useState(false);
     const [characterList, setCharacterList] = useState(JSON.parse(jsonCharacterList));
     const [characterMarkerNodes, setCharacterMarkerNodes] = useState([]);
+    const [finalTime, setFinalTime] = useState(0);
     const timer = useContext(exportTimer);
+    const navigate = useNavigate();
     let characterKeys = Object.keys(characterList);
     console.log(characterList)
     //used to retrieve a specific character from firestore db, might not be used, delete when finished
@@ -76,14 +79,6 @@ const PhotoTagging = () => {
 
     const CharacterMarker = () => {
         let nodeListCopy = [...characterMarkerNodes];
-        let index = 0;
-        let markerStyling = {
-            //5 is subtracted from the x axis because the dropdownCoordinates state is used to get these values, the dropdown menu has 5px added to the x axis for ui clarity but more accuracy is required here
-            display: "block",
-            position: "absolute",
-            left: `${markerCoordinates[0] - 5}px`,
-            top: `${markerCoordinates[1]}px`
-        }
         let newNode = newChild();
 
 
@@ -151,19 +146,25 @@ const PhotoTagging = () => {
             console.log("true");
             let deleteKey = characterKeys[index];
             let characterListCopy = characterList;
+            console.log()
             characterSelect = true;
 
             //updates dropdown character list to not include correctly chosen character
             delete characterListCopy[deleteKey];
             setCharacterList(characterListCopy);
+            let endGameCheck = Object.keys(characterList);
             setRenderDropdown(false);
 
             setMarkerCoordinates([...dropdownCoordinates]);
             setCreateCharacterMarker(true);
 
             //checks if list is empty bringing up the EndGame component page
-            if (characterList.length == 0) {
+            if (endGameCheck.length === 0) {
                 console.log("change page")
+                setFinalTime(timer);
+                userFinalTime = createContext(timer);
+                navigate("/EndGame/1");
+                //TODO send timer results to EndGame component for leaderboards db upload
             }
         } else {
             console.log("false");
@@ -220,4 +221,4 @@ const PhotoTagging = () => {
     );
 }
 
-export default PhotoTagging;
+export { PhotoTagging, userFinalTime };
