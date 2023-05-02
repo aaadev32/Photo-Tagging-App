@@ -36,7 +36,7 @@ const firebaseConfig = {
 };
 
 
-// Initialize Firebase
+// How To Initialize Firebase
 
 const app = initializeApp(firebaseConfig);
 
@@ -46,7 +46,6 @@ const db = getFirestore(app);
 
 //an example of how characters maps were created
 async function uploadCharacterCoordinates() {
-    // do this for every character
     try {
         const docRef = await setDoc(doc(db, "characters", "rool"), {
             upperLeftCoordinates: [1140, 356],
@@ -60,4 +59,4 @@ async function uploadCharacterCoordinates() {
     }
 }
 
-export { firebaseConfig, app, db }
+export { db, app, firebaseConfig }
