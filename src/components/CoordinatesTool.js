@@ -4,19 +4,9 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { collection, setDoc, doc } from "firebase/firestore";
+import { db } from "../firebaseConfig";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyBZGpH3WNTDN86x81xf-TSr963OXj5L8wo",
-    authDomain: "photo-tagging-75ac8.firebaseapp.com",
-    projectId: "photo-tagging-75ac8",
-    storageBucket: "photo-tagging-75ac8.appspot.com",
-    messagingSenderId: "388620435076",
-    appId: "1:388620435076:web:f249ace3431538eb190cd1",
-    measurementId: "G-BB0JZ3WB3Z"
-};
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 //the below 4 variables are the coordinates of each corner of the coordinate tool when its stops being dragged, these values are used when logging a characters position
 let upperLeftCorner = 0;
 let upperRightCorner = 0;

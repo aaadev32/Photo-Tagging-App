@@ -1,15 +1,45 @@
 import { useState } from "react";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc, getDocs } from "firebase/firestore";
 import { db } from "../firebaseConfig.js"
 
 const EndGame = () => {
     const [userScore, setUserScore] = useState(localStorage.getItem("user time"));
 
     let difficulty = sessionStorage.getItem("difficulty");
-    //TODO set up function to post user submitted results to appropriate leadboards collection in firestore
+
+    //TODO write a function that checks the associated difficulty leaderboard and inserts the users score if its within the top 10, use .pop() or equivalent method to get rid of the 11th score.
+    async function isHighScore() {
+        //TODO figure out how to access each doc.data() object and record lowest and highest times to the variables when it applies then added the users info if it is faster than the slowest time
+        let collectionTimes = {
+            lowestTimeScore: null,
+            lowestDocId: null,
+            highestTimeScore: 0,
+            highestDocId: null
+        }
+        let currentDoc = null;
+
+        const querySnapshot = await getDocs(collection(db, `leaderboard test`));
+        querySnapshot.forEach((doc) => {
+            currentDoc = doc.data()
+            //these 2 if statements set the lowest and highest times to an object to compare to the users time score to see if its appropriate for the leaderboard, if it IS the highest time or even lowest time if applicable will be deleted and the users added
+            //TODO the logic for these statements is backwards somehow
+            if (currentDoc.timeScore > collectionTimes.highestTimeScore) {
+                collectionTimes.highestTimeScore = currentDoc.timeScore;
+                collectionTimes.highestDocId = doc.id;
+            }
+            if (currentDoc.timeScore < collectionTimes.lowestTimeScore || collectionTimes.lowestTimeScore === null) {
+                collectionTimes.lowestTimeScore = currentDoc.timeScore;
+                collectionTimes.lowestDocId = doc.id;
+            }
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+        });
+        console.log(collectionTimes)
+
+    }
+
     async function submitTime(userName, userCountry) {
         try {
-            //TODO get this to automatically generate document names since it is not important, they will be sorted later by timeScore and only the top 10
             const docRef = addDoc(collection(db, `leaderboard test`), {
                 name: `${userName}`,
                 country: `${userCountry}`,
@@ -29,6 +59,7 @@ const EndGame = () => {
                 <input id="user-name" placeholder="Name"></input>
                 <input id="user-country" placeholder="Country"></input>
                 <button type="button" onClick={() => submitTime(document.getElementById("user-name").value, document.getElementById("user-name").value)}>submit</button>
+                <button type="button" onClick={isHighScore}>get doc test</button>
             </form>
         </div>
     );
