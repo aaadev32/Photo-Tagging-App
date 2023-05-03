@@ -9,7 +9,7 @@ const EndGame = () => {
 
     //TODO write a function that checks the associated difficulty leaderboard and inserts the users score if its within the top 10, use .pop() or equivalent method to get rid of the 11th score.
     async function isHighScore() {
-        //TODO figure out how to access each doc.data() object and record lowest and highest times to the variables when it applies then added the users info if it is faster than the slowest time
+
         let collectionTimes = {
             lowestTimeScore: null,
             lowestDocId: null,
@@ -20,14 +20,17 @@ const EndGame = () => {
 
         const querySnapshot = await getDocs(collection(db, `leaderboard test`));
         querySnapshot.forEach((doc) => {
-            currentDoc = doc.data()
+            currentDoc = doc.data();
             //these 2 if statements set the lowest and highest times to an object to compare to the users time score to see if its appropriate for the leaderboard, if it IS the highest time or even lowest time if applicable will be deleted and the users added
             //TODO the logic for these statements is backwards somehow
+            console.log(currentDoc)
             if (currentDoc.timeScore > collectionTimes.highestTimeScore) {
+                console.log(`${currentDoc.timeScore} is greater than ${collectionTimes.highestTimeScore}`);
                 collectionTimes.highestTimeScore = currentDoc.timeScore;
                 collectionTimes.highestDocId = doc.id;
             }
             if (currentDoc.timeScore < collectionTimes.lowestTimeScore || collectionTimes.lowestTimeScore === null) {
+                console.log(`${currentDoc.timeScore} is less than ${collectionTimes.lowestTimeScore}`);
                 collectionTimes.lowestTimeScore = currentDoc.timeScore;
                 collectionTimes.lowestDocId = doc.id;
             }
