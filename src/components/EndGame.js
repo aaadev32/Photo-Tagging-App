@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { addDoc, collection, doc, setDoc, getDocs } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc, getDocs, deleteDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig.js"
 import { Link } from "react-router-dom";
 
@@ -7,22 +7,24 @@ const EndGame = () => {
     const [userTimeScore, setUserTimeScore] = useState(localStorage.getItem("user time"));
     const [submitLeaderboard, setSubmitLeaderboard] = useState(null);
     let difficulty = sessionStorage.getItem("difficulty");
-
+    //may need to be converted to a state in order to not be lost on refresh due to reacts functional nature
+    let collectionTimes = {
+        lowestTimeScore: null,
+        lowestDocId: null,
+        highestTimeScore: 0,
+        highestDocId: null,
+        leaderboardEntries: 0
+    }
     //this function serves to check if the users score is high enough to place on the leaderboard
     async function isHighScore() {
 
-        let collectionTimes = {
-            lowestTimeScore: null,
-            lowestDocId: null,
-            highestTimeScore: 0,
-            highestDocId: null
-        }
         let currentDoc = null;
 
         const querySnapshot = await getDocs(collection(db, `leaderboard test`));
         console.log(db)
         querySnapshot.forEach((doc) => {
             currentDoc = doc.data();
+            collectionTimes.leaderboardEntries++;
             //these 2 if statements set the lowest and highest times to an object to compare to the users time score to see if its appropriate for the leaderboard, if it IS the highest time or even lowest time if applicable will be deleted and the users added
             console.log(currentDoc)
             if (currentDoc.timeScore > collectionTimes.highestTimeScore) {
@@ -45,6 +47,15 @@ const EndGame = () => {
 
     //this function submits a qualifying score to the leaderboard and removes the excess scores to keep a top 10 only leaderboard
     async function submitTime(userName, userCountry) {
+
+        //TODO test this
+        if (collectionTimes.leaderboardEntries >= 10) {
+            //
+            await deleteDoc(doc(db, `leaderboard test`, `${collectionTimes.highestDocId}`));
+            collectionTimes.leaderboardEntries--;
+            console.log(`document ${collectionTimes.highestDocId} deleted`)
+        }
+
         try {
             const docRef = addDoc(collection(db, `leaderboard test`), {
                 name: `${userName}`,
@@ -55,6 +66,7 @@ const EndGame = () => {
         } catch (e) {
             console.error("Error adding document: ", e);
         }
+
     }
 
     isHighScore();
@@ -65,7 +77,7 @@ const EndGame = () => {
             </div>
             <div id="leaderboard-submission-prompt" style={{ display: submitLeaderboard === true ? "flex" : "none" }}>
                 <div id="user-final-time">
-                    <p> Congratulations You Qualify For A Leaderboard Submission! Complete The Form Below to Submit Your Score To The "{difficulty}" Leaderboards</p>
+                    <p> Congratulations Your Speed Of {userTimeScore} Seconds Qualifies You For A Leaderboard Submission! Complete The Form Below to Submit Your Score To The "{difficulty}" Leaderboards</p>
                 </div>
                 <form id="leaderboard-submission-form">
                     <label htmlFor="user-name">Enter Your Name</label>
