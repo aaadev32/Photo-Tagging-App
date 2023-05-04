@@ -47,7 +47,7 @@ const EndGame = () => {
             const docRef = addDoc(collection(db, `leaderboard test`), {
                 name: `${userName}`,
                 country: `${userCountry}`,
-                timeScore: `${userScore}`
+                timeScore: Number(`${userScore}`)
             });
             console.log("Document written with ID: ", docRef.id);
         } catch (e) {
