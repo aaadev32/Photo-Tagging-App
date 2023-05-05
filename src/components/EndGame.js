@@ -28,12 +28,10 @@ const EndGame = () => {
             //these 2 if statements set the lowest and highest times to an object to compare to the users time score to see if its appropriate for the leaderboard, if it IS the highest time or even lowest time if applicable will be deleted and the users added
             console.log(currentDoc)
             if (currentDoc.timeScore > collectionTimes.highestTimeScore) {
-                console.log(`${currentDoc.timeScore} is greater than ${collectionTimes.highestTimeScore}`);
                 collectionTimes.highestTimeScore = currentDoc.timeScore;
                 collectionTimes.highestDocId = doc.id;
             }
             if (currentDoc.timeScore < collectionTimes.lowestTimeScore || collectionTimes.lowestTimeScore === null) {
-                console.log(`${currentDoc.timeScore} is less than ${collectionTimes.lowestTimeScore}`);
                 collectionTimes.lowestTimeScore = currentDoc.timeScore;
                 collectionTimes.lowestDocId = doc.id;
             }
@@ -41,8 +39,13 @@ const EndGame = () => {
             // doc.data() is never undefined for query doc snapshots
             console.log(doc.id, " => ", doc.data());
         });
-
-        userTimeScore < collectionTimes.highestTimeScore ? setSubmitLeaderboard(true) : setSubmitLeaderboard(false);
+        console.log(collectionTimes)
+        //this doesnt consider if the leaderboard is not yet full, make it so.
+        if (collectionTimes.leaderboardEntries < 10) {
+            setSubmitLeaderboard(true);
+        } else {
+            userTimeScore < collectionTimes.highestTimeScore ? setSubmitLeaderboard(true) : setSubmitLeaderboard(false);
+        }
     }
 
     //this function submits a qualifying score to the leaderboard and removes the excess scores to keep a top 10 only leaderboard
@@ -52,7 +55,6 @@ const EndGame = () => {
         if (collectionTimes.leaderboardEntries >= 10) {
             //
             await deleteDoc(doc(db, `leaderboard test`, `${collectionTimes.highestDocId}`));
-            collectionTimes.leaderboardEntries--;
             console.log(`document ${collectionTimes.highestDocId} deleted`)
         }
 
@@ -67,6 +69,11 @@ const EndGame = () => {
             console.error("Error adding document: ", e);
         }
 
+    }
+
+    async function docDelete() {
+        await deleteDoc(doc(db, `leaderboard test`, `${collectionTimes.highestDocId}`));
+        console.log(`document ${collectionTimes.highestDocId} deleted`)
     }
 
     isHighScore();
@@ -84,6 +91,7 @@ const EndGame = () => {
                     <input id="user-name" placeholder="Name"></input>
                     <input id="user-country" placeholder="Country"></input>
                     <button type="button" onClick={() => submitTime(document.getElementById("user-name").value, document.getElementById("user-name").value)}>submit</button>
+                    <button type="button" onClick={() => { docDelete() }}>delete test</button>
                 </form>
             </div>
             <div id="non-submission-prompt" style={{ display: submitLeaderboard === false ? "flex" : "none" }}>
