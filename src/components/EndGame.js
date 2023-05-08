@@ -3,6 +3,7 @@ import { addDoc, collection, doc, setDoc, getDocs, getDoc, deleteDoc } from "fir
 import { db } from "../firebaseConfig.js"
 import { Link } from "react-router-dom";
 
+//this local object receives the highest time score document from the associated leaderboard collection in leaderboardUpdate function
 //convert to a state at some point
 let collectionTimes = {
     highestTimeScore: 0,
@@ -16,9 +17,9 @@ const EndGame = () => {
 
 
     //updates the local collectionTimes object to represent the most up to do date highest score from the respective leaderboard
-    async function getLeaderboard() {
+    async function leaderboardUpdate() {
         let currentDoc = null;
-        //leaderboard gets called several times to insure the local object is up to date so you must reset the leaderboardEntries before you run the forEach method that inrements it otherwise it will not represent the actual entries properly
+        //leaderboard gets called several times to insure the local object is up to date so you must reset the leaderboardEntries before you run the forEach method that increments it otherwise it will not represent the actual entries properly
         const querySnapshot = await getDocs(collection(db, `leaderboard test`));
         collectionTimes.leaderboardEntries = 0;
         querySnapshot.forEach((doc) => {
@@ -30,6 +31,7 @@ const EndGame = () => {
                 collectionTimes.highestDocId = doc.id;
             }
             //deletes slowest times after 10
+            //TODO make sure this consecutively deletes entries greater than 11
             if (collectionTimes.leaderboardEntries > 10) {
                 collectionTimes.highestTimeScore = 0;
                 docDelete();
@@ -42,7 +44,7 @@ const EndGame = () => {
     //this function serves to check if the users score is high enough to place on the leaderboard
     function isHighScore() {
 
-        getLeaderboard();
+        leaderboardUpdate();
         console.log(collectionTimes)
         if (collectionTimes.leaderboardEntries < 10) {
             setSubmitLeaderboard(true);
@@ -56,8 +58,7 @@ const EndGame = () => {
 
         //TODO test this
         console.log(collectionTimes)
-        getLeaderboard();
-        docDelete();
+
 
         try {
             const docRef = addDoc(collection(db, `leaderboard test`), {
@@ -69,6 +70,9 @@ const EndGame = () => {
         } catch (e) {
             console.error("Error adding document: ", e);
         }
+
+        //insures the leaderboard 
+        leaderboardUpdate();
 
     }
 
