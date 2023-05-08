@@ -156,7 +156,7 @@ const PhotoTagging = () => {
             setCreateCharacterMarker(true);
             //checks if list is empty bringing up the EndGame component page
             if (endGameCheck.length === 0) {
-                localStorage.setItem("user time", `${timer}`)
+                sessionStorage.setItem("user time", `${timer}`)
                 navigate("/EndGame/1");
             }
         } else {

@@ -3,39 +3,39 @@ import { addDoc, collection, doc, setDoc, getDocs, getDoc, deleteDoc } from "fir
 import { db } from "../firebaseConfig.js"
 import { Link } from "react-router-dom";
 
+//convert to a state at some point
+let collectionTimes = {
+    highestTimeScore: 0,
+    highestDocId: null,
+    leaderboardEntries: 0
+}
 const EndGame = () => {
-    const [userTimeScore, setUserTimeScore] = useState(localStorage.getItem("user time"));
+    const [userTimeScore, setUserTimeScore] = useState(sessionStorage.getItem("user time"));
     const [submitLeaderboard, setSubmitLeaderboard] = useState(null);
     let difficulty = sessionStorage.getItem("difficulty");
-    //may need to be converted to a state in order to not be lost on refresh due to reacts functional nature
-    let collectionTimes = {
-        lowestTimeScore: null,
-        lowestDocId: null,
-        highestTimeScore: 0,
-        highestDocId: null,
-        leaderboardEntries: 0
-    }
 
+
+    //updates the local collectionTimes object to represent the most up to do date highest score from the respective leaderboard
     async function getLeaderboard() {
         let currentDoc = null;
-
+        //leaderboard gets called several times to insure the local object is up to date so you must reset the leaderboardEntries before you run the forEach method that inrements it otherwise it will not represent the actual entries properly
         const querySnapshot = await getDocs(collection(db, `leaderboard test`));
-        console.log(querySnapshot);
+        collectionTimes.leaderboardEntries = 0;
         querySnapshot.forEach((doc) => {
             currentDoc = doc.data();
             collectionTimes.leaderboardEntries++;
-            //these 2 if statements set the lowest and highest times to an object to compare to the users time score to see if its appropriate for the leaderboard, if it IS the highest time or even lowest time if applicable will be deleted and the users added
+            //this if statement set the highest times to an object to compare to the users time score to see if its appropriate for the leaderboard
             if (currentDoc.timeScore > collectionTimes.highestTimeScore) {
                 collectionTimes.highestTimeScore = currentDoc.timeScore;
                 collectionTimes.highestDocId = doc.id;
             }
-            if (currentDoc.timeScore < collectionTimes.lowestTimeScore || collectionTimes.lowestTimeScore === null) {
-                collectionTimes.lowestTimeScore = currentDoc.timeScore;
-                collectionTimes.lowestDocId = doc.id;
+            //deletes slowest times after 10
+            if (collectionTimes.leaderboardEntries > 10) {
+                collectionTimes.highestTimeScore = 0;
+                docDelete();
             }
-
             // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
+            // console.log(doc.id, " => ", doc.data());
         });
         console.log(collectionTimes)
     }
@@ -44,7 +44,6 @@ const EndGame = () => {
 
         getLeaderboard();
         console.log(collectionTimes)
-
         if (collectionTimes.leaderboardEntries < 10) {
             setSubmitLeaderboard(true);
         } else {
@@ -55,25 +54,10 @@ const EndGame = () => {
     //this function submits a qualifying score to the leaderboard and removes the excess scores to keep a top 10 only leaderboard
     async function submitTime(userName, userCountry) {
 
-        getLeaderboard();
-        console.log(collectionTimes)
-
-        //gets doc that you are about to delete for console logging purposes
-        const docRef = doc(db, "leaderboard test", `${collectionTimes.highestDocId}`);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-            console.log("Deleted Document data:", docSnap.data());
-        } else {
-            // docSnap.data() will be undefined in this case
-            console.log("No such document!");
-        }
         //TODO test this
-        if (collectionTimes.leaderboardEntries >= 10) {
-            //
-            await deleteDoc(doc(db, `leaderboard test`, `${collectionTimes.highestDocId}`));
-            console.log(`document ${collectionTimes.highestDocId} deleted`)
-        }
+        console.log(collectionTimes)
+        getLeaderboard();
+        docDelete();
 
         try {
             const docRef = addDoc(collection(db, `leaderboard test`), {
