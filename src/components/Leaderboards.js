@@ -10,7 +10,7 @@ const Leaderboards = () => {
         getCharacterCollection();
 
     }
-    
+
     async function getCharacterCollection() {
         let fetchedCollection = null;
         let tempCollection = {};

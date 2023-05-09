@@ -1,21 +1,41 @@
 import { useEffect, useState } from "react";
 import { addDoc, collection, doc, setDoc, getDocs, getDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig.js"
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 //this local object receives the highest time score document from the associated leaderboard collection in leaderboardUpdate function
 //convert to a state at some point
+
+//TODO find a way to prevent the user from using browser back arrows to submit their score several times
 let collectionTimes = {
     highestTimeScore: 0,
     highestDocId: null,
     leaderboardEntries: 0
 }
+
+//must be called in the global scope otherwise this gets 4 times additively each time the EndGame page is loaded resulting in many listeners each time the page is loaded, useEffect slightly solves the problem but it still attaches additively
+
 const EndGame = () => {
     const [userTimeScore, setUserTimeScore] = useState(sessionStorage.getItem("user time"));
     const [submitLeaderboard, setSubmitLeaderboard] = useState(null);
+    const navigate = useNavigate();
+    const locationChange = window.addEventListener("popstate", (event) => {
+        event.preventDefault();
+        alertUser()
+    });
+
+    //changes page back to root page when user attempts to use back arrow in browser navigation ui
     let difficulty = sessionStorage.getItem("difficulty");
+    //used in useEffect to determine if the url is changing to prevent the user from using back arrow to resubmit their score more than once.
+    let location = useLocation();
 
+    function alertUser() {
+        alert("to protect the integrity of the leaderboards any browser page events will put you back at the home screen after a score has been received to prevent leaderboard submission abuse, thank you for your understanding.");
+        /*setTimeout(() => {
+            navigate("/");
+        }, "102200"); */
 
+    }
     //updates the local collectionTimes object to represent the most up to do date highest score from the respective leaderboard
     async function leaderboardUpdate() {
         let currentDoc = null;
@@ -31,9 +51,7 @@ const EndGame = () => {
                 collectionTimes.highestDocId = doc.id;
             }
             //deletes slowest times after 10
-            //TODO make sure this consecutively deletes entries greater than 11
             if (collectionTimes.leaderboardEntries > 10) {
-                collectionTimes.highestTimeScore = 0;
                 docDelete();
             }
             // doc.data() is never undefined for query doc snapshots
@@ -56,9 +74,7 @@ const EndGame = () => {
     //this function submits a qualifying score to the leaderboard and removes the excess scores to keep a top 10 only leaderboard
     async function submitTime(userName, userCountry) {
 
-        //TODO test this
-        console.log(collectionTimes)
-
+        leaderboardUpdate();
 
         try {
             const docRef = addDoc(collection(db, `leaderboard test`), {
@@ -71,8 +87,6 @@ const EndGame = () => {
             console.error("Error adding document: ", e);
         }
 
-        //insures the leaderboard 
-        leaderboardUpdate();
 
     }
 
@@ -81,9 +95,14 @@ const EndGame = () => {
         console.log(`document ${collectionTimes.highestDocId} deleted`)
     }
 
+
+
+
     useEffect(() => {
 
+
         return () => {
+            //TODO figure out if this belongs here, too many rerenders when declared in component scope but it shouldnt be called every time location dependency changes
             isHighScore()
         };
     }, []);

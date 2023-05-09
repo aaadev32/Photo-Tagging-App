@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 //coordinates tool is a dev tool not used in production but left for documentation purposes
 import CoordinatesTool from "./CoordinatesTool";
 import { InfoPrompt, exportTimer } from "./InfoPrompt";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
-import { firebaseConfig, app, db } from "../firebaseConfig";
 
 const PhotoTagging = () => {
 
@@ -23,23 +21,6 @@ const PhotoTagging = () => {
     const timer = useContext(exportTimer);
     const navigate = useNavigate();
     let characterKeys = Object.keys(characterList);
-
-    //used to retrieve a specific character from firestore db, might not be used, delete when finished
-    /*
-    async function getCharacterDoc() {
-
-        const docRef = doc(db, `characters ${difficulty}`, `${userCharacterSelection}`);
-        const docSnap = await getDoc(docRef)
-        if (docSnap.exists()) {
-            console.log("Document data:", docSnap.data());
-            return docSnap.data();
-        } else {
-            // docSnap.data() will be undefined in this case
-            console.log("No such document!");
-            return null;
-        }
-    }
-    */
 
     //dev tool that displays coordinates clicked within the photo 
     const ClickCoordinates = (e) => {
