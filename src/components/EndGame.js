@@ -21,7 +21,9 @@ const EndGame = () => {
     const navigate = useNavigate();
     const locationChange = window.addEventListener("popstate", (event) => {
         event.preventDefault();
-        alertUser()
+        alert("to protect the integrity of the leaderboards any browser page events will put you back at the home screen after a score has been received to prevent leaderboard submission abuse, thank you for your understanding.");
+        navigate("/");
+
     });
 
     //changes page back to root page when user attempts to use back arrow in browser navigation ui
@@ -29,13 +31,6 @@ const EndGame = () => {
     //used in useEffect to determine if the url is changing to prevent the user from using back arrow to resubmit their score more than once.
     let location = useLocation();
 
-    function alertUser() {
-        alert("to protect the integrity of the leaderboards any browser page events will put you back at the home screen after a score has been received to prevent leaderboard submission abuse, thank you for your understanding.");
-        /*setTimeout(() => {
-            navigate("/");
-        }, "102200"); */
-
-    }
     //updates the local collectionTimes object to represent the most up to do date highest score from the respective leaderboard
     async function leaderboardUpdate() {
         let currentDoc = null;
