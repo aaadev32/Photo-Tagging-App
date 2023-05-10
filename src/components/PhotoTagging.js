@@ -179,6 +179,12 @@ const PhotoTagging = () => {
 
     }
 
+    useEffect(() => {
+
+        return () => {
+
+        };
+    },);
     return (
         <div id="photo-tagging-container">
             <InfoPrompt />

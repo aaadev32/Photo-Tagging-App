@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebaseConfig";
-
+import { useEffect } from "react";
 
 const Leaderboards = () => {
+    const navigate = useNavigate();
     //turns the display of the clicked difficulty in the Objectives Component  to flex and others to none
     const setObjectives = (difficulty) => {
         sessionStorage.setItem("difficulty", `${difficulty}`);
@@ -26,7 +27,18 @@ const Leaderboards = () => {
         console.log(jsonCollection)
         sessionStorage.setItem("character list", `${jsonCollection}`);
     }
+    useEffect(() => {
+        //stops user from going back in browser history to prevent possible abuse of the leaderboards
+        window.addEventListener("popstate", () => {
+            navigate("/");
+            console.log("Leaderboardslistener mount")
 
+        });
+        return () => {
+            window.removeEventListener("popstate", (null), true)
+            console.log("Leaderboards listener unmount")
+        };
+    },);
     return (
         <div id="home-container">
             <div id="greeting">Welcome to the Photo Tagging Speed Run</div>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { addDoc, collection, doc, setDoc, getDocs, getDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig.js"
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 //this local object receives the highest time score document from the associated leaderboard collection in leaderboardUpdate function
 //convert to a state at some point
@@ -19,17 +19,10 @@ const EndGame = () => {
     const [userTimeScore, setUserTimeScore] = useState(sessionStorage.getItem("user time"));
     const [submitLeaderboard, setSubmitLeaderboard] = useState(null);
     const navigate = useNavigate();
-    const locationChange = window.addEventListener("popstate", (event) => {
-        event.preventDefault();
-        alert("to protect the integrity of the leaderboards any browser page events will put you back at the home screen after a score has been received to prevent leaderboard submission abuse, thank you for your understanding.");
-        navigate("/");
-
-    });
+    let locationChange = null;
 
     //changes page back to root page when user attempts to use back arrow in browser navigation ui
     let difficulty = sessionStorage.getItem("difficulty");
-    //used in useEffect to determine if the url is changing to prevent the user from using back arrow to resubmit their score more than once.
-    let location = useLocation();
 
     //updates the local collectionTimes object to represent the most up to do date highest score from the respective leaderboard
     async function leaderboardUpdate() {
@@ -90,17 +83,20 @@ const EndGame = () => {
         console.log(`document ${collectionTimes.highestDocId} deleted`)
     }
 
-
-
-
     useEffect(() => {
+        //stops user from going back in browser history to prevent possible abuse of the leaderboards
+        window.addEventListener("popstate", () => {
+            navigate("/EndGame/1");
+            console.log("EndGame listener mount")
 
-
+        });
+        //TODO figure out if this belongs here, too many rerenders when declared in component scope but it shouldnt be called every time location dependency changes
+        isHighScore()
         return () => {
-            //TODO figure out if this belongs here, too many rerenders when declared in component scope but it shouldnt be called every time location dependency changes
-            isHighScore()
+            window.removeEventListener("popstate", (null), true)
+            console.log("EndGame listener unmount")
         };
-    }, []);
+    });
 
     return (
         <div id="end-game-container">
