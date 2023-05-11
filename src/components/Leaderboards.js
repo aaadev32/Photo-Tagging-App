@@ -27,18 +27,22 @@ const Leaderboards = () => {
         console.log(jsonCollection)
         sessionStorage.setItem("character list", `${jsonCollection}`);
     }
+
+
+    function handleEvent(event) {
+        if (event.type === "popstate") {
+            console.log("stop popstate")
+        }
+    }
+
     useEffect(() => {
         //stops user from going back in browser history to prevent possible abuse of the leaderboards
-        window.addEventListener("popstate", () => {
-            navigate("/");
-            console.log("Leaderboardslistener mount")
-
-        });
+        window.addEventListener("popstate", (handleEvent), true)
         return () => {
-            window.removeEventListener("popstate", (null), true)
+            window.removeEventListener("popstate", (handleEvent), true)
             console.log("Leaderboards listener unmount")
         };
-    },);
+    });
     return (
         <div id="home-container">
             <div id="greeting">Welcome to the Photo Tagging Speed Run</div>

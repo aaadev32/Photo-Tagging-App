@@ -83,18 +83,29 @@ const EndGame = () => {
         console.log(`document ${collectionTimes.highestDocId} deleted`)
     }
 
+    function handleEvent(event) {
+        console.log(event.target)
+
+        if (event.type === "popstate") {
+            event.preventDefault();
+            console.log("stop popstate")
+        } else {
+            console.log("listener trigger")
+        }
+    }
+
     useEffect(() => {
         //stops user from going back in browser history to prevent possible abuse of the leaderboards
-        window.addEventListener("popstate", () => {
-            navigate("/EndGame/1");
-            console.log("EndGame listener mount")
+        window.addEventListener("popstate", (event) => {
+            navigate("/Endgame/1");
 
         });
+        console.log("added listener in EndGame")
         //TODO figure out if this belongs here, too many rerenders when declared in component scope but it shouldnt be called every time location dependency changes
         isHighScore()
         return () => {
-            window.removeEventListener("popstate", (null), true)
-            console.log("EndGame listener unmount")
+            window.removeEventListener("popstate", (null))
+            console.log("removed listener in EndGame")
         };
     });
 
