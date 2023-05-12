@@ -28,19 +28,12 @@ const Leaderboards = () => {
         sessionStorage.setItem("character list", `${jsonCollection}`);
     }
 
-
-    function handleEvent(event) {
-        if (event.type === "popstate") {
-            console.log("stop popstate")
-        }
-    }
-
     useEffect(() => {
-        //stops user from going back in browser history to prevent possible abuse of the leaderboards
-        window.addEventListener("popstate", (handleEvent), true)
+
         return () => {
-            window.removeEventListener("popstate", (handleEvent), true)
-            console.log("Leaderboards listener unmount")
+            //may be neccessary to check that the most recent page in history is from the app itself otherwise it may have a malicious tone locking the user from backing out of the app after first opening it
+            //stops user from going back in browser history to prevent possible abuse of the leaderboards
+            onpopstate = () => { navigate("/Leaderboards/1") }
         };
     });
     return (
@@ -56,7 +49,7 @@ const Leaderboards = () => {
                         <li>score</li>
                         <li>score</li>
                     </ol>
-                    <Link to={'Objectives/1'}>
+                    <Link to={'/Objectives/1'}>
                         <button onClick={() => setObjectives("easy")}>Play Easy</button>
                     </Link>
                 </div>
@@ -67,7 +60,7 @@ const Leaderboards = () => {
                         <li>score</li>
                         <li>score</li>
                     </ol>
-                    <Link to={'Objectives/1'}>
+                    <Link to={'/Objectives/1'}>
                         <button onClick={() => setObjectives("medium")}>Play Medium</button>
                     </Link>
 
@@ -80,7 +73,7 @@ const Leaderboards = () => {
                         <li>score</li>
                     </ol>
 
-                    <Link to={'Objectives/1'}>
+                    <Link to={'/Objectives/1'}>
                         <button onClick={() => setObjectives("hard")}>Play Hard</button>
                     </Link>
 

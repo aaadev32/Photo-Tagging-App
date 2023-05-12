@@ -176,15 +176,8 @@ const PhotoTagging = () => {
             clickPosition = [e.clientX + 5, e.clientY]
             setDropdownCoordinates([...clickPosition])
         }
-
     }
 
-    useEffect(() => {
-
-        return () => {
-
-        };
-    },);
     return (
         <div id="photo-tagging-container">
             <InfoPrompt />

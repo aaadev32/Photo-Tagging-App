@@ -19,7 +19,6 @@ const EndGame = () => {
     const [userTimeScore, setUserTimeScore] = useState(sessionStorage.getItem("user time"));
     const [submitLeaderboard, setSubmitLeaderboard] = useState(null);
     const navigate = useNavigate();
-    let locationChange = null;
 
     //changes page back to root page when user attempts to use back arrow in browser navigation ui
     let difficulty = sessionStorage.getItem("difficulty");
@@ -83,29 +82,12 @@ const EndGame = () => {
         console.log(`document ${collectionTimes.highestDocId} deleted`)
     }
 
-    function handleEvent(event) {
-        console.log(event.target)
-
-        if (event.type === "popstate") {
-            event.preventDefault();
-            console.log("stop popstate")
-        } else {
-            console.log("listener trigger")
-        }
-    }
-
     useEffect(() => {
-        //stops user from going back in browser history to prevent possible abuse of the leaderboards
-        window.addEventListener("popstate", (event) => {
-            navigate("/Endgame/1");
-
-        });
-        console.log("added listener in EndGame")
         //TODO figure out if this belongs here, too many rerenders when declared in component scope but it shouldnt be called every time location dependency changes
         isHighScore()
         return () => {
-            window.removeEventListener("popstate", (null))
-            console.log("removed listener in EndGame")
+            //stops user from going back in browser history to prevent possible abuse of the leaderboards
+            onpopstate = () => { navigate("/EndGame/1") }
         };
     });
 
@@ -122,13 +104,13 @@ const EndGame = () => {
                     <label htmlFor="user-name">Enter Your Name</label>
                     <input id="user-name" placeholder="Name"></input>
                     <input id="user-country" placeholder="Country"></input>
-                    <Link to={"/"}><button type="button" onClick={() => submitTime(document.getElementById("user-name").value, document.getElementById("user-name").value)}>submit</button></Link>
+                    <Link to={"/Leaderboards/1"}><button type="button" onClick={() => submitTime(document.getElementById("user-name").value, document.getElementById("user-name").value)}>submit</button></Link>
                     <button type="button" onClick={() => { docDelete() }}>delete test</button>
                 </form>
             </div>
             <div id="non-submission-prompt" style={{ display: submitLeaderboard === false ? "flex" : "none" }}>
                 <p>Your Time Was {userTimeScore}, Try Again And See If You Can Qualify For A Spot On The Leaderboards!</p>
-                <Link to={"/"}><button>Home</button></Link>
+                <Link to={"/Leaderboards/1"}><button>Home</button></Link>
             </div>
         </div>
     );
