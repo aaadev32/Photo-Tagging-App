@@ -59,8 +59,6 @@ const PhotoTagging = () => {
         let nodeListCopy = [...characterMarkerNodes];
         let newNode = newChild();
 
-
-
         //TODO push to node list copy then set characterMarkerNodes state with it
         if (createCharacterMarker) {
             nodeListCopy.push(newNode);

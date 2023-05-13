@@ -37,7 +37,7 @@ const EndGame = () => {
                 collectionTimes.highestTimeScore = currentDoc.timeScore;
                 collectionTimes.highestDocId = doc.id;
             }
-            //deletes slowest times after 10
+            //deletes slowest times after 10 entries in case of async or code bugs
             if (collectionTimes.leaderboardEntries > 10) {
                 docDelete();
             }
@@ -83,11 +83,15 @@ const EndGame = () => {
     }
 
     useEffect(() => {
-        //TODO figure out if this belongs here, too many rerenders when declared in component scope but it shouldnt be called every time location dependency changes
-        isHighScore()
+        onpopstate = (event) => {
+            console.log(event);
+            navigate(1);
+        }
         return () => {
+            //TODO figure out if this belongs here, too many rerenders when declared in component scope but it shouldnt be called every time location dependency changes
+            isHighScore()
             //stops user from going back in browser history to prevent possible abuse of the leaderboards
-            onpopstate = () => { navigate("/EndGame/1") }
+
         };
     });
 
