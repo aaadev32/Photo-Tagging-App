@@ -29,13 +29,14 @@ const Leaderboards = () => {
     }
 
     useEffect(() => {
-        //may be neccessary to check that the most recent page in history is from the app itself otherwise it may have a malicious tone locking the user from backing out of the app after first opening it
-        //stops user from going back in browser history to prevent possible abuse of the leaderboards
-        onpopstate = (event) => {
-            console.log(event);
-            navigate(+1);
-        }
+
         return () => {
+            //may be neccessary to check that the most recent page in history is from the app itself otherwise it may have a malicious tone locking the user from backing out of the app after first opening it
+            //stops user from going back in browser history to prevent possible abuse of the leaderboards
+            onpopstate = (event) => {
+                console.log(event);
+                navigate(+1);
+            }
         };
     });
     return (

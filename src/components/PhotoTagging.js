@@ -122,7 +122,7 @@ const PhotoTagging = () => {
             console.log("true");
             let deleteKey = characterKeys[index];
             let characterListCopy = characterList;
-            console.log()
+            console.log(timer)
             characterSelect = true;
 
             //updates dropdown character list to not include correctly chosen character
@@ -135,6 +135,7 @@ const PhotoTagging = () => {
             setCreateCharacterMarker(true);
             //checks if list is empty bringing up the EndGame component page
             if (endGameCheck.length === 0) {
+                console.log(timer)
                 sessionStorage.setItem("user time", `${timer}`)
                 navigate("/EndGame/1");
             }
