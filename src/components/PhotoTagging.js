@@ -5,7 +5,6 @@ import CoordinatesTool from "./CoordinatesTool";
 import { InfoPrompt, exportTimer } from "./InfoPrompt";
 
 //used to set and export a createContext hook
-let userScore = 0;
 
 const PhotoTagging = () => {
 
@@ -30,11 +29,6 @@ const PhotoTagging = () => {
         return (
             <p id="coordinate-tracker">clicked area coordinates: x-axis:{photoXAxis}, y-axis:{photoYAxis}</p>
         )
-    }
-
-
-    function setUserScore() {
-        sessionStorage.setItem("user time", `${timer}`)
     }
 
     //appears when then user clicks anywhere within the photo with a dropdown menu of characters for the selected difficulty to choose from
@@ -137,10 +131,6 @@ const PhotoTagging = () => {
             //checks if list is empty bringing up the EndGame component page
             //TODO change from session storage to createContext and export the value
             if (endGameCheck.length === 0) {
-                console.log(timer)
-                //not neccessary but i need to render something to update the timer value since it is only update when the dropdown is rendered
-                setRenderDropdown(false);
-                userScore = createContext(timer)
                 navigate("/EndGame/1");
             }
         } else {
@@ -195,4 +185,4 @@ const PhotoTagging = () => {
     );
 }
 
-export { PhotoTagging, userScore };
+export { PhotoTagging };
