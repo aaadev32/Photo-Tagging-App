@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import CoordinatesTool from "./CoordinatesTool";
 import { InfoPrompt, exportTimer } from "./InfoPrompt";
 
+//used to set and export a createContext hook
+let userScore = 0;
+
 const PhotoTagging = () => {
 
     let jsonCharacterList = sessionStorage.getItem("character list")
@@ -30,15 +33,18 @@ const PhotoTagging = () => {
     }
 
 
+    function setUserScore() {
+        sessionStorage.setItem("user time", `${timer}`)
+    }
+
     //appears when then user clicks anywhere within the photo with a dropdown menu of characters for the selected difficulty to choose from
     const CharacterDropdownMenu = () => {
-        console.log("dropdown", dropdownCoordinates);
-        console.log(characterList);
-        console.log(characterKeys);
+
         let dropdownStyling = {
             left: `${dropdownCoordinates[0]}px`,
             top: `${dropdownCoordinates[1]}px`,
         }
+
         renderDropdown == true ? dropdownStyling.display = "block" : dropdownStyling.display = "none";
 
         return (
@@ -63,7 +69,6 @@ const PhotoTagging = () => {
         if (createCharacterMarker) {
             nodeListCopy.push(newNode);
             setCharacterMarkerNodes([...nodeListCopy])
-            console.log(characterMarkerNodes)
             setCreateCharacterMarker(false);
         }
 
@@ -81,7 +86,6 @@ const PhotoTagging = () => {
             )
         }
 
-        console.log(characterMarkerNodes)
         return (
             <div id="character-marker">
                 {populateMarkerNodes()}
@@ -104,8 +108,6 @@ const PhotoTagging = () => {
 
     //checks that the character selected in the CharacterDropdownMenu component is within the selected area, updates the selection menu accordingly.
     const checkSelection = (choice, index) => {
-        console.log(choice);
-        console.log(index);
         let chosenCharacter = characterList[`${choice}`]
         let popupElement = document.getElementById("false-selection-popup");
         //bool for checking if chosen character was correct
@@ -117,12 +119,11 @@ const PhotoTagging = () => {
             setRenderFalseMarker(false);
         }
 
+
         //checks if the click event is greater than the character left/bottom most x/y coordinates but less than its right/top most x/y coordinate values
         if ((photoXAxis > chosenCharacter.upperLeftCoordinates[0]) && (photoXAxis < chosenCharacter.upperRightCoordinates[0]) && (photoYAxis > chosenCharacter.upperLeftCoordinates[1]) && (photoYAxis < chosenCharacter.lowerLeftCoordinates[1])) {
-            console.log("true");
             let deleteKey = characterKeys[index];
             let characterListCopy = characterList;
-            console.log(timer)
             characterSelect = true;
 
             //updates dropdown character list to not include correctly chosen character
@@ -134,13 +135,15 @@ const PhotoTagging = () => {
             setMarkerCoordinates([...dropdownCoordinates]);
             setCreateCharacterMarker(true);
             //checks if list is empty bringing up the EndGame component page
+            //TODO change from session storage to createContext and export the value
             if (endGameCheck.length === 0) {
                 console.log(timer)
-                sessionStorage.setItem("user time", `${timer}`)
+                //not neccessary but i need to render something to update the timer value since it is only update when the dropdown is rendered
+                setRenderDropdown(false);
+                userScore = createContext(timer)
                 navigate("/EndGame/1");
             }
         } else {
-            console.log("false");
             characterSelect = false;
             popupElement.style.display = "block";
             setFalseSelectionCoordinates([...dropdownCoordinates])
@@ -155,7 +158,6 @@ const PhotoTagging = () => {
 
     //used to render PhotoTagging child components as well as log the user click
     const photoClick = (e) => {
-        console.log(characterList)
         if (e.target) {
             //used to set help dropdownCoordinates state
             let clickPosition = [0, 0]
@@ -193,4 +195,4 @@ const PhotoTagging = () => {
     );
 }
 
-export { PhotoTagging };
+export { PhotoTagging, userScore };

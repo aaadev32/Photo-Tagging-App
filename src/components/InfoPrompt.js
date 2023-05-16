@@ -4,12 +4,12 @@ let exportTimer = 0
 const InfoPrompt = () => {
 
     const [timer, setTimer] = useState(0);
+
     function incrementTimer() {
         let inc = timer;
         setTimer(++inc);
         exportTimer = createContext(timer);
     }
-
 
     setTimeout(incrementTimer, 1000)
     return (

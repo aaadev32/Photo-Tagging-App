@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { addDoc, collection, doc, setDoc, getDocs, getDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig.js"
 import { Link, useNavigate } from "react-router-dom";
-
+import { userScore } from "./PhotoTagging.js";
 
 const EndGame = () => {
-    const [userTimeScore, setUserTimeScore] = useState(sessionStorage.getItem("user time"));
+    const [userTimeScore, setUserTimeScore] = useState(useContext(userScore));
     const [submitHighScore, setSubmitHighScore] = useState(null);
     const navigate = useNavigate();
     let collectionTimes = {
@@ -13,7 +13,7 @@ const EndGame = () => {
         highestDocId: null,
         leaderboardEntries: 0
     }
-
+    console.log(userTimeScore)
     //changes page back to root page when user attempts to use back arrow in browser navigation ui
     let difficulty = sessionStorage.getItem("difficulty");
 
