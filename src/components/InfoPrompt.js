@@ -11,8 +11,7 @@ const InfoPrompt = () => {
         setTimer(++inc);
         exportTimer = createContext(timer);
 
-        //the PhotoTagging component page is loaded momentarily when the user attempts to use browser back buttons after receiving a score but is prevented and renavigated to the current page via an onpopstate listener from other components to prevent leaderboard abuse.
-        // this can cause the timer to be set back to 0 before the page renavigates so this statement prevents that, i could not find a way to cancel onpopstate event navigations entirely in react-router-dom 6.11.2 (event.preventDefault() does not work for some reason)
+        //prevents possible unforeseen abuse
         if (timer > 1) {
             sessionStorage.setItem("user score", `${timer}`)
         }

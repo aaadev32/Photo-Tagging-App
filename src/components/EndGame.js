@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { addDoc, collection, doc, setDoc, getDocs, getDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig.js"
 import { Link, useNavigate } from "react-router-dom";
@@ -69,14 +69,15 @@ const EndGame = () => {
         await deleteDoc(doc(db, `leaderboard test`, `${collectionTimes.highestDocId}`));
         console.log(`document ${collectionTimes.highestDocId} deleted`)
     }
+
     leaderboardUpdate();
+
     useEffect(() => {
 
         return () => {
             //stops user from going back in browser history to prevent possible abuse of the leaderboards
             onpopstate = (event) => {
-                console.log(event);
-                navigate(1);
+                navigate("/Leaderboards/1");
             }
         };
     });

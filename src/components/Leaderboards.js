@@ -1,4 +1,4 @@
-import { Link, useNavigate, redirect } from "react-router-dom";
+import { Link, useNavigate, } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import { useEffect } from "react";
@@ -9,7 +9,6 @@ const Leaderboards = () => {
     const setObjectives = (difficulty) => {
         sessionStorage.setItem("difficulty", `${difficulty}`);
         getCharacterCollection();
-
     }
 
     async function getCharacterCollection() {
@@ -28,14 +27,13 @@ const Leaderboards = () => {
         sessionStorage.setItem("character list", `${jsonCollection}`);
     }
 
+
     useEffect(() => {
 
         return () => {
-            //may be neccessary to check that the most recent page in history is from the app itself otherwise it may have a malicious tone locking the user from backing out of the app after first opening it
             //stops user from going back in browser history to prevent possible abuse of the leaderboards
             onpopstate = (event) => {
-                console.log(event);
-                navigate(+1);
+                navigate("/Leaderboards/1");
             }
         };
     });
