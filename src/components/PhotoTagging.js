@@ -128,8 +128,6 @@ const PhotoTagging = () => {
 
             setMarkerCoordinates([...dropdownCoordinates]);
             setCreateCharacterMarker(true);
-            //checks if list is empty bringing up the EndGame component page
-            //TODO change from session storage to createContext and export the value
             if (endGameCheck.length === 0) {
                 navigate("/EndGame/1");
             }

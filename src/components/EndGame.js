@@ -5,7 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { exportTimer } from "./InfoPrompt.js";
 
 const EndGame = () => {
-    const [userTimeScore, setUserTimeScore] = useState(useContext(exportTimer));
+    console.log(exportTimer)
+    const [userTimeScore, setUserTimeScore] = useState(sessionStorage.getItem("user score"));
     const [submitHighScore, setSubmitHighScore] = useState(null);
     const navigate = useNavigate();
     let collectionTimes = {
