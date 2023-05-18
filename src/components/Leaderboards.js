@@ -32,8 +32,10 @@ const Leaderboards = () => {
 
         return () => {
             //stops user from going back in browser history to prevent possible abuse of the leaderboards
+            //it seems redundant but i repaste this in PhotoTagging and EndGame, my reasoning is if the user manually navigates to those routes i do not want them being able to refresh the page to abuse leaderboard results in EndGame or cheese the PhotoTagging component game.
             onpopstate = (event) => {
                 navigate("/Leaderboards/1");
+                console.log("pop")
             }
         };
     });

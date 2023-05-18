@@ -1,5 +1,5 @@
 import { useState, createElement, useEffect, createContext, useRef, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useBeforeUnload, useNavigate } from "react-router-dom";
 //coordinates tool is a dev tool not used in production but left for documentation purposes
 import CoordinatesTool from "./CoordinatesTool";
 import { InfoPrompt, exportTimer } from "./InfoPrompt";
@@ -170,9 +170,16 @@ const PhotoTagging = () => {
     useEffect(() => {
 
         return () => {
+            //TODO prevent the user from refreshing this page specifically, boot them back to the Leaderboards component page.
+            window.onload = (event) => {
+                navigate("/Leaderboards/1");
+            }
             //stops user from going back in browser history to prevent possible abuse of the leaderboards
             onpopstate = (event) => {
+                console.log("pop")
                 navigate("/Leaderboards/1");
+                //prevents user from cheesing the game loops
+
             }
         };
     });
