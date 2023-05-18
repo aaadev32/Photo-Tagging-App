@@ -10,6 +10,9 @@ const Leaderboards = () => {
         sessionStorage.setItem("difficulty", `${difficulty}`);
         getCharacterCollection();
     }
+    let easyLb = {};
+    let mediumLb = {};
+    let hardLb = {};
 
     async function getCharacterCollection() {
         let fetchedCollection = null;
@@ -26,6 +29,51 @@ const Leaderboards = () => {
         console.log(jsonCollection)
         sessionStorage.setItem("character list", `${jsonCollection}`);
     }
+    async function getEasyLeaderboard() {
+        const querySnapshot = await getDocs(collection(db, "leaderboard easy"));
+        querySnapshot.forEach((doc) => {
+            easyLb[doc.id] = doc.data();
+            //console.log(doc.id, " => ", doc.data());
+        });
+    }
+    async function getMediumLeaderboard() {
+        const querySnapshot = await getDocs(collection(db, "leaderboard medium"));
+        querySnapshot.forEach((doc) => {
+            mediumLb[doc.id] = doc.data();
+            //console.log(doc.id, " => ", doc.data());
+        });
+    }
+    async function getHardLeaderboard() {
+        const querySnapshot = await getDocs(collection(db, "leaderboard hard"));
+        querySnapshot.forEach((doc) => {
+            hardLb[doc.id] = doc.data();
+            //console.log(doc.id, " => ", doc.data());
+        });
+
+    }
+
+    const populateEasyLbList = () => {
+
+        return (
+            easyLb.map((element) => <li>{element}</li>)
+        );
+    }
+    const populateMediumLbList = () => {
+
+        return (
+            mediumLb.map((element) => <li>{element}</li>)
+        );
+    }
+    const populateHardLbList = () => {
+
+        return (
+            hardLb.map((element) => <li>{element}</li>)
+
+        );
+    }
+    getEasyLeaderboard();
+    getMediumLeaderboard();
+    getHardLeaderboard();
 
 
     useEffect(() => {
@@ -48,9 +96,7 @@ const Leaderboards = () => {
                 <div id="leaderboard-easy">
                     easy leaderboard
                     <ol>
-                        <li>score</li>
-                        <li>score</li>
-                        <li>score</li>
+                        {populateEasyLbList}
                     </ol>
                     <Link to={'/Objectives/1'}>
                         <button onClick={() => setObjectives("easy")}>Play Easy</button>
@@ -59,9 +105,7 @@ const Leaderboards = () => {
                 <div id="leaderboard-medium">
                     medium leaderboard
                     <ol>
-                        <li>score</li>
-                        <li>score</li>
-                        <li>score</li>
+                        {populateMediumLbList}
                     </ol>
                     <Link to={'/Objectives/1'}>
                         <button onClick={() => setObjectives("medium")}>Play Medium</button>
@@ -71,9 +115,7 @@ const Leaderboards = () => {
                 <div id="leaderboard-hard">
                     hard leaderboard
                     <ol>
-                        <li>score</li>
-                        <li>score</li>
-                        <li>score</li>
+                        {populateHardLbList}
                     </ol>
 
                     <Link to={'/Objectives/1'}>

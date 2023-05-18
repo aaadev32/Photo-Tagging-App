@@ -16,12 +16,13 @@ const EndGame = () => {
     }
     //changes page back to root page when user attempts to use back arrow in browser navigation ui
     let difficulty = sessionStorage.getItem("difficulty");
-
+    console.log(difficulty)
     //updates the local collectionTimes object to represent the most up to do date highest score from the respective leaderboard
     async function leaderboardUpdate() {
         let currentDoc = null;
         //leaderboard gets called several times to insure the local object is up to date so you must reset the leaderboardEntries before you run the forEach method that increments it otherwise it will not represent the actual entries properly
-        const querySnapshot = await getDocs(collection(db, `leaderboard test`));
+        const querySnapshot = await getDocs(collection(db, `leaderboard ${difficulty}`));
+        console.log(querySnapshot)
         collectionTimes.leaderboardEntries = 0;
         querySnapshot.forEach((doc) => {
             currentDoc = doc.data();
@@ -34,6 +35,7 @@ const EndGame = () => {
             //deletes slowest times after 10 entries in case of async or code bugs
             if (collectionTimes.leaderboardEntries > 10) {
                 docDelete();
+                console.log(doc.id)
             }
             // doc.data() is never undefined for query doc snapshots
             // console.log(doc.id, " => ", doc.data());
@@ -52,7 +54,7 @@ const EndGame = () => {
         leaderboardUpdate();
 
         try {
-            const docRef = addDoc(collection(db, `leaderboard test`), {
+            const docRef = addDoc(collection(db, `leaderboard ${difficulty}`), {
                 name: `${userName}`,
                 country: `${userCountry}`,
                 timeScore: Number(`${userTimeScore}`)
@@ -66,7 +68,7 @@ const EndGame = () => {
     }
 
     async function docDelete() {
-        await deleteDoc(doc(db, `leaderboard test`, `${collectionTimes.highestDocId}`));
+        await deleteDoc(doc(db, `leaderboard ${difficulty}`, `${collectionTimes.highestDocId}`));
         console.log(`document ${collectionTimes.highestDocId} deleted`)
     }
 
@@ -96,8 +98,7 @@ const EndGame = () => {
                     <label htmlFor="user-name">Enter Your Name</label>
                     <input id="user-name" placeholder="Name"></input>
                     <input id="user-country" placeholder="Country"></input>
-                    <Link to={"/Leaderboards/1"}><button type="button" onClick={() => submitTime(document.getElementById("user-name").value, document.getElementById("user-name").value)}>submit</button></Link>
-                    <button type="button" onClick={() => { docDelete() }}>delete test</button>
+                    <Link to={"/Leaderboards/1"}><button type="button" onClick={() => submitTime(document.getElementById("user-name").value, document.getElementById("user-country").value)}>submit</button></Link>
                 </form>
             </div>
             <div id="non-submission-prompt" style={{ display: submitHighScore === false ? "flex" : "none" }}>
