@@ -10,9 +10,9 @@ const Leaderboards = () => {
         sessionStorage.setItem("difficulty", `${difficulty}`);
         getCharacterCollection();
     }
-    let easyLb = {};
-    let mediumLb = {};
-    let hardLb = {};
+    let easyLb = [];
+    let mediumLb = [];
+    let hardLb = [];
 
     async function getCharacterCollection() {
         let fetchedCollection = null;
@@ -32,49 +32,65 @@ const Leaderboards = () => {
     async function getEasyLeaderboard() {
         const querySnapshot = await getDocs(collection(db, "leaderboard easy"));
         querySnapshot.forEach((doc) => {
-            easyLb[doc.id] = doc.data();
+            easyLb.push(doc.data());
             //console.log(doc.id, " => ", doc.data());
         });
     }
     async function getMediumLeaderboard() {
         const querySnapshot = await getDocs(collection(db, "leaderboard medium"));
         querySnapshot.forEach((doc) => {
-            mediumLb[doc.id] = doc.data();
+            mediumLb.push(doc.data());
             //console.log(doc.id, " => ", doc.data());
         });
     }
     async function getHardLeaderboard() {
         const querySnapshot = await getDocs(collection(db, "leaderboard hard"));
         querySnapshot.forEach((doc) => {
-            hardLb[doc.id] = doc.data();
+            hardLb.push(doc.data());
             //console.log(doc.id, " => ", doc.data());
         });
 
     }
 
-    const populateEasyLbList = () => {
+    //TODO make this print all object property key values into list items, worry about sorting it later just get it working for now
+    const PopulateEasyLbList = () => {
+        let test = <li>asf</li>
+        console.log(easyLb)
+        let test1, test2, test3 = 0
+        let testObj = [test1 = { test: 1 }, test2 = { test2: 2 }, test3 = { test3: 3 }]
+        let lbList = testObj.map((element, index) => {
+
+            /*
+            for (const [key, value] of Object.entries(element)) {
+                <li> {key}: {value}</li>
+            } */
+            console.log(index)
+        })
+
 
         return (
-            easyLb.map((element) => <li>{element}</li>)
+            <ol>{lbList} </ol>
         );
     }
     const populateMediumLbList = () => {
 
         return (
-            mediumLb.map((element) => <li>{element}</li>)
+
+            //mediumLb.map((element) => <li>{element}</li>)
+            <div>asdf</div>
         );
     }
     const populateHardLbList = () => {
 
         return (
-            hardLb.map((element) => <li>{element}</li>)
-
+            //hardLb.map((element) => <li>{element}</li>)
+            <div>asdf</div>
         );
     }
     getEasyLeaderboard();
     getMediumLeaderboard();
     getHardLeaderboard();
-
+    console.log(easyLb);
 
     useEffect(() => {
 
@@ -96,7 +112,7 @@ const Leaderboards = () => {
                 <div id="leaderboard-easy">
                     easy leaderboard
                     <ol>
-                        {populateEasyLbList}
+                        <PopulateEasyLbList />
                     </ol>
                     <Link to={'/Objectives/1'}>
                         <button onClick={() => setObjectives("easy")}>Play Easy</button>
@@ -105,7 +121,7 @@ const Leaderboards = () => {
                 <div id="leaderboard-medium">
                     medium leaderboard
                     <ol>
-                        {populateMediumLbList}
+                        {populateMediumLbList()}
                     </ol>
                     <Link to={'/Objectives/1'}>
                         <button onClick={() => setObjectives("medium")}>Play Medium</button>
@@ -115,7 +131,7 @@ const Leaderboards = () => {
                 <div id="leaderboard-hard">
                     hard leaderboard
                     <ol>
-                        {populateHardLbList}
+                        {populateHardLbList()}
                     </ol>
 
                     <Link to={'/Objectives/1'}>
