@@ -7,8 +7,10 @@ function App() {
 
   return (
     <div id='root'>
-      <h1>welcome to the photo tagging speed run app</h1>
-      <Link to={"Leaderboards/1"}> <button>click here to get started</button> </Link>
+      <h1>welcome to the photo tagging speed run</h1>
+      <p>test your gaming history and dexterity</p>
+      <Link to={"Leaderboards/1"}> <button>get started</button> </Link>
+      <footer>currently supported only on desktop</footer>
     </div>
   );
 }

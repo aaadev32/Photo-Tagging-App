@@ -4,7 +4,10 @@ import { useBeforeUnload, useNavigate } from "react-router-dom";
 import CoordinatesTool from "./CoordinatesTool";
 import { InfoPrompt, exportTimer } from "./InfoPrompt";
 
-//used to set and export a createContext hook
+//important note: when the image is not fully visible like when it is scrolled with overflow on none of the character coordinates will be correct, this is a development oversight although
+//i cannot think of an easy way to patch this issue, getting the x,y coordinates of a click relative to the clicked element is not possible without subtracting the client x/y - offsets bordering the element you click as far
+//as i am aware, therefore if the sizing of the window is changed such that it hides any of the photo it throws off all coordinate checks, the best i can do is to disable overflow so the user is forced into fullscreen
+//a way that might fix this would be to insert actual elements where my character coordinate boxes that way there is a persistent node to check in checkSelection but the investment would not be worth the time it would cost
 
 const PhotoTagging = () => {
 

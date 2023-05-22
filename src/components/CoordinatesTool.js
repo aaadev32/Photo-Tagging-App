@@ -20,7 +20,7 @@ let position4 = 0;
 
 
 const CoordinatesTool = (e) => {
-    /* uncomment this line and line 101 if trying to enable tool
+    /* 
 
     let selectionBox = document.getElementById("coordinates-tool");
     let image = document.getElementById("photo-tagging-image");
