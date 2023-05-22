@@ -176,7 +176,6 @@ const PhotoTagging = () => {
             }
             //stops user from going back in browser history to prevent possible abuse of the leaderboards
             onpopstate = (event) => {
-                console.log("pop")
                 navigate("/Leaderboards/1");
                 //prevents user from cheesing the game loops
 

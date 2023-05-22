@@ -57,8 +57,6 @@ const Leaderboards = () => {
         localStorage.setItem("hardLb", JSON.stringify(hardFetchedLb));
 
         setRefreshLbs(refreshLbs ? false : true)
-        console.log("render lb")
-
         [easyFetchedLb, mediumFetchedLb, hardFetchedLb] = [[], [], []]
     }
 
@@ -106,20 +104,12 @@ const Leaderboards = () => {
 
     useEffect(() => {
         //no states get set so this should only be queried twice at most because of initial component render
-
         getLeaderboards();
-        //changes made to the leaderboard 
-        setTimeout(() => {
-
-
-        }, 4500);
-        console.log("fetched leaderboards")
         return () => {
             //stops user from going back in browser history to prevent possible abuse of the leaderboards
             //it seems redundant but i repaste this in PhotoTagging and EndGame, my reasoning is if the user manually navigates to those routes i do not want them being able to refresh the page to abuse leaderboard results in EndGame or cheese the PhotoTagging component game.
             onpopstate = (event) => {
                 navigate("/Leaderboards/1");
-                console.log("pop")
             }
         };
     }, []);

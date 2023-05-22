@@ -2,10 +2,8 @@ import { useEffect, useState } from "react";
 import { addDoc, collection, doc, setDoc, getDocs, getDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig.js"
 import { Link, useNavigate } from "react-router-dom";
-import { exportTimer } from "./InfoPrompt.js";
 
 const EndGame = () => {
-    console.log(exportTimer)
     const [userTimeScore, setUserTimeScore] = useState(sessionStorage.getItem("user score"));
     const [submitHighScore, setSubmitHighScore] = useState(null);
     const navigate = useNavigate();
@@ -16,7 +14,6 @@ const EndGame = () => {
     }
     //changes page back to root page when user attempts to use back arrow in browser navigation ui
     let difficulty = sessionStorage.getItem("difficulty");
-    console.log(difficulty)
     //updates the local collectionTimes object to represent the most up to do date highest score from the respective leaderboard
     async function leaderboardUpdate() {
         let currentDoc = null;
@@ -35,7 +32,6 @@ const EndGame = () => {
             //deletes slowest times after 10 entries in case of async or code bugs
             if (collectionTimes.leaderboardEntries > 10) {
                 docDelete();
-                console.log(doc.id)
             }
             // doc.data() is never undefined for query doc snapshots
             // console.log(doc.id, " => ", doc.data());
@@ -69,7 +65,6 @@ const EndGame = () => {
 
     async function docDelete() {
         await deleteDoc(doc(db, `leaderboard ${difficulty}`, `${collectionTimes.highestDocId}`));
-        console.log(`document ${collectionTimes.highestDocId} deleted`)
     }
 
     leaderboardUpdate();
@@ -80,7 +75,6 @@ const EndGame = () => {
             //stops user from going back in browser history to prevent possible abuse of the leaderboards
             onpopstate = (event) => {
                 navigate("/Leaderboards/1");
-                console.log("pop")
             }
         };
     }, []);
