@@ -1,18 +1,17 @@
-import { Link, useNavigate, } from "react-router-dom";
+import { Link, json, useNavigate, } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebaseConfig";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Leaderboards = () => {
     const navigate = useNavigate();
+    const [rerender, setRerender] = useState(false);
     //turns the display of the clicked difficulty in the Objectives Component  to flex and others to none
     const setObjectives = (difficulty) => {
         sessionStorage.setItem("difficulty", `${difficulty}`);
         getCharacterCollection();
     }
-    let easyLb = [];
-    let mediumLb = [];
-    let hardLb = [];
+    let fetchedLb = [];
 
     async function getCharacterCollection() {
         let fetchedCollection = null;
@@ -29,68 +28,78 @@ const Leaderboards = () => {
         console.log(jsonCollection)
         sessionStorage.setItem("character list", `${jsonCollection}`);
     }
-    async function getEasyLeaderboard() {
-        const querySnapshot = await getDocs(collection(db, "leaderboard easy"));
-        querySnapshot.forEach((doc) => {
-            easyLb.push(doc.data());
-            //console.log(doc.id, " => ", doc.data());
-        });
-    }
-    async function getMediumLeaderboard() {
-        const querySnapshot = await getDocs(collection(db, "leaderboard medium"));
-        querySnapshot.forEach((doc) => {
-            mediumLb.push(doc.data());
-            //console.log(doc.id, " => ", doc.data());
-        });
-    }
-    async function getHardLeaderboard() {
-        const querySnapshot = await getDocs(collection(db, "leaderboard hard"));
-        querySnapshot.forEach((doc) => {
-            hardLb.push(doc.data());
+
+    //it was neccessary to set the retrieved leaderboards to local storage to avoid async/react state issues(one problem was the arrays would not be iterable although they would have the proper objects in each index) 
+    async function getLeaderboards() {
+        let easyFetchedLb = [];
+        let mediumFetchedLb = [];
+        let hardFetchedLb = [];
+
+        const easyLbSnapshot = await getDocs(collection(db, "leaderboard easy"));
+        easyLbSnapshot.forEach((doc) => {
+            easyFetchedLb.push(doc.data())
             //console.log(doc.id, " => ", doc.data());
         });
 
+        const mediumLbSnapshot = await getDocs(collection(db, "leaderboard medium"));
+        mediumLbSnapshot.forEach((doc) => {
+            mediumFetchedLb.push(doc.data())
+            //console.log(doc.id, " => ", doc.data());
+        });
+
+        const hardLbSnapshot = await getDocs(collection(db, "leaderboard hard"));
+        hardLbSnapshot.forEach((doc) => {
+            hardFetchedLb.push(doc.data())
+            //console.log(doc.id, " => ", doc.data());
+        });
+        localStorage.setItem("easyLb", JSON.stringify(easyFetchedLb));
+        localStorage.setItem("mediumLb", JSON.stringify(mediumFetchedLb));
+        localStorage.setItem("hardLb", JSON.stringify(hardFetchedLb));
+
+        [easyFetchedLb, mediumFetchedLb, hardFetchedLb] = [[], [], []]
     }
 
     //TODO make this print all object property key values into list items, worry about sorting it later just get it working for now
     const PopulateEasyLbList = () => {
-        let test = <li>asf</li>
-        console.log(easyLb)
-        let test1, test2, test3 = 0
-        let testObj = [test1 = { test: 1 }, test2 = { test2: 2 }, test3 = { test3: 3 }]
-        let lbList = testObj.map((element, index) => {
 
-            /*
-            for (const [key, value] of Object.entries(element)) {
-                <li> {key}: {value}</li>
-            } */
-            console.log(index)
+        let stringLb = localStorage.getItem("easyLb")
+        let easyLb = JSON.parse(stringLb);
+        const lbList = easyLb.map((element, index) => {
+            return (
+                <li key={index}>{element.name} country: {element.country} time: {element.timeScore}</li>
+            )
         })
-
-
         return (
             <ol>{lbList} </ol>
         );
     }
     const populateMediumLbList = () => {
 
+        let stringLb = localStorage.getItem("mediumLb")
+        let mediumLb = JSON.parse(stringLb);
+        const lbList = mediumLb.map((element, index) => {
+            return (
+                <li key={index}>{element.name} country: {element.country} time: {element.timeScore}</li>
+            )
+        })
         return (
-
-            //mediumLb.map((element) => <li>{element}</li>)
-            <div>asdf</div>
+            <ol>{lbList} </ol>
         );
     }
     const populateHardLbList = () => {
 
+        let stringLb = localStorage.getItem("hardLb")
+        let hardLb = JSON.parse(stringLb);
+        const lbList = hardLb.map((element, index) => {
+            return (
+                <li key={index}>{element.name} country: {element.country} time: {element.timeScore}</li>
+            )
+        })
         return (
-            //hardLb.map((element) => <li>{element}</li>)
-            <div>asdf</div>
+            <ol>{lbList} </ol>
         );
     }
-    getEasyLeaderboard();
-    getMediumLeaderboard();
-    getHardLeaderboard();
-    console.log(easyLb);
+    getLeaderboards();
 
     useEffect(() => {
 
