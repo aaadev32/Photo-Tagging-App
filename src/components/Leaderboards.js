@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 const Leaderboards = () => {
     const navigate = useNavigate();
-    const [rerender, setRerender] = useState(false);
+    const [refreshLbs, setRefreshLbs] = useState(false);
     //turns the display of the clicked difficulty in the Objectives Component  to flex and others to none
     const setObjectives = (difficulty) => {
         sessionStorage.setItem("difficulty", `${difficulty}`);
@@ -56,6 +56,9 @@ const Leaderboards = () => {
         localStorage.setItem("mediumLb", JSON.stringify(mediumFetchedLb));
         localStorage.setItem("hardLb", JSON.stringify(hardFetchedLb));
 
+        setRefreshLbs(refreshLbs ? false : true)
+        console.log("render lb")
+
         [easyFetchedLb, mediumFetchedLb, hardFetchedLb] = [[], [], []]
     }
 
@@ -73,7 +76,7 @@ const Leaderboards = () => {
             <ol>{lbList} </ol>
         );
     }
-    const populateMediumLbList = () => {
+    const PopulateMediumLbList = () => {
 
         let stringLb = localStorage.getItem("mediumLb")
         let mediumLb = JSON.parse(stringLb);
@@ -86,7 +89,7 @@ const Leaderboards = () => {
             <ol>{lbList} </ol>
         );
     }
-    const populateHardLbList = () => {
+    const PopulateHardLbList = () => {
 
         let stringLb = localStorage.getItem("hardLb")
         let hardLb = JSON.parse(stringLb);
@@ -99,10 +102,18 @@ const Leaderboards = () => {
             <ol>{lbList} </ol>
         );
     }
-    getLeaderboards();
+
 
     useEffect(() => {
+        //no states get set so this should only be queried twice at most because of initial component render
 
+        getLeaderboards();
+        //changes made to the leaderboard 
+        setTimeout(() => {
+
+
+        }, 4500);
+        console.log("fetched leaderboards")
         return () => {
             //stops user from going back in browser history to prevent possible abuse of the leaderboards
             //it seems redundant but i repaste this in PhotoTagging and EndGame, my reasoning is if the user manually navigates to those routes i do not want them being able to refresh the page to abuse leaderboard results in EndGame or cheese the PhotoTagging component game.
@@ -111,7 +122,7 @@ const Leaderboards = () => {
                 console.log("pop")
             }
         };
-    });
+    }, []);
     return (
         <div id="home-container">
             <div id="greeting">Welcome to the Photo Tagging Speed Run</div>
@@ -130,7 +141,7 @@ const Leaderboards = () => {
                 <div id="leaderboard-medium">
                     medium leaderboard
                     <ol>
-                        {populateMediumLbList()}
+                        <PopulateMediumLbList />
                     </ol>
                     <Link to={'/Objectives/1'}>
                         <button onClick={() => setObjectives("medium")}>Play Medium</button>
@@ -140,7 +151,7 @@ const Leaderboards = () => {
                 <div id="leaderboard-hard">
                     hard leaderboard
                     <ol>
-                        {populateHardLbList()}
+                        <PopulateHardLbList />
                     </ol>
 
                     <Link to={'/Objectives/1'}>

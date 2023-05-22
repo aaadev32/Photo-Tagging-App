@@ -83,7 +83,7 @@ const EndGame = () => {
                 console.log("pop")
             }
         };
-    });
+    }, []);
 
     return (
         <div id="end-game-container">

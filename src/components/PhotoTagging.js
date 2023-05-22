@@ -182,7 +182,7 @@ const PhotoTagging = () => {
 
             }
         };
-    });
+    }, []);
 
     return (
         <div id="photo-tagging-container">
