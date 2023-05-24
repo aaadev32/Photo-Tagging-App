@@ -3,11 +3,14 @@ import { useBeforeUnload, useNavigate } from "react-router-dom";
 //coordinates tool is a dev tool not used in production but left for documentation purposes
 import CoordinatesTool from "./CoordinatesTool";
 import { InfoPrompt, exportTimer } from "./InfoPrompt";
+import easyImage from "../media/Dota.jpg";
+import mediumImage from "../media/FightingGameCharacters.webp";
+import hardImage from "../media/image233.png";
 
-//important note: when the image is not fully visible like when it is scrolled with overflow on none of the character coordinates will be correct, this is a development oversight although
+//important note: when the photo tagging image is not fully visible such as when it is scrolled with overflow on none of the character coordinates will be correct, this is a development oversight although
 //i cannot think of an easy way to patch this issue, getting the x,y coordinates of a click relative to the clicked element is not possible without subtracting the client x/y - offsets bordering the element you click as far
 //as i am aware, therefore if the sizing of the window is changed such that it hides any of the photo it throws off all coordinate checks, the best i can do is to disable overflow so the user is forced into fullscreen
-//a way that might fix this would be to insert actual elements where my character coordinate boxes that way there is a persistent node to check in checkSelection but the investment would not be worth the time it would cost
+//a way that might fix this would be to insert actual elements where my character coordinate boxes are that way there is a persistent node to check in checkSelection but the investment would not be worth the time it would cost
 
 const PhotoTagging = () => {
 
@@ -25,6 +28,10 @@ const PhotoTagging = () => {
     const [characterMarkerNodes, setCharacterMarkerNodes] = useState([]);
     const timer = useContext(exportTimer);
     const navigate = useNavigate();
+    let backgroundPhoto = {
+        backgroundImage: `url(${easyImage})`,
+        backgroundSize: "100% 100%"
+    }
     let characterKeys = Object.keys(characterList);
 
     //dev tool that displays coordinates clicked within the photo 
@@ -169,17 +176,35 @@ const PhotoTagging = () => {
             setDropdownCoordinates([...clickPosition])
         }
     }
+    //sets the photo image for the chosen difficulty, background photo must be reassigned in its entirety rather than through dot notation since backgroundImage is a read only property, backgroundSize doesnt apply when done through the css file for some reason so its set here
+    if (sessionStorage.getItem("difficulty") === "easy") {
+        backgroundPhoto = {
+            backgroundImage: `url(${easyImage})`,
+            backgroundSize: "100% 100%"
+        }
+    } else if (sessionStorage.getItem("difficulty") === "medium") {
+        backgroundPhoto = {
+            backgroundImage: `url(${mediumImage})`,
+            backgroundSize: "100% 100%"
 
+        }
+    } else if (sessionStorage.getItem("difficulty") === "hard") {
+        backgroundPhoto = {
+            backgroundImage: `url(${hardImage})`,
+            backgroundSize: "100% 100%"
+        }
+    }
+    console.log(backgroundPhoto.backgroundImage)
     useEffect(() => {
 
         return () => {
-            //TODO prevent the user from refreshing this page specifically, boot them back to the Leaderboards component page.
+            //prevents the user from refreshing this page to cheese score
             window.onload = (event) => {
-                navigate("/Leaderboards/1");
+                navigate("/");
             }
             //stops user from going back in browser history to prevent possible abuse of the leaderboards
             onpopstate = (event) => {
-                navigate("/Leaderboards/1");
+                navigate("/");
                 //prevents user from cheesing the game loops
 
             }
@@ -192,7 +217,7 @@ const PhotoTagging = () => {
             <CharacterDropdownMenu />
             <FalseSelectionPopup />
             <CharacterMarker />
-            <div id="photo-tagging-image" onClick={(e) => { photoClick(e); }}>
+            <div id="photo-tagging-image" style={backgroundPhoto} onClick={(e) => { photoClick(e); }}>
                 <CoordinatesTool />
             </div>
             <div id="cursor-coordinates-container">
