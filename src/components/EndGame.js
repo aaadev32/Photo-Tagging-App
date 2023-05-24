@@ -74,7 +74,7 @@ const EndGame = () => {
         return () => {
             //stops user from going back in browser history to prevent possible abuse of the leaderboards
             onpopstate = (event) => {
-                navigate("/Leaderboards/1");
+                navigate("/");
             }
         };
     }, []);
