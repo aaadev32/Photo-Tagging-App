@@ -1,5 +1,5 @@
-import './App.css';
-import Leaderboards from './components/Leaderboards.js';
+import "./App.css";
+import Leaderboards from "./components/Leaderboards.js";
 import router from "./index.js";
 import { Link } from "react-router-dom";
 import chief from "./media/login-images/MasterChief2.png";

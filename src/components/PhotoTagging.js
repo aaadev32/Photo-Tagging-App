@@ -3,9 +3,10 @@ import { useBeforeUnload, useNavigate } from "react-router-dom";
 //coordinates tool is a dev tool not used in production but left for documentation purposes
 import CoordinatesTool from "./CoordinatesTool";
 import { InfoPrompt, exportTimer } from "./InfoPrompt";
-import easyImage from "../media/Dota.jpg";
-import mediumImage from "../media/FightingGameCharacters.webp";
-import hardImage from "../media/image233.png";
+import { CurrentObjectives } from "./CharacterImages";
+import hardImage from "../media/Dota.jpg";
+import easyImage from "../media/FightingGameCharacters.webp";
+import mediumImage from "../media/image233.png";
 
 //important note: when the photo tagging image is not fully visible such as when it is scrolled with overflow on none of the character coordinates will be correct, this is a development oversight although
 //i cannot think of an easy way to patch this issue, getting the x,y coordinates of a click relative to the clicked element is not possible without subtracting the client x/y - offsets bordering the element you click as far
@@ -214,6 +215,7 @@ const PhotoTagging = () => {
     return (
         <div id="photo-tagging-container">
             <InfoPrompt />
+            <CurrentObjectives />
             <CharacterDropdownMenu />
             <FalseSelectionPopup />
             <CharacterMarker />
