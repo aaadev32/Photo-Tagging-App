@@ -61,9 +61,18 @@
      overflow: hidden;
  }
 
+ #current-objectives {
+     display: flex;
+     justify-content: center;
+ }
+.current-objective-images{
+    max-width: 300px;
+    max-height: 150px;
+    align-items: center;
+}
  #photo-tagging-image {
      margin: auto;
-     background-image: url(./media/image233.png);
+     background-image: url(./media/misc-characters.png);
      height: 643px;
      width: 1470px;
      background-repeat: no-repeat;

@@ -4,9 +4,8 @@ import { useBeforeUnload, useNavigate } from "react-router-dom";
 import CoordinatesTool from "./CoordinatesTool";
 import { InfoPrompt, exportTimer } from "./InfoPrompt";
 import { CurrentObjectives } from "./CharacterImages";
-import hardImage from "../media/Dota.jpg";
-import easyImage from "../media/FightingGameCharacters.webp";
-import mediumImage from "../media/image233.png";
+import * as imageModule from "../imageExports"
+
 
 //important note: when the photo tagging image is not fully visible such as when it is scrolled with overflow on none of the character coordinates will be correct, this is a development oversight although
 //i cannot think of an easy way to patch this issue, getting the x,y coordinates of a click relative to the clicked element is not possible without subtracting the client x/y - offsets bordering the element you click as far
@@ -14,9 +13,8 @@ import mediumImage from "../media/image233.png";
 //a way that might fix this would be to insert actual elements where my character coordinate boxes are that way there is a persistent node to check in checkSelection but the investment would not be worth the time it would cost
 
 const PhotoTagging = () => {
-
     let jsonCharacterList = sessionStorage.getItem("character list")
-
+    console.log(imageModule)
     const [photoXAxis, setPhotoXAxis] = useState(0);
     const [photoYAxis, setPhotoYAxis] = useState(0);
     const [dropdownCoordinates, setDropdownCoordinates] = useState([0, 0]);
@@ -30,7 +28,7 @@ const PhotoTagging = () => {
     const timer = useContext(exportTimer);
     const navigate = useNavigate();
     let backgroundPhoto = {
-        backgroundImage: `url(${easyImage})`,
+        backgroundImage: `url(${imageModule.easyImage})`,
         backgroundSize: "100% 100%"
     }
     let characterKeys = Object.keys(characterList);
@@ -59,7 +57,7 @@ const PhotoTagging = () => {
                 <select id="character-list" name="character-list">
                     <option value={""}>Choose A Character</option>
                     {
-                        characterKeys.map((element, index) => <option id={`dropdown-${index}`} key={`dropdown ${index}`} value={element} onClick={() => { checkSelection(element, index) }}>{element}</option>)
+                        characterKeys.map((element, index) => <option id={`dropdown-${index}`} key={`dropdown-${index}`} value={element} onClick={() => { checkSelection(element, index) }}>{element}</option>)
                     }
                 </select>
             </div >
@@ -180,18 +178,18 @@ const PhotoTagging = () => {
     //sets the photo image for the chosen difficulty, background photo must be reassigned in its entirety rather than through dot notation since backgroundImage is a read only property, backgroundSize doesnt apply when done through the css file for some reason so its set here
     if (sessionStorage.getItem("difficulty") === "easy") {
         backgroundPhoto = {
-            backgroundImage: `url(${easyImage})`,
+            backgroundImage: `url(${imageModule.easyImage})`,
             backgroundSize: "100% 100%"
         }
     } else if (sessionStorage.getItem("difficulty") === "medium") {
         backgroundPhoto = {
-            backgroundImage: `url(${mediumImage})`,
+            backgroundImage: `url(${imageModule.mediumImage})`,
             backgroundSize: "100% 100%"
 
         }
     } else if (sessionStorage.getItem("difficulty") === "hard") {
         backgroundPhoto = {
-            backgroundImage: `url(${hardImage})`,
+            backgroundImage: `url(${imageModule.hardImage})`,
             backgroundSize: "100% 100%"
         }
     }
