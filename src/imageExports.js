@@ -1,11 +1,11 @@
 //this file is used as a library to deal specifically with exporting the character images to keep import statements from cluttering my components
 
 export { default as hardImage } from "./media/dota.jpg";
-export { default as easyImage } from "./media/fighting-game-characters.webp";
+export { default as easyImage } from "./media/fighting-game-characters.png";
 export { default as mediumImage } from "./media/misc-characters.png";
 export { default as guile } from "./media/character-images/easy-mode/guile.png";
 export { default as ironman } from "./media/character-images/easy-mode/ironman.png";
-export { default as leo } from "./media/character-images/easy-mode/leo.webp";
+export { default as leo } from "./media/character-images/easy-mode/leo.png";
 export { default as scorpion } from "./media/character-images/easy-mode/scorpion.png";
 export { default as ryu } from "./media/character-images/easy-mode/ryu.png";
 export { default as venom } from "./media/character-images/easy-mode/venom.png";

@@ -11,15 +11,14 @@ const CurrentObjectives = () => {
     let parsedList = JSON.parse(jsonCharacterList);
     let characterKeys = Object.keys(parsedList);
 
+    //TODO take the newly added image id's and associate them somehow with a truthy character dropdown list selection so that the image transitions out of the image list
     const populateImages = () => {
         if (difficulty === "easy") {
-            return easyCharacterImages.map((element, index) => <img id={`character-image-${index}`} className={"current-objective-images"} key={`key-${index}`} src={element}></img>)
+            return easyCharacterImages.map((element, index) => <img id={`image-${easyCharacterImages[index]}`} className={"current-objective-images"} key={`key-${index}`} src={element}></img>)
         } else if (difficulty === "medium") {
-            return mediumCharacterImages.map((element, index) => <img id={`character-image-${index}`} className={"current-objective-images"} key={`key-${index}`} src={element}></img>)
-
+            return mediumCharacterImages.map((element, index) => <img id={`image-${mediumCharacterImages[index]}`} className={"current-objective-images"} key={`key-${index}`} src={element}></img>)
         } else if (difficulty === "hard") {
-            return hardCharacterImages.map((element, index) => <img id={`character-image-${index}`} className={"current-objective-images"} key={`key-${index}`} src={element}></img>)
-
+            return hardCharacterImages.map((element, index) => <img id={`image-${hardCharacterImages[index]}`} className={"current-objective-images"} key={`key-${index}`} src={element}></img>)
         }
     }
     return (

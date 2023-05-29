@@ -1,6 +1,5 @@
 //this component is a tool for developing the app and is not intended tofully cooperate with react by using states and other react library tools, this component will not be interacted with by the user ever.
 //if you are having trouble getting this to drag you may need to mock a state in the parent component and set it during a click event to get it to render the drag and resize
-
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { collection, setDoc, doc } from "firebase/firestore";

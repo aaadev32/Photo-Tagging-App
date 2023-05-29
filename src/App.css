@@ -63,13 +63,16 @@
 
  #current-objectives {
      display: flex;
-     justify-content: center;
+     justify-content: space-around;
  }
-.current-objective-images{
-    max-width: 300px;
-    max-height: 150px;
-    align-items: center;
-}
+
+ /* overflow set to auto,scroll, or hidden keeps the images from the hard difficulty from overflowing the parent container but doesnt actually hide any of the images for some reason which is what is needed. */
+ .current-objective-images {
+     max-width: 300px;
+     max-height: 150px;
+     overflow: auto;
+ }
+
  #photo-tagging-image {
      margin: auto;
      background-image: url(./media/misc-characters.png);
