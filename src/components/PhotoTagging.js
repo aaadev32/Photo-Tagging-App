@@ -13,7 +13,7 @@ import * as imageModule from "../imageExports"
 //a way that might fix this would be to insert actual elements where my character coordinate boxes are that way there is a persistent node to check in checkSelection but the investment would not be worth the time it would cost
 
 const PhotoTagging = () => {
-    let jsonCharacterList = sessionStorage.getItem("character list")
+    let jsonCharacterList = sessionStorage.getItem("characterList")
     console.log(imageModule)
     const [photoXAxis, setPhotoXAxis] = useState(0);
     const [photoYAxis, setPhotoYAxis] = useState(0);
@@ -122,13 +122,14 @@ const PhotoTagging = () => {
             setRenderFalseMarker(false);
         }
 
-
         //checks if the click event is greater than the character left/bottom most x/y coordinates but less than its right/top most x/y coordinate values
         if ((photoXAxis > chosenCharacter.upperLeftCoordinates[0]) && (photoXAxis < chosenCharacter.upperRightCoordinates[0]) && (photoYAxis > chosenCharacter.upperLeftCoordinates[1]) && (photoYAxis < chosenCharacter.lowerLeftCoordinates[1])) {
             let deleteKey = characterKeys[index];
             let characterListCopy = characterList;
             characterSelect = true;
-
+            console.log(index)
+            //sets the image index to delete in the CharacterImages component
+            sessionStorage.setItem("deleteImageIndex", `${index}`)
             //updates dropdown character list to not include correctly chosen character
             delete characterListCopy[deleteKey];
             setCharacterList(characterListCopy);
@@ -141,6 +142,7 @@ const PhotoTagging = () => {
                 navigate("/EndGame/1");
             }
         } else {
+
             characterSelect = false;
             popupElement.style.display = "block";
             setFalseSelectionCoordinates([...dropdownCoordinates])
@@ -193,7 +195,6 @@ const PhotoTagging = () => {
             backgroundSize: "100% 100%"
         }
     }
-    console.log(backgroundPhoto.backgroundImage)
     useEffect(() => {
 
         return () => {

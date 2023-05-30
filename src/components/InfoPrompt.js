@@ -13,7 +13,7 @@ const InfoPrompt = () => {
 
         //prevents possible unforeseen abuse
         if (timer > 1) {
-            sessionStorage.setItem("user score", `${timer}`)
+            sessionStorage.setItem("userScore", `${timer}`)
         }
     }
 

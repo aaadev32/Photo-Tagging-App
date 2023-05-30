@@ -4,7 +4,7 @@ import { db } from "../firebaseConfig.js"
 import { Link, useNavigate } from "react-router-dom";
 
 const EndGame = () => {
-    const [userTimeScore, setUserTimeScore] = useState(sessionStorage.getItem("user score"));
+    const [userTimeScore, setUserTimeScore] = useState(sessionStorage.getItem("userScore"));
     const [submitHighScore, setSubmitHighScore] = useState(null);
     const navigate = useNavigate();
     let collectionTimes = {

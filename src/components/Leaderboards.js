@@ -26,7 +26,7 @@ const Leaderboards = () => {
 
         jsonCollection = JSON.stringify(tempCollection);
         console.log(jsonCollection)
-        sessionStorage.setItem("character list", `${jsonCollection}`);
+        sessionStorage.setItem("characterList", `${jsonCollection}`);
     }
 
     //it was neccessary to set the retrieved leaderboards to local storage to avoid async/react state issues(one problem was the arrays would not be iterable although they would have the proper objects in each index) 
