@@ -4,7 +4,7 @@ import { useBeforeUnload, useNavigate } from "react-router-dom";
 import CoordinatesTool from "./CoordinatesTool";
 import { InfoPrompt, exportTimer } from "./InfoPrompt";
 import { CurrentObjectives } from "./CharacterImages";
-import * as imageModule from "../imageExports"
+import * as mediaModule from "../mediaExports"
 
 
 //important note: when the photo tagging image is not fully visible such as when it is scrolled with overflow on none of the character coordinates will be correct, this is a development oversight although
@@ -14,7 +14,6 @@ import * as imageModule from "../imageExports"
 
 const PhotoTagging = () => {
     let jsonCharacterList = sessionStorage.getItem("characterList")
-    console.log(imageModule)
     const [photoXAxis, setPhotoXAxis] = useState(0);
     const [photoYAxis, setPhotoYAxis] = useState(0);
     const [dropdownCoordinates, setDropdownCoordinates] = useState([0, 0]);
@@ -28,7 +27,7 @@ const PhotoTagging = () => {
     const timer = useContext(exportTimer);
     const navigate = useNavigate();
     let backgroundPhoto = {
-        backgroundImage: `url(${imageModule.easyImage})`,
+        backgroundImage: `url(${mediaModule.easyImage})`,
         backgroundSize: "100% 100%"
     }
     let characterKeys = Object.keys(characterList);
@@ -180,18 +179,18 @@ const PhotoTagging = () => {
     //sets the photo image for the chosen difficulty, background photo must be reassigned in its entirety rather than through dot notation since backgroundImage is a read only property, backgroundSize doesnt apply when done through the css file for some reason so its set here
     if (sessionStorage.getItem("difficulty") === "easy") {
         backgroundPhoto = {
-            backgroundImage: `url(${imageModule.easyImage})`,
+            backgroundImage: `url(${mediaModule.easyImage})`,
             backgroundSize: "100% 100%"
         }
     } else if (sessionStorage.getItem("difficulty") === "medium") {
         backgroundPhoto = {
-            backgroundImage: `url(${imageModule.mediumImage})`,
+            backgroundImage: `url(${mediaModule.mediumImage})`,
             backgroundSize: "100% 100%"
 
         }
     } else if (sessionStorage.getItem("difficulty") === "hard") {
         backgroundPhoto = {
-            backgroundImage: `url(${imageModule.hardImage})`,
+            backgroundImage: `url(${mediaModule.hardImage})`,
             backgroundSize: "100% 100%"
         }
     }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { addDoc, collection, doc, setDoc, getDocs, getDoc, deleteDoc } from "firebase/firestore";
-import { db } from "../firebaseConfig.js"
+import { db } from "../firebaseConfig"
 import { Link, useNavigate } from "react-router-dom";
 
 const EndGame = () => {

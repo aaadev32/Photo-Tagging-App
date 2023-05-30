@@ -5,7 +5,30 @@
      overflow: auto;
  }
 
- /* begin Leaderboards component styling */
+ iframe {
+     pointer-events: visible;
+ }
+
+ /*begin App component styling*/
+
+
+ #character-background-container {
+     display: flex;
+     width: inherit;
+     height: inherit;
+     position: absolute
+ }
+
+ .character-background-image {
+     display: flex;
+     justify-content: space-around;
+     max-width: 25%;
+     max-height: 80%;
+ }
+
+ /*end App component styling*/
+
+ /*begin Leaderboards component styling */
 
  #home-container {
      display: flex;
@@ -33,12 +56,6 @@
      margin: 10px auto;
  }
 
- #character-background-container {
-     display: flex;
-     width: inherit;
-     height: inherit;
-     position: absolute
- }
 
  /*end Leaderboards component styling */
 
