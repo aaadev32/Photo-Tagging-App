@@ -3,20 +3,25 @@ import Leaderboards from "./components/Leaderboards.js";
 import router from "./index.js";
 import { Link } from "react-router-dom";
 import * as mediaModule from "./mediaExports.js"
-//the components themselves are treated as pages in themselves so there is no pages directory
+
 function App() {
   return (
     <div id='root'>
-      <img src={mediaModule.cyberpunk} width={"100%"} height={"100%"}  frameBorder="0" class="giphy-embed"/>
-        <div id='character-background-container'>
-          <img className='character-background-image' src={mediaModule.mario}></img>
-          <img className='character-background-image' src={mediaModule.ryuHome}></img>
-          <img className='character-background-image' src={mediaModule.invoker}></img>
+      <div id="home-container">
+        <h1 className="home-slide-left-animation">Welcome to the photo tagging speed run</h1>
+
+        <div id="home-about">
+          <h2 className="home-slide-right-animation">Test your dexterity and expand your gaming character knowledge in this Wheres Waldo inspired game!</h2>
+          <h2 className="home-slide-left-animation">Complete with a leaderboard system to compare your scores to people across the globe!</h2>
+          <h2 className="home-slide-right-animation">Are you ready?<Link to={"Leaderboards/1"}><button id="home-button">get started</button> </Link></h2>
+
         </div>
-        <h1>welcome to the photo tagging speed run</h1>
-        <Link to={"Leaderboards/1"}> <button>get started</button> </Link>
+        <img id="home-background" src={mediaModule.cyberpunk} />
+
         <footer>mobile not supported</footer>
-    </div>
+      </div>
+
+    </div >
   );
 }
 

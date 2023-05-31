@@ -114,7 +114,7 @@ const Leaderboards = () => {
         };
     }, []);
     return (
-        <div id="home-container">
+        <div id="leaderboard-container">
             <div id="greeting">Welcome to the Photo Tagging Speed Run</div>
             <div>Check Out Previous Users High Scores</div>
 

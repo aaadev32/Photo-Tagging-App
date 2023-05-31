@@ -24,6 +24,7 @@ export { default as naturesProphet } from "./media/character-images/hard-mode/na
 export { default as phantomAssassin } from "./media/character-images/hard-mode/phantom-assassin.webp";
 export { default as sven } from "./media/character-images/hard-mode/sven.webp";
 export { default as tinker } from "./media/character-images/hard-mode/tinker.webp";
+//the below 3 may not be used so this is a reminder to delete
 export { default as invoker } from "./media/home-images/invoker.png";
 export { default as ryuHome } from "./media/home-images/ryu.png";
 export { default as mario } from "./media/home-images/super-mario.png";
