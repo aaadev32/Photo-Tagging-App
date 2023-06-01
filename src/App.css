@@ -123,6 +123,7 @@
      margin: 0;
      color: #ff5d00;
      text-shadow: 3px 3px 2px #214cff;
+     z-index: 1;
  }
 
  .leaderboard-elements {
@@ -131,10 +132,10 @@
      align-items: center;
      overflow: auto;
      color: #ff5d00;
-     text-shadow: 3px 3px 2px #214cff;
+     text-shadow: 2px 2px 2px #214cff;
      font-weight: bolder;
      font-size: 1.1em;
-     border: solid black;
+     border: solid #214cff;
      border-width: 3px 4px 3px 5px;
      border-radius: 95% 4% 92% 5%/4% 95% 6% 95%;
      transform: rotate(2deg);
@@ -163,16 +164,14 @@
      font-weight: bold;
      color: #ff5d00;
      /* padding defines the width of the red gradient background (2) */
-     padding: .25em;
      /* border-width defines the width the blue gradient background (3) */
      border: .25em solid transparent;
      background:
          /* (1) most inner gradient */
          linear-gradient(to bottom, #ff5d00, #214cff) content-box,
-         /* (2) red gradient */
-         linear-gradient(to right, #e94332, #a91302) padding-box,
+
          /* (3) blue gradient */
-         linear-gradient(to right, #0867a6, #4aa9e8) border-box;
+         linear-gradient(to bottom, #ff5d00, #214cff) border-box;
  }
 
 
