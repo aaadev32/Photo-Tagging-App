@@ -29,4 +29,6 @@ export { default as invoker } from "./media/home-images/invoker.png";
 export { default as ryuHome } from "./media/home-images/ryu.png";
 export { default as mario } from "./media/home-images/super-mario.png";
 export { default as cyberpunk } from "./media/animations/cyberpunk.gif"
+export { default as arcade } from "./media/animations/arcade.mp4"
+export { default as arcadeAudio } from "./media/audio/SF6BH.mp3"
 

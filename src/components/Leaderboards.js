@@ -2,6 +2,7 @@ import { Link, json, useNavigate, } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import { useEffect, useState } from "react";
+import * as mediaModule from "../mediaExports"
 
 const Leaderboards = () => {
     const navigate = useNavigate();
@@ -67,7 +68,7 @@ const Leaderboards = () => {
         let easyLb = JSON.parse(stringLb);
         const lbList = easyLb.map((element, index) => {
             return (
-                <li key={index}>{element.name} country: {element.country} time: {element.timeScore}</li>
+                <li key={index}>name: {element.name} country: {element.country} time: {element.timeScore}</li>
             )
         })
         return (
@@ -80,7 +81,7 @@ const Leaderboards = () => {
         let mediumLb = JSON.parse(stringLb);
         const lbList = mediumLb.map((element, index) => {
             return (
-                <li key={index}>{element.name} country: {element.country} time: {element.timeScore}</li>
+                <li key={index}>name: {element.name} country: {element.country} time: {element.timeScore}</li>
             )
         })
         return (
@@ -93,8 +94,9 @@ const Leaderboards = () => {
         let hardLb = JSON.parse(stringLb);
         const lbList = hardLb.map((element, index) => {
             return (
-                <li key={index}>{element.name} country: {element.country} time: {element.timeScore}</li>
+                <li key={index}>name: {element.name} country: {element.country} time: {element.timeScore}</li>
             )
+
         })
         return (
             <ol>{lbList} </ol>
@@ -114,40 +116,35 @@ const Leaderboards = () => {
         };
     }, []);
     return (
-        <div id="leaderboard-container">
-            <div id="greeting">Welcome to the Photo Tagging Speed Run</div>
-            <div>Check Out Previous Users High Scores</div>
+        <div id="leaderboards">
+            <video id="leaderboards-video-background" src={mediaModule.arcade} autoPlay muted loop></video>
+            <audio id="leaderboards-audio" src={mediaModule.arcadeAudio} autoPlay loop></audio>
+            <div id="greeting">
+                <h2>Welcome to the leaderboards for the Photo Tagging Speed Run</h2>
+                <h2>check out previously set high scores by other users from across the globe</h2>
+            </div>
 
             <div id="leaderboards-container">
-                <div id="leaderboard-easy">
-                    easy leaderboard
-                    <ol>
-                        <PopulateEasyLbList />
-                    </ol>
+                <div className="leaderboard-elements" id="leaderboard-easy">
+                    <h2 className="leaderboard-elements-headers">easy leaderboard</h2>
+                    <PopulateEasyLbList />
                     <Link to={'/Objectives/1'}>
-                        <button onClick={() => setObjectives("easy")}>Play Easy</button>
+                        <button className="leaderboard-elements-buttons" onClick={() => setObjectives("easy")}>Play Easy</button>
                     </Link>
                 </div>
-                <div id="leaderboard-medium">
-                    medium leaderboard
-                    <ol>
-                        <PopulateMediumLbList />
-                    </ol>
+                <div className="leaderboard-elements" id="leaderboard-medium">
+                    <h2 className="leaderboard-elements-headers">medium leaderboard</h2>
+                    <PopulateMediumLbList />
                     <Link to={'/Objectives/1'}>
-                        <button onClick={() => setObjectives("medium")}>Play Medium</button>
+                        <button className="leaderboard-elements-buttons" onClick={() => setObjectives("medium")}>Play Medium</button>
                     </Link>
-
                 </div>
-                <div id="leaderboard-hard">
-                    hard leaderboard
-                    <ol>
-                        <PopulateHardLbList />
-                    </ol>
-
+                <div className="leaderboard-elements" id="leaderboard-hard">
+                    <h2 className="leaderboard-elements-headers">hard leaderboard</h2>
+                    <PopulateHardLbList />
                     <Link to={'/Objectives/1'}>
-                        <button onClick={() => setObjectives("hard")}>Play Hard</button>
+                        <button className="leaderboard-elements-buttons" onClick={() => setObjectives("hard")}>Play Hard</button>
                     </Link>
-
                 </div>
             </div>
         </div>

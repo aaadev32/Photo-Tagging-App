@@ -29,7 +29,7 @@
  #home-container {
      display: flex;
      flex-direction: column;
-    justify-content: space-between;
+     justify-content: space-between;
      height: 100%;
  }
 
@@ -86,43 +86,93 @@
      z-index: 1;
  }
 
- #home-button{
-    color: #a393bb;
-    text-shadow: black 1px 1px 2px;
-    background-color: black;
-    border-color: black;
-    font-weight: bolder;
-    border-radius: 5px;
+ #home-button {
+     color: #a393bb;
+     text-shadow: black 1px 1px 2px;
+     background-color: black;
+     border-color: black;
+     font-weight: bolder;
+     border-radius: 5px;
  }
 
  /*end App component styling*/
 
  /*begin Leaderboards component styling */
 
- #leaderboard-container {
+ #leaderboards {
      display: flex;
      flex-direction: column;
      justify-content: center;
      height: 100%;
  }
-
- #leaderboard-container>* {
+#leaderboards-video-background{
+    position: absolute;
+    overflow: hidden;
+}
+ #leaderboards-container {
      display: flex;
      justify-content: center;
      margin: auto 0;
  }
 
  #greeting {
-     position: relative;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
      top: 0px;
      margin: 0;
+     color: #ff5d00;
+     text-shadow: 3px 3px 2px #214cff;
  }
 
- #leaderboards-container>* {
-     border: 2px solid black;
-     width: 200px;
-     height: auto;
+ .leaderboard-elements {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     overflow: auto;
+     color: #ff5d00;
+     text-shadow: 3px 3px 2px #214cff;
+     font-weight: bolder;
+     font-size: 1.1em;
+     border: solid black;
+     border-width: 3px 4px 3px 5px;
+     border-radius: 95% 4% 92% 5%/4% 95% 6% 95%;
+     transform: rotate(2deg);
      margin: 10px auto;
+ }
+
+
+ .leaderboard-elements>ol .leaderboard-elements>ol>li {
+     overflow: scroll;
+ }
+
+ .leaderboard-elements-headers {
+     margin: 15px;
+     padding: 0 5px;
+     float: right;
+     background: #ff5d00;
+     color: #214cff;
+     border: 1px solid #214cff;
+     box-shadow: 3px 3px 0 #214cff;
+ }
+
+ .leaderboard-elements-buttons {
+    margin: 10% 0;
+     border-radius: 1em;
+     font-size: 1.2em;
+     font-weight: bold;
+     color: #ff5d00;
+     /* padding defines the width of the red gradient background (2) */
+     padding: .25em;
+     /* border-width defines the width the blue gradient background (3) */
+     border: .25em solid transparent;
+     background:
+         /* (1) most inner gradient */
+         linear-gradient(to bottom, #ff5d00, #214cff) content-box,
+         /* (2) red gradient */
+         linear-gradient(to right, #e94332, #a91302) padding-box,
+         /* (3) blue gradient */
+         linear-gradient(to right, #0867a6, #4aa9e8) border-box;
  }
 
 
