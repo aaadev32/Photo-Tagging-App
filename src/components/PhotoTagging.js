@@ -3,7 +3,7 @@ import { useBeforeUnload, useNavigate } from "react-router-dom";
 //coordinates tool is a dev tool not used in production but left for documentation purposes
 import CoordinatesTool from "./CoordinatesTool";
 import { InfoPrompt, exportTimer } from "./InfoPrompt";
-import { CurrentObjectives } from "./CharacterImages";
+import { CurrentObjectives } from "./CurrentObjectives";
 import * as mediaModule from "../mediaExports"
 
 

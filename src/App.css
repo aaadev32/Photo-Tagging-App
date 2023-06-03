@@ -26,7 +26,7 @@
      max-height: 80%;
  }
 
- #home-container {
+ #home-root {
      display: flex;
      flex-direction: column;
      justify-content: space-between;
@@ -39,7 +39,7 @@
      z-index: 1;
  }
 
- #home-container>* {
+ #home-root>* {
      color: #a393bb;
      text-shadow: black 4px 4px 2px;
  }
@@ -99,16 +99,19 @@
 
  /*begin Leaderboards component styling */
 
- #leaderboards {
+ #leaderboards-root {
      display: flex;
      flex-direction: column;
      justify-content: center;
      height: 100%;
  }
-#leaderboards-video-background{
-    position: absolute;
-    overflow: hidden;
-}
+
+ #leaderboards-video-background {
+     position: absolute;
+     overflow: hidden;
+     width: 100%;
+ }
+
  #leaderboards-container {
      display: flex;
      justify-content: center;
@@ -158,11 +161,11 @@
  }
 
  .leaderboard-elements-buttons {
-    margin: 10% 0;
+     margin: 10% 0;
      border-radius: 1em;
      font-size: 1.2em;
      font-weight: bold;
-     color: #ff5d00;
+     color: white;
      /* padding defines the width of the red gradient background (2) */
      /* border-width defines the width the blue gradient background (3) */
      border: .25em solid transparent;
@@ -178,11 +181,42 @@
  /*end Leaderboards component styling */
 
  /*begin Objectives component styling */
- #easy-mode {}
+ #objectives-root {
+     background-color: #214cff;
+ }
 
- #medium-mode {}
+ #objectives-container {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     color: #ff5d00;
 
- #hard-mode {}
+ }
+
+ #objectives-images-container {
+     display: flex;
+     flex-wrap: wrap;
+     justify-content: space-around;
+     width: 60%;
+     height: inherit;
+ }
+.objectives-images-div {
+display: flex;
+flex-direction: column;
+outline: 15px ridge #ff5d00;
+border-radius: 2px;
+margin: 4%;
+
+}
+ .objectives-images {
+     flex: 0 0 auto;
+     height: 250px;
+     width: 300px;
+     align-self: start;
+ }
+
+
+
 
  /*end Objectives component styling */
 

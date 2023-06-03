@@ -11,6 +11,11 @@ const Leaderboards = () => {
     const setObjectives = (difficulty) => {
         sessionStorage.setItem("difficulty", `${difficulty}`);
         getCharacterCollection();
+        //a bandaid fix for allowing the async getCharacterCollection function compile the character list so they appear and update properly on the Objectives page, at my experience level im not sure what the best way to handle this is, useEffect is occupied by other functions in this component and in the Objectives component useEffect doesn seem to work with dependency array being used on sessionStorage or setting an event listener for storage changes or setting the sessionStorage variable state after a setTimeout function. 
+        setTimeout(() => {
+            navigate("/Objectives/1");
+        }, 400);
+          
     }
     let fetchedLb = [];
 
@@ -116,7 +121,7 @@ const Leaderboards = () => {
         };
     }, []);
     return (
-        <div id="leaderboards">
+        <div id="leaderboards-root">
             <video id="leaderboards-video-background" src={mediaModule.arcade} autoPlay muted loop></video>
             <audio id="leaderboards-audio" src={mediaModule.arcadeAudio} autoPlay loop></audio>
             <div id="greeting">
@@ -128,23 +133,17 @@ const Leaderboards = () => {
                 <div className="leaderboard-elements" id="leaderboard-easy">
                     <h2 className="leaderboard-elements-headers">easy leaderboard</h2>
                     <PopulateEasyLbList />
-                    <Link to={'/Objectives/1'}>
                         <button className="leaderboard-elements-buttons" onClick={() => setObjectives("easy")}>Play Easy</button>
-                    </Link>
                 </div>
                 <div className="leaderboard-elements" id="leaderboard-medium">
                     <h2 className="leaderboard-elements-headers">medium leaderboard</h2>
                     <PopulateMediumLbList />
-                    <Link to={'/Objectives/1'}>
                         <button className="leaderboard-elements-buttons" onClick={() => setObjectives("medium")}>Play Medium</button>
-                    </Link>
                 </div>
                 <div className="leaderboard-elements" id="leaderboard-hard">
                     <h2 className="leaderboard-elements-headers">hard leaderboard</h2>
                     <PopulateHardLbList />
-                    <Link to={'/Objectives/1'}>
                         <button className="leaderboard-elements-buttons" onClick={() => setObjectives("hard")}>Play Hard</button>
-                    </Link>
                 </div>
             </div>
         </div>
