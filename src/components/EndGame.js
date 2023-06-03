@@ -97,7 +97,7 @@ const EndGame = () => {
             </div>
             <div id="non-submission-prompt" style={{ display: submitHighScore === false ? "flex" : "none" }}>
                 <p>Your Time Was {userTimeScore}, Try Again And See If You Can Qualify For A Spot On The Leaderboards!</p>
-                <Link to={"/Leaderboards/1"}><button>Home</button></Link>
+                <Link to={"/"}><button>Home</button></Link>
             </div>
         </div>
     );

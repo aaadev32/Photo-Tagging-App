@@ -1,10 +1,24 @@
 import "./App.css";
 import Leaderboards from "./components/Leaderboards.js";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import router from "./index.js";
 import { Link } from "react-router-dom";
 import * as mediaModule from "./mediaExports.js"
 
 function App() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+
+    return () => {
+      //stops user from going back in browser history to prevent possible abuse of the leaderboards
+      onpopstate = (event) => {
+        navigate("/");
+      }
+
+    };
+  });
   return (
     <div id='root'>
       <div id="home-root">

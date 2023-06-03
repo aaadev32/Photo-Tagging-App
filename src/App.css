@@ -109,7 +109,8 @@
  #leaderboards-video-background {
      position: absolute;
      overflow: hidden;
-     width: 100%;
+     width: fit-content;
+     height: fit-content;
  }
 
  #leaderboards-container {
@@ -200,14 +201,16 @@
      width: 60%;
      height: inherit;
  }
-.objectives-images-div {
-display: flex;
-flex-direction: column;
-outline: 15px ridge #ff5d00;
-border-radius: 2px;
-margin: 4%;
 
-}
+ .objectives-images-div {
+     display: flex;
+     flex-direction: column;
+     outline: 15px ridge #ff5d00;
+     border-radius: 2px;
+     margin: 4%;
+
+ }
+
  .objectives-images {
      flex: 0 0 auto;
      height: 250px;

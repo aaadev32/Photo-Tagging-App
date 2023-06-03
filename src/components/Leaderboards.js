@@ -6,6 +6,9 @@ import * as mediaModule from "../mediaExports"
 
 const Leaderboards = () => {
     const navigate = useNavigate();
+    const [render, setRender] = useState(false);
+    //used to prevent null errors during a users fresh session  in the populateLb functions
+    const [lbDataExists, setLbDataExists] = useState(false);
     const [refreshLbs, setRefreshLbs] = useState(false);
     //turns the display of the clicked difficulty in the Objectives Component  to flex and others to none
     const setObjectives = (difficulty) => {
@@ -15,8 +18,10 @@ const Leaderboards = () => {
         setTimeout(() => {
             navigate("/Objectives/1");
         }, 400);
-          
+
     }
+    //this is mostly used to instantiate the deleteImageIndex in a fresh session to keep CurrentObjectives from unintentionally deleting images, the CurrentObjectives component will read it as 0 if it is not instantiated at all.
+    sessionStorage.setItem("deleteImageIndex", "null")
     let fetchedLb = [];
 
     async function getCharacterCollection() {
@@ -40,6 +45,7 @@ const Leaderboards = () => {
         let easyFetchedLb = [];
         let mediumFetchedLb = [];
         let hardFetchedLb = [];
+        let temp = 0;
 
         const easyLbSnapshot = await getDocs(collection(db, "leaderboard easy"));
         easyLbSnapshot.forEach((doc) => {
@@ -64,86 +70,104 @@ const Leaderboards = () => {
 
         setRefreshLbs(refreshLbs ? false : true);
         [easyFetchedLb, mediumFetchedLb, hardFetchedLb] = [[], [], []]
+        //insures that the leaderboards are rerendered when async data is retrieved 
+        if (lbDataExists === false) {
+            setLbDataExists(true)
+        }
+        console.log(lbDataExists)
     }
 
     //TODO make this print all object property key values into list items, worry about sorting it later just get it working for now
     const PopulateEasyLbList = () => {
-
-        let stringLb = localStorage.getItem("easyLb")
-        let easyLb = JSON.parse(stringLb);
-        const lbList = easyLb.map((element, index) => {
+        //this if statement on each PopulateLb component simply checks a bool that switches to true when the leaderboard data has fetched
+        if (lbDataExists) {
+            let stringLb = localStorage.getItem("easyLb")
+            let easyLb = JSON.parse(stringLb);
+            const lbList = easyLb.map((element, index) => {
+                return (
+                    <li key={index}>name: {element.name} country: {element.country} time: {element.timeScore}</li>
+                )
+            })
             return (
-                <li key={index}>name: {element.name} country: {element.country} time: {element.timeScore}</li>
-            )
-        })
-        return (
-            <ol>{lbList} </ol>
-        );
+                <ol>{lbList} </ol>
+            );
+        }
     }
+
     const PopulateMediumLbList = () => {
+        if (lbDataExists) {
 
-        let stringLb = localStorage.getItem("mediumLb")
-        let mediumLb = JSON.parse(stringLb);
-        const lbList = mediumLb.map((element, index) => {
+            let stringLb = localStorage.getItem("mediumLb")
+            let mediumLb = JSON.parse(stringLb);
+            const lbList = mediumLb.map((element, index) => {
+                return (
+                    <li key={index}>name: {element.name} country: {element.country} time: {element.timeScore}</li>
+                )
+            })
             return (
-                <li key={index}>name: {element.name} country: {element.country} time: {element.timeScore}</li>
-            )
-        })
-        return (
-            <ol>{lbList} </ol>
-        );
+                <ol>{lbList} </ol>
+            );
+        }
     }
+
     const PopulateHardLbList = () => {
+        if (lbDataExists) {
 
-        let stringLb = localStorage.getItem("hardLb")
-        let hardLb = JSON.parse(stringLb);
-        const lbList = hardLb.map((element, index) => {
+            let stringLb = localStorage.getItem("hardLb")
+            let hardLb = JSON.parse(stringLb);
+            const lbList = hardLb.map((element, index) => {
+                return (
+                    <li key={index}>name: {element.name} country: {element.country} time: {element.timeScore}</li>
+                )
+
+            })
             return (
-                <li key={index}>name: {element.name} country: {element.country} time: {element.timeScore}</li>
-            )
 
-        })
-        return (
-            <ol>{lbList} </ol>
-        );
+                <ol>{lbList} </ol>
+            );
+        }
     }
-
 
     useEffect(() => {
-        //no states get set so this should only be queried twice at most because of initial component render
         getLeaderboards();
+
         return () => {
             //stops user from going back in browser history to prevent possible abuse of the leaderboards
             //it seems redundant but i repaste this in PhotoTagging and EndGame, my reasoning is if the user manually navigates to those routes i do not want them being able to refresh the page to abuse leaderboard results in EndGame or cheese the PhotoTagging component game.
             onpopstate = (event) => {
                 navigate("/");
             }
+
         };
-    }, []);
+    }, [lbDataExists]);
     return (
         <div id="leaderboards-root">
             <video id="leaderboards-video-background" src={mediaModule.arcade} autoPlay muted loop></video>
             <audio id="leaderboards-audio" src={mediaModule.arcadeAudio} autoPlay loop></audio>
-            <div id="greeting">
+            <div id="greeting" style={{ display: lbDataExists ? "flex" : "none" }}>
                 <h2>Welcome to the leaderboards for the Photo Tagging Speed Run</h2>
                 <h2>check out previously set high scores by other users from across the globe</h2>
             </div>
 
-            <div id="leaderboards-container">
+            <div id="leaderboards-async-prompt" style={{ display: lbDataExists ? "none" : "flex " }}>
+                <h2>fetching leaderboard data...</h2>
+            </div>
+
+            <div id="leaderboards-container" style={{ display: lbDataExists ? "flex" : "none" }}>
                 <div className="leaderboard-elements" id="leaderboard-easy">
                     <h2 className="leaderboard-elements-headers">easy leaderboard</h2>
                     <PopulateEasyLbList />
-                        <button className="leaderboard-elements-buttons" onClick={() => setObjectives("easy")}>Play Easy</button>
+                    <button className="leaderboard-elements-buttons" onClick={() => setObjectives("easy")}>Play Easy</button>
                 </div>
                 <div className="leaderboard-elements" id="leaderboard-medium">
                     <h2 className="leaderboard-elements-headers">medium leaderboard</h2>
                     <PopulateMediumLbList />
-                        <button className="leaderboard-elements-buttons" onClick={() => setObjectives("medium")}>Play Medium</button>
+                    <button className="leaderboard-elements-buttons" onClick={() => setObjectives("medium")}>Play Medium</button>
                 </div>
                 <div className="leaderboard-elements" id="leaderboard-hard">
                     <h2 className="leaderboard-elements-headers">hard leaderboard</h2>
                     <PopulateHardLbList />
-                        <button className="leaderboard-elements-buttons" onClick={() => setObjectives("hard")}>Play Hard</button>
+                    <button className="leaderboard-elements-buttons" onClick={() => setObjectives("hard")}>Play Hard</button>
                 </div>
             </div>
         </div>

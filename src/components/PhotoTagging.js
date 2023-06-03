@@ -32,6 +32,7 @@ const PhotoTagging = () => {
     }
     let characterKeys = Object.keys(characterList);
 
+
     //dev tool that displays coordinates clicked within the photo 
     const ClickCoordinates = (e) => {
         return (
@@ -197,6 +198,7 @@ const PhotoTagging = () => {
     useEffect(() => {
 
         return () => {
+
             //prevents the user from refreshing this page to cheese score
             window.onload = (event) => {
                 navigate("/");
