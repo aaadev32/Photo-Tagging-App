@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { addDoc, collection, doc, setDoc, getDocs, getDoc, deleteDoc } from "firebase/firestore";
-import { db } from "../firebaseConfig"
+import { db } from "../firebaseConfig";
 import { Link, useNavigate } from "react-router-dom";
+import * as mediaModule from "../mediaExports";
 
 const EndGame = () => {
     const [userTimeScore, setUserTimeScore] = useState(sessionStorage.getItem("userScore"));
@@ -82,20 +83,28 @@ const EndGame = () => {
     return (
         <div id="end-game-container">
             <div id="async-await-prompt" style={{ display: submitHighScore == null ? "flex" : "none" }}>
-                <p>One Moment Please...</p>
+                <h1>One Moment Please...</h1>
             </div>
-            <div id="leaderboard-submission-prompt" style={{ display: submitHighScore === true ? "flex" : "none" }}>
+            <div id="end-game-submission-prompt" style={{ display: submitHighScore === true ? "flex" : "none" }}>
+                <video id="end-game-highscore-background" src={mediaModule.grid} autoPlay loop></video>
                 <div id="user-final-time">
-                    <p> Congratulations Your Speed Of {userTimeScore} Seconds Qualifies You For A Leaderboard Submission! Complete The Form Below to Submit Your Score To The "{difficulty}" Leaderboards</p>
+                    <h2>Congratulations Your Speed Of {userTimeScore} Seconds Qualifies You For A Leaderboard Submission! Complete The Form Below to Submit Your Score To The "{difficulty}" Leaderboards</h2>
                 </div>
-                <form id="leaderboard-submission-form">
-                    <label htmlFor="user-name">Enter Your Name</label>
-                    <input id="user-name" placeholder="Name"></input>
-                    <input id="user-country" placeholder="Country"></input>
-                    <Link to={"/"}><button type="button" onClick={() => submitTime(document.getElementById("user-name").value, document.getElementById("user-country").value)}>submit</button></Link>
+                <form id="end-game-submission-form">
+                    <div>
+                        <label htmlFor="user-name">Enter Your Name</label>
+                        <input id="user-name" className="end-game-submission-inputs" placeholder="Name"></input>
+                    </div>
+                    <div>
+                        <label htmlFor="user-country">Enter Your Country</label>
+                        <input id="user-country" className="end-game-submission-inputs" placeholder="Country"></input>
+                    </div>
+                    <Link to={"/"}><button className="end-game-submission-inputs" type="button" onClick={() => submitTime(document.getElementById("user-name").value, document.getElementById("user-country").value)}>submit</button></Link>
                 </form>
             </div>
             <div id="non-submission-prompt" style={{ display: submitHighScore === false ? "flex" : "none" }}>
+                <video id="end-game-no-highscore-background" src={mediaModule.noHighscore} autoplay muted></video>
+                <audio src={mediaModule.darkSoulsYd}></audio>
                 <p>Your Time Was {userTimeScore}, Try Again And See If You Can Qualify For A Spot On The Leaderboards!</p>
                 <Link to={"/"}><button>Home</button></Link>
             </div>

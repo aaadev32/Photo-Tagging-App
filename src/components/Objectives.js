@@ -16,22 +16,22 @@ const Objectives = () => {
     console.log(characterList)
     const populateImages = () => {
         if (difficulty === "easy") {
-            return easyCharacterImages.map((element, index) => <div className="objectives-images-div" key={`dkey-${index}`}><img className={"objectives-images"} key={`ikey-${index}`} src={element}></img> <p key={`pkey-${index}`}>{characterKeys[index]}</p></div>)
+            return easyCharacterImages.map((element, index) => <div className="objectives-images-div" key={`dkey-${index}`}><img className={"objectives-images"} key={`ikey-${index}`} src={element}></img> <h3 key={`pkey-${index}`}>{characterKeys[index]}</h3></div>)
         } else if (difficulty === "medium") {
-            return mediumCharacterImages.map((element, index) => <div className="objectives-images-div" key={`dkey-${index}`}><img className={"objectives-images"} key={`ikey-${index}`} src={element}></img> <p key={`pkey-${index}`}>{characterKeys[index]}</p></div>)
+            return mediumCharacterImages.map((element, index) => <div className="objectives-images-div" key={`dkey-${index}`}><img className={"objectives-images"} key={`ikey-${index}`} src={element}></img> <h3 key={`pkey-${index}`}>{characterKeys[index]}</h3></div>)
         } else if (difficulty === "hard") {
-            return hardCharacterImages.map((element, index) => <div className="objectives-images-div" key={`dkey-${index}`}><img className={"objectives-images"} key={`ikey-${index}`} src={element}></img> <p key={`pkey-${index}`}>{characterKeys[index]}</p></div>)
+            return hardCharacterImages.map((element, index) => <div className="objectives-images-div" key={`dkey-${index}`}><img className={"objectives-images"} key={`ikey-${index}`} src={element}></img> <h3 key={`pkey-${index}`}>{characterKeys[index]}</h3></div>)
         }
     }
 
     return (
         <div id="objectives-root">
             <div id="objectives-container">
-                <h2>Here are your characters you need to find, take a minute to note their characterics so you can find them as fast as possible on the next page and get a high score!</h2>
+                <h2>Here are your characters you need to find, take a minute to note their characterics so you can find them as fast as possible on the next page and get a high score! <Link to={"/PhotoTagging/1"}><button id="objectives-button">Play Now</button></Link></h2>
                 <div id="objectives-images-container">
                     {populateImages()}
                 </div>
-                <Link to={"/PhotoTagging/1"}><button>Play Now</button></Link>
+
             </div>
         </div >
     );
