@@ -19,7 +19,7 @@ const InfoPrompt = () => {
 
     setTimeout(incrementTimer, 1000)
     return (
-        <div id="info-prompt"> time: {timer}</div>
+        <h2 id="info-prompt"> Time Elapsed: {timer}</h2>
     )
 }
 

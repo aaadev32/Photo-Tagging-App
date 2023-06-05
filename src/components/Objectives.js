@@ -27,7 +27,7 @@ const Objectives = () => {
     return (
         <div id="objectives-root">
             <div id="objectives-container">
-                <h2>Here are your objectives, study these characters before proceeding but a word of warning they may not match exactly what you will find during your run but their characteristics are largely the same!</h2>
+                <h2>Here are your characters you need to find, take a minute to note their characterics so you can find them as fast as possible on the next page and get a high score!</h2>
                 <div id="objectives-images-container">
                     {populateImages()}
                 </div>

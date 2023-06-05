@@ -34,7 +34,7 @@ const PhotoTagging = () => {
 
 
     //dev tool that displays coordinates clicked within the photo 
-    const ClickCoordinates = (e) => {
+    const ClickCoordinates = (e) => {   
         return (
             <p id="coordinate-tracker">clicked area coordinates: x-axis:{photoXAxis}, y-axis:{photoYAxis}</p>
         )
@@ -223,7 +223,6 @@ const PhotoTagging = () => {
                 <CoordinatesTool />
             </div>
             <div id="cursor-coordinates-container">
-                <ClickCoordinates />
             </div>
         </div>
     );

@@ -92,7 +92,7 @@ const EndGame = () => {
                     <label htmlFor="user-name">Enter Your Name</label>
                     <input id="user-name" placeholder="Name"></input>
                     <input id="user-country" placeholder="Country"></input>
-                    <Link to={"/Leaderboards/1"}><button type="button" onClick={() => submitTime(document.getElementById("user-name").value, document.getElementById("user-country").value)}>submit</button></Link>
+                    <Link to={"/"}><button type="button" onClick={() => submitTime(document.getElementById("user-name").value, document.getElementById("user-country").value)}>submit</button></Link>
                 </form>
             </div>
             <div id="non-submission-prompt" style={{ display: submitHighScore === false ? "flex" : "none" }}>
