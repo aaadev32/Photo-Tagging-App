@@ -73,16 +73,22 @@ const EndGame = () => {
     useEffect(() => {
 
         return () => {
+            //prevents the user from refreshing this page to cheese score
+            window.onload = (event) => {
+                navigate("/");
+            }
             //stops user from going back in browser history to prevent possible abuse of the leaderboards
             onpopstate = (event) => {
                 navigate("/");
+                //prevents user from cheesing the game loops
+
             }
         };
     }, []);
 
     return (
         <div id="end-game-container">
-            <div id="async-await-prompt" style={{ display: submitHighScore == null ? "flex" : "none" }}>
+            <div id="end-game-async-await-prompt" style={{ display: submitHighScore == null ? "flex" : "none" }}>
                 <h1>One Moment Please...</h1>
             </div>
             <div id="end-game-submission-prompt" style={{ display: submitHighScore === true ? "flex" : "none" }}>
@@ -102,11 +108,10 @@ const EndGame = () => {
                     <Link to={"/"}><button className="end-game-submission-inputs" type="button" onClick={() => submitTime(document.getElementById("user-name").value, document.getElementById("user-country").value)}>submit</button></Link>
                 </form>
             </div>
-            <div id="non-submission-prompt" style={{ display: submitHighScore === false ? "flex" : "none" }}>
-                <video id="end-game-no-highscore-background" src={mediaModule.noHighscore} autoplay muted></video>
-                <audio src={mediaModule.darkSoulsYd}></audio>
-                <p>Your Time Was {userTimeScore}, Try Again And See If You Can Qualify For A Spot On The Leaderboards!</p>
-                <Link to={"/"}><button>Home</button></Link>
+            <div id="end-game-no-submission-prompt" style={{ display: submitHighScore === false ? "flex" : "none" }}>
+                <video className="end-game-no-highscore-background" src={mediaModule.noHighscore} autoPlay></video>
+                <h3 id="end-game-no-submission-message">Your time was {userTimeScore},sorry but thats not quite fast enough to land a spot on the leaderboards... do give it another shot!<Link to={"/"}><button id="end-game-no-submission-message-button">Home</button></Link></h3>
+
             </div>
         </div>
     );

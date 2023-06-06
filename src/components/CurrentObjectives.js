@@ -15,11 +15,11 @@ const CurrentObjectives = () => {
     //TODO take the newly added image id's and associate them somehow with a truthy character dropdown list selection so that the image transitions out of the image list
     const populateImages = () => {
         if (difficulty === "easy") {
-            return easyCharacterImages.map((element, index) => <div className="current-objective-images-container"><img className={"current-objective-images"} key={`image-key-${index}`} src={element}></img><h3 key={`image-name-key-${index}`}>{characterKeys[index]}</h3></div>)
+            return easyCharacterImages.map((element, index) => <div className="current-objective-images-container"><img className={"current-objective-images"} key={`image1-key-${index}`} src={element}></img><h3 key={`image1-name-key-${index}`}>{characterKeys[index]}</h3></div>)
         } else if (difficulty === "medium") {
-            return mediumCharacterImages.map((element, index) => <div className="current-objective-images-container"><img className={"current-objective-images"} key={`image-key-${index}`} src={element}></img><h3 key={`image-name-key-${index}`}>{characterKeys[index]}</h3></div>)
+            return mediumCharacterImages.map((element, index) => <div className="current-objective-images-container"><img className={"current-objective-images"} key={`image2-key-${index}`} src={element}></img><h3 key={`image2-name-key-${index}`}>{characterKeys[index]}</h3></div>)
         } else if (difficulty === "hard") {
-            return hardCharacterImages.map((element, index) => <div className="current-objective-images-container"><img className={"current-objective-images"} key={`image-key-${index}`} src={element}></img><h3 key={`image-name-key-${index}`}>{characterKeys[index]}</h3></div>)
+            return hardCharacterImages.map((element, index) => <div className="current-objective-images-container"><img className={"current-objective-images"} key={`image3-key-${index}`} src={element}></img><h3 key={`image3-name-key-${index}`}>{characterKeys[index]}</h3></div>)
         }
     }
 

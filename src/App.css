@@ -142,6 +142,7 @@
      border: solid #214cff;
      border-width: 3px 4px 3px 5px;
      border-radius: 95% 4% 92% 5%/4% 95% 6% 95%;
+     padding: 15px;
      transform: rotate(2deg);
      margin: 10px auto;
  }
@@ -385,15 +386,19 @@
 
  /* start EndGame component styling */
  #end-game-container {
-
+     display: flex;
+     flex-direction: column;
      overflow: hidden;
  }
 
- #async-await-prompt {
-     margin: auto;
+ #end-game-async-await-prompt {
+     position: absolute;
+     flex-direction: column;
      text-align: center;
      color: white;
      background-color: #393939;
+     height: 100%;
+     width: 100%;
  }
 
  #end-game-submission-prompt {
@@ -414,6 +419,7 @@
  #end-game-submission-form {
      display: flex;
      justify-content: center;
+     margin: 10px 0;
  }
 
  .end-game-submission-inputs {
@@ -431,10 +437,35 @@
      outline: 3px solid #44a1ff;
  }
 
-
- #end-game-container {
+ #end-game-no-submission-prompt {
      display: flex;
-     flex-direction: column;
+     justify-content: center;
+ }
+
+ #end-game-no-highscore-background {
+     position: absolute;
+     z-index: -1;
+ }
+
+ @keyframes delayVisiblity {
+     to {
+         visibility: visible;
+     }
+ }
+
+ #end-game-no-submission-message {
+     position: absolute;
+     animation: delayVisiblity 0s 5s forwards;
+     visibility: hidden;
+ }
+
+ #end-game-no-submission-message-button {
+     margin: 0 10px;
+     background-color: #01031b;
+     color: white;
+     border-radius: 10px;
+     animation: delayVisiblity 0s 5s forwards;
+     visibility: hidden;
  }
 
  /* end EndGame component styling */
