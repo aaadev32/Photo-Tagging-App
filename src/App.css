@@ -106,7 +106,7 @@
      height: 100%;
  }
 
- #leaderboards-video-background {
+ #leaderboards-image-background {
      position: absolute;
      overflow: hidden;
      width: fit-content;
@@ -134,8 +134,10 @@
      display: flex;
      flex-direction: column;
      align-items: center;
+     width: 500px;
      overflow: auto;
      color: #ff5d00;
+     background-color: rgba(54, 51, 51, 0.6);
      text-shadow: 2px 2px 2px #214cff;
      font-weight: bolder;
      font-size: 1.1em;
@@ -148,9 +150,15 @@
  }
 
 
- .leaderboard-elements>ol .leaderboard-elements>ol>li {
-     overflow: scroll;
+ .leaderboard-elements>ol {
+    display: flex;
+    flex-direction: column;
+    overflow-x: auto;
  }
+
+ .leaderboard-elements>ol>li{
+    overflow-x: auto;
+}
 
  .leaderboard-elements-headers {
      margin: 15px;
@@ -290,14 +298,17 @@
 
  #current-objectives-root {
      display: flex;
-     justify-content: space-around;
+     justify-content: space-evenly;
+     overflow: auto;
  }
 
  .current-objective-images-container {
      display: flex;
      flex-direction: column;
+     margin: 0 1%;
      justify-content: center;
      text-align: center;
+     overflow: auto;
  }
 
  /* overflow set to auto,scroll, or hidden keeps the images from the hard difficulty from overflowing the parent container but doesnt actually hide any of the images for some reason which is what is needed. */
@@ -431,6 +442,7 @@
      opacity: .8;
      border-radius: 10px;
      margin: 0 10px;
+     text-decoration: none;
  }
 
  .end-game-submission-inputs :focus {

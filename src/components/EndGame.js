@@ -48,8 +48,6 @@ const EndGame = () => {
     //this function submits a qualifying score to the leaderboard and removes the excess scores to keep a top 10 only leaderboard
     async function submitTime(userName, userCountry) {
 
-        leaderboardUpdate();
-
         try {
             const docRef = addDoc(collection(db, `leaderboard ${difficulty}`), {
                 name: `${userName}`,
@@ -60,9 +58,10 @@ const EndGame = () => {
         } catch (e) {
             console.error("Error adding document: ", e);
         }
-
-
+        console.log('navigating')
+        navigate("/");
     }
+
 
     async function docDelete() {
         await deleteDoc(doc(db, `leaderboard ${difficulty}`, `${collectionTimes.highestDocId}`));
@@ -96,24 +95,22 @@ const EndGame = () => {
                 <div id="user-final-time">
                     <h2>Congratulations Your Speed Of {userTimeScore} Seconds Qualifies You For A Leaderboard Submission! Complete The Form Below to Submit Your Score To The "{difficulty}" Leaderboards</h2>
                 </div>
-                <form id="end-game-submission-form">
+                <form id="end-game-submission-form" >
                     <div>
                         <label htmlFor="user-name">Enter Your Name</label>
-                        <input id="user-name" className="end-game-submission-inputs" placeholder="Name"></input>
+                        <input id="user-name" className="end-game-submission-inputs" placeholder="Name" minLength={4} maxLength={42} required></input>
                     </div>
                     <div>
                         <label htmlFor="user-country">Enter Your Country</label>
-                        <input id="user-country" className="end-game-submission-inputs" placeholder="Country"></input>
+                        <input id="user-country" className="end-game-submission-inputs" placeholder="Country" minLength={4} maxLength={42} required></input>
                     </div>
-                    <Link to={"/"}><button className="end-game-submission-inputs" type="button" onClick={() => submitTime(document.getElementById("user-name").value, document.getElementById("user-country").value)}>submit</button></Link>
-                </form>
+                    <button className="end-game-submission-inputs" type="button" onClick={(e) => document.getElementById("end-game-submission-form").checkValidity() ? submitTime(document.getElementById("user-name").value, document.getElementById("user-country").value) : document.getElementById("end-game-submission-form").reportValidity()}>submit</button>                </form>
             </div>
             <div id="end-game-no-submission-prompt" style={{ display: submitHighScore === false ? "flex" : "none" }}>
-                <video className="end-game-no-highscore-background" src={mediaModule.noHighscore} autoPlay></video>
+                <video className="end-game-no-highscore-background" src={mediaModule.noHighscore} autoPlay muted></video>
                 <h3 id="end-game-no-submission-message">Your time was {userTimeScore},sorry but thats not quite fast enough to land a spot on the leaderboards... do give it another shot!<Link to={"/"}><button id="end-game-no-submission-message-button">Home</button></Link></h3>
-
             </div>
-        </div>
+        </div >
     );
 }
 

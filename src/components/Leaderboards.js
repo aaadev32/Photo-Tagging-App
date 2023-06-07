@@ -85,7 +85,7 @@ const Leaderboards = () => {
             let easyLb = JSON.parse(stringLb);
             const lbList = easyLb.map((element, index) => {
                 return (
-                    <li key={index}>name: {element.name} country: {element.country} time: {element.timeScore}</li>
+                    <li key={index}>time: {element.timeScore} name: {element.name} country: {element.country} </li>
                 )
             })
             return (
@@ -101,7 +101,7 @@ const Leaderboards = () => {
             let mediumLb = JSON.parse(stringLb);
             const lbList = mediumLb.map((element, index) => {
                 return (
-                    <li key={index}>name: {element.name} country: {element.country} time: {element.timeScore}</li>
+                    <li key={index}>time: {element.timeScore} name: {element.name} country: {element.country} </li>
                 )
             })
             return (
@@ -117,7 +117,7 @@ const Leaderboards = () => {
             let hardLb = JSON.parse(stringLb);
             const lbList = hardLb.map((element, index) => {
                 return (
-                    <li key={index}>name: {element.name} country: {element.country} time: {element.timeScore}</li>
+                    <li key={index}>time: {element.timeScore} name: {element.name} country: {element.country} </li>
                 )
 
             })
@@ -142,7 +142,7 @@ const Leaderboards = () => {
     }, [lbDataExists]);
     return (
         <div id="leaderboards-root">
-            <video id="leaderboards-video-background" src={mediaModule.arcade} autoPlay muted loop></video>
+            <img id="leaderboards-image-background" src={mediaModule.arcade}></img>
             <audio id="leaderboards-audio" src={mediaModule.arcadeAudio} autoPlay loop></audio>
             <div id="greeting" style={{ display: lbDataExists ? "flex" : "none" }}>
                 <h2>Welcome to the leaderboards for the Photo Tagging Speed Run</h2>
