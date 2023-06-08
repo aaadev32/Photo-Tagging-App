@@ -58,7 +58,6 @@ const EndGame = () => {
         } catch (e) {
             console.error("Error adding document: ", e);
         }
-        console.log('navigating')
         navigate("/");
     }
 

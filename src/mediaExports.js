@@ -24,13 +24,8 @@ export { default as naturesProphet } from "./media/character-images/hard-mode/na
 export { default as phantomAssassin } from "./media/character-images/hard-mode/phantom-assassin.webp";
 export { default as sven } from "./media/character-images/hard-mode/sven.webp";
 export { default as tinker } from "./media/character-images/hard-mode/tinker.webp";
-//the below 3 may not be used so this is a reminder to delete
-export { default as invoker } from "./media/home-images/invoker.png";
-export { default as ryuHome } from "./media/home-images/ryu.png";
-export { default as mario } from "./media/home-images/super-mario.png";
 export { default as cyberpunk } from "./media/animations/cyberpunk.gif";
 export { default as arcadeAudio } from "./media/audio/SF6BH.mp3";
-export { default as darkSoulsYd } from "./media/audio/dark-souls-yd.mp3";
 export { default as arcade } from "./media/arcade.jpg";
 export { default as noHighscore } from "./media/animations/game-over.mp4";
 export { default as grid } from "./media/animations/grid.mp4";

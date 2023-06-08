@@ -85,11 +85,11 @@ const Leaderboards = () => {
             let easyLb = JSON.parse(stringLb);
             const lbList = easyLb.map((element, index) => {
                 return (
-                    <li key={index}>time: {element.timeScore} name: {element.name} country: {element.country} </li>
+                    <li className="leaderboard-list-items" key={index}>time: {element.timeScore} name: {element.name} country: {element.country} </li>
                 )
             })
             return (
-                <ol>{lbList} </ol>
+                    <ol className="leaderboard-lists">{lbList}</ol>
             );
         }
     }
@@ -101,11 +101,11 @@ const Leaderboards = () => {
             let mediumLb = JSON.parse(stringLb);
             const lbList = mediumLb.map((element, index) => {
                 return (
-                    <li key={index}>time: {element.timeScore} name: {element.name} country: {element.country} </li>
+                    <li className="leaderboard-list-items" key={index}>time: {element.timeScore} name: {element.name} country: {element.country} </li>
                 )
             })
             return (
-                <ol>{lbList} </ol>
+                    <ol className="leaderboard-lists">{lbList}</ol>
             );
         }
     }
@@ -117,13 +117,12 @@ const Leaderboards = () => {
             let hardLb = JSON.parse(stringLb);
             const lbList = hardLb.map((element, index) => {
                 return (
-                    <li key={index}>time: {element.timeScore} name: {element.name} country: {element.country} </li>
+                    <li className="leaderboard-list-items" key={index}>time: {element.timeScore} name: {element.name} country: {element.country} </li>
                 )
 
             })
             return (
-
-                <ol>{lbList} </ol>
+                    <ol className="leaderboard-lists">{lbList}</ol>
             );
         }
     }
