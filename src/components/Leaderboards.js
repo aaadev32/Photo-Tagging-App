@@ -141,7 +141,7 @@ const Leaderboards = () => {
     }, [lbDataExists]);
     return (
         <div id="leaderboards-root">
-            <video id="end-game-highscore-background" src={mediaModule.arcade} autoPlay loop></video>
+            <img id="leaderboards-image-background" src={mediaModule.arcade}></img>
             <audio id="leaderboards-audio" src={mediaModule.arcadeAudio} autoPlay loop></audio>
             <div id="greeting" style={{ display: lbDataExists ? "flex" : "none" }}>
                 <h2>Welcome to the leaderboards for the Photo Tagging Speed Run</h2>

@@ -26,7 +26,7 @@ export { default as sven } from "./media/character-images/hard-mode/sven.webp";
 export { default as tinker } from "./media/character-images/hard-mode/tinker.webp";
 export { default as cyberpunk } from "./media/animations/cyberpunk.gif";
 export { default as arcadeAudio } from "./media/audio/SF6BH.mp3";
-export { default as arcade } from "./media/animations/arcade.mp4";
+export { default as arcade } from "./media/arcade.jpg";
 export { default as noHighscore } from "./media/animations/game-over.mp4";
 export { default as grid } from "./media/animations/grid.mp4";
 
