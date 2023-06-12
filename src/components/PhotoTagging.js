@@ -34,7 +34,7 @@ const PhotoTagging = () => {
 
 
     //dev tool that displays coordinates clicked within the photo 
-    const ClickCoordinates = (e) => {   
+    const ClickCoordinates = (e) => {
         return (
             <p id="coordinate-tracker">clicked area coordinates: x-axis:{photoXAxis}, y-axis:{photoYAxis}</p>
         )
@@ -84,8 +84,8 @@ const PhotoTagging = () => {
         function newChild() {
             return createElement(
                 "div",
-                { className: "character-marker", key: `${nodeListCopy.length + 1}`, style: { display: "block", position: "absolute", left: `${markerCoordinates[0] - 5}px`, top: `${markerCoordinates[1]}px`, color: "pink" } },
-                "Character Marker"
+                { className: "character-marker", key: `${nodeListCopy.length + 1}`, style: { display: "block", position: "absolute", left: `${markerCoordinates[0] - 17}px`, top: `${markerCoordinates[1] - 30}px` } },
+                <img src={mediaModule.marker} style={{ height: "30px", width: "25px" }}></img>
             )
         }
 

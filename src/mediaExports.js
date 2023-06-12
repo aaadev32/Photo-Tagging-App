@@ -24,6 +24,7 @@ export { default as naturesProphet } from "./media/character-images/hard-mode/na
 export { default as phantomAssassin } from "./media/character-images/hard-mode/phantom-assassin.webp";
 export { default as sven } from "./media/character-images/hard-mode/sven.webp";
 export { default as tinker } from "./media/character-images/hard-mode/tinker.webp";
+export { default as marker } from "./media/marker.png";
 export { default as cyberpunk } from "./media/animations/cyberpunk.gif";
 export { default as arcadeAudio } from "./media/audio/SF6BH.mp3";
 export { default as arcade } from "./media/arcade.jpg";
