@@ -89,7 +89,7 @@ const Leaderboards = () => {
                 )
             })
             return (
-                    <ol className="leaderboard-lists">{lbList}</ol>
+                <ol className="leaderboard-lists">{lbList}</ol>
             );
         }
     }
@@ -105,7 +105,7 @@ const Leaderboards = () => {
                 )
             })
             return (
-                    <ol className="leaderboard-lists">{lbList}</ol>
+                <ol className="leaderboard-lists">{lbList}</ol>
             );
         }
     }
@@ -122,7 +122,7 @@ const Leaderboards = () => {
 
             })
             return (
-                    <ol className="leaderboard-lists">{lbList}</ol>
+                <ol className="leaderboard-lists">{lbList}</ol>
             );
         }
     }
@@ -141,7 +141,7 @@ const Leaderboards = () => {
     }, [lbDataExists]);
     return (
         <div id="leaderboards-root">
-            <img id="leaderboards-image-background" src={mediaModule.arcade}></img>
+            <video id="end-game-highscore-background" src={mediaModule.arcade} autoPlay loop></video>
             <audio id="leaderboards-audio" src={mediaModule.arcadeAudio} autoPlay loop></audio>
             <div id="greeting" style={{ display: lbDataExists ? "flex" : "none" }}>
                 <h2>Welcome to the leaderboards for the Photo Tagging Speed Run</h2>
