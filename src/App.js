@@ -32,6 +32,7 @@ function App() {
         </div>
         <img id="home-background" src={mediaModule.cyberpunk} />
 
+        <footer>mobile not supported</footer>
       </div>
     </div >
   );
