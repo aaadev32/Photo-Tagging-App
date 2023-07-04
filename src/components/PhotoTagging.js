@@ -60,6 +60,7 @@ const PhotoTagging = () => {
                         characterKeys.map((element, index) => <option id={`dropdown-${index}`} key={`dropdown-${index}`} value={element} onClick={() => { checkSelection(element, index) }}>{element}</option>)
                     }
                 </select>
+                <button>Confirm</button>
             </div >
         )
     }
